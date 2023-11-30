@@ -21,28 +21,6 @@ export class AuthInterceptor implements HttpInterceptor {
         /* req = req.clone({ headers: req.headers.set('Access-Control-Allow-Origin', '*') }); */
         if (this.storageService.GetIdTokenStatus() == StorageTokenStatus.ID_TOKEN_ACTIVE) {
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + idToken) });
-        } else if (this.storageService.GetIdTokenStatus() == StorageTokenStatus.ID_TOKEN_EXPIRED) {
-
-            const url = req.url;
-            if (!url.startsWith(this.envService.baseUrl('AUTH_SIGNOUT'))) {
-                this.authService.SessionExpired();
-                return;
-            }
-        } else if (this.storageService.GetIdTokenStatus() == StorageTokenStatus.ID_TOKEN_NOT_CREATED) {
-            const url = req.url;
-            if (url.indexOf("/rest/public") != -1) {
-                return next.handle(req).pipe(
-                    finalize(
-                        () => {
-                            // this.loaderService.isLoading.next(false);
-                        }
-                    )
-                );
-            } else {
-                const authUrl = this.envService.getBaseUrl() + "login";
-                if (!url.startsWith(authUrl))
-                    return;
-            }
         }
 
         return next.handle(req).pipe(
