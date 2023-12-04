@@ -1,0 +1,56 @@
+<div style="width: 475px;" >
+  <div class="card">
+      <!-- Logo-->
+      <div class="card-header pt-2 pb-2 text-center">
+          <a href="#">
+              <span><img src="../../../assets/images/login-logo.png" alt="" width="100%"></span>
+          </a>
+      </div>
+
+      <div class="card-body p-4">
+
+          <div class="text-center w-75 m-auto">
+              <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Sign Up</h4>
+          </div>
+
+          <form >
+
+              <div class="form-group">
+                  <label for="fullname">Full Name</label>
+                  <input class="form-control" type="text" id="fullname" data-ng-model="userRegData.name" placeholder="Enter your name" required >
+              </div>
+
+              <div class="form-group">
+                  <label for="reg-emailaddress">Email address</label>
+                  <input class="form-control" type="email" id="reg-emailaddress" data-ng-model="userRegData.email" required placeholder="Enter your email">
+              </div>
+
+              <div class="form-group">
+                  <label for="reg-password">Password</label>
+                  <input class="form-control" type="password" required id="reg-password" data-ng-model="userRegData.password" placeholder="Enter your password" >
+              </div>
+
+              <div class="form-group">
+                  <label for="mobile">Mobile</label>
+                  <input class="form-control" type="tel" required id="mobile" data-ng-model="userRegData.mobile" placeholder="Enter your mobile No.">
+              </div>
+
+              <div class="form-group mb-0 text-center">
+                  <button class="btn btn-primary"  data-ng-click="registerAwsUser()"> Sign Up </button>
+              </div>
+
+          </form>
+      </div> <!-- end card-body -->
+  </div>
+  <!-- end card -->
+
+  <div class="row mt-3">
+      <div class="col-12 text-center">
+          <p class="text-muted">Already have account? <a [routerLink]="['/signin']" class="text-muted ml-1"><b>Log In</b></a></p>
+
+      </div> <!-- end col-->
+  </div>
+  <!-- end row -->
+
+</div> <!-- end col -->
+
