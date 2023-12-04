@@ -5,16 +5,23 @@ import { AuthInterceptor } from '../shared/auth.interceptor';
 import { AuthComponent } from './auth.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
+import { RestPassComponent } from './rest-pass/rest-pass.component';
+import { NewPassComponent } from './new-pass/new-pass.component';
+import { CommonModulesModule } from '../common-modules/common-modules.module';
 
 
 @NgModule({
     declarations: [
       AuthComponent,
       SigninComponent,
-      SignupComponent
+      SignupComponent,
+      RestPassComponent,
+      NewPassComponent
     ],
     imports: [
-        AuthRoutingModule    ],
+        AuthRoutingModule,
+        CommonModulesModule
+      ],
     exports: [
 
     ],
