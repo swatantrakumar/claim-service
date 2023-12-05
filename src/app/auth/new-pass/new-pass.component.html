@@ -13,26 +13,22 @@
               <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Reset New Password</h4>
           </div>
 
-          <form name="passwordReset" novalidate>
+          <form [formGroup]="resetNewPass">
               <div class="form-group mb-3">
                   <label >Verification Code</label>
-                  <input class="form-control" type="tel" data-ng-model="forgotUser.verificationCode"  required="" placeholder="Enter Verification Code.">
+                  <input class="form-control" type="tel" formControlName="verificationCode" placeholder="Enter Verification Code.">
               </div>
               <div class="form-group mb-3 ">
                   <label >New Password</label>
-                  <input class="form-control" type="password" data-ng-model="forgotUser.newPassword"  required="" placeholder="Enter New Password.">
+                  <input class="form-control" type="password" formControlName="newPassword"  placeholder="Enter New Password.">
               </div>
               <div class="form-group">
                   <label>Confirm Password</label>
-                  <input type="password" name="confirmPassword" class="form-control"
-                         ng-model="forgotUser.confirmPassword"
-                         required compare-to="forgotUser.newPassword" placeholder="Enter Confirm Password" />
-                  <div ng-messages="passwordReset.confirmPassword.$error" >
-                      <small ng-message="compareTo" class="text-danger">Both New and Confirm Password should match.</small>
-                  </div>
+                  <input type="password" name="confirmPassword" class="form-control" formControlName="confirmPassword"
+                         placeholder="Enter Confirm Password" />
               </div>
               <div class="form-group mb-0 text-center">
-                  <button class="btn btn-primary" type="submit" ng-click="saveNewPassword()">Save New Password</button>
+                  <button class="btn btn-primary" type="submit" (click)="saveNewPassword()" >Save New Password</button>
               </div>
           </form>
       </div> <!-- end card-body-->
