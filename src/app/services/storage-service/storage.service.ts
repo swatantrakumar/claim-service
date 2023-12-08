@@ -35,15 +35,10 @@ export class StorageService {
     return localStorage.getItem(this.EXPIRY_IN);
   }
   SetIdToken(token: any) {
-    localStorage.setItem(this.ID_TOKEN, JSON.stringify(token));
+    localStorage.setItem(this.ID_TOKEN, token);
   }
   GetIdToken() {
-    let obj = JSON.parse(<any>localStorage.getItem(this.ID_TOKEN));
-    if(obj && obj != null ){
-      return obj;
-    }else{
-      return null;
-    }
+    return  localStorage.getItem(this.ID_TOKEN);
   }
   IsJsonString(str:any) {
       try {
