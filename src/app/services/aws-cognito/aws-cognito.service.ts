@@ -45,28 +45,25 @@ export class AwsCognitoService {
     });
     let cognitoUser = this.getUserData(payload.email);
     cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: this.onSuccess,
-      onFailure: this.onFailure
+      onSuccess: (result) =>{
+        let idToken = result.getIdToken().getJwtToken();
+        this.storageService.SetIdToken(idToken);
+        const cognitoExpiresIn = 86400;
+        this.storageService.setExpiresIn(cognitoExpiresIn);
+        this.getUserWithToken(idToken);
+      },
+      onFailure: (err) =>{
+        console.log(err)
+      }
     });
-  }
-  onSuccess(result:any) {
-    let idToken = result.getIdToken().getJwtToken();
-    // localStorage.setItem('idToken',idToken);
-    this.storageService.SetIdToken(idToken);
-    const cognitoExpiresIn = 86400;
-    this.storageService.setExpiresIn(cognitoExpiresIn);
-    this.getUserWithToken(idToken);
-  }
-  onFailure (err:any){
-    console.log(err);
   }
   getUserWithToken(payload:any){
     let api = this.envService.getAuthApi('GET_USER_PERMISSION');
     const reqBody = { key: payload };
     this.http.post(api, reqBody).subscribe(
       (respData:any) =>{
-        if (respData && respData.user) {
-          this.storageService.SetUserInfo(respData.user);
+        if (respData && respData.USER) {
+          this.storageService.SetUserInfo(respData);
           this.storageService.GetUserInfo();
           this.router.navigate(['/claim-service']);
         }
@@ -75,6 +72,9 @@ export class AwsCognitoService {
 
       }
     )
+  }
+  signup(payload:any){
+
   }
   //End For app functions
 }

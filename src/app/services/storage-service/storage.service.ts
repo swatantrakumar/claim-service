@@ -106,8 +106,8 @@ export class StorageService {
   }
   GetUserInfo() {
     const obj:any = JSON.parse(<any>localStorage.getItem(this.USER_KEY));
-    if(obj && obj.user){
-      return obj.user
+    if(obj && obj.USER){
+      return obj.USER
     }else{
       return {};
     }
@@ -153,6 +153,21 @@ export class StorageService {
     const startTime = Date.now();
     localStorage.setItem(this.REFRESH_TOKEN_EXPIRY_TIME, startTime + this.refreshTokenAge);
   }
-
-
+  checkIdTokenStatus(){
+    let statusWithMsg={
+      "status":false,
+      "msg" : ""
+    };
+    if (this.GetIdToken() != null) {
+      if(this.GetIdTokenStatus() == StorageTokenStatus.ID_TOKEN_ACTIVE){
+        statusWithMsg.status = true;
+      }else{
+        statusWithMsg.status = false;
+      }
+    }else{
+      statusWithMsg.status=false;
+      statusWithMsg.msg="Your are already logout !!!";
+    }
+    return statusWithMsg;
+  }
 }
