@@ -1,0 +1,56 @@
+<ul class="list-unstyled topbar-right-menu float-right mb-0">
+
+  <li class="dropdown notification-list float-left" >
+      <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" data-toggle="dropdown" id="topbar-userdrop" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false">
+          <span class="account-user-avatar">
+              <img src="../../../assets/images/avatar-1.jpg" alt="user-image" class="rounded-circle">
+          </span>
+          <span>
+              <span class="account-user-name">{{ userName }}</span>
+              <span class="account-position">{{ user }}</span>
+          </span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown w-auto"  aria-labelledby="topbar-userdrop" style="">
+          <!-- item-->
+          <div class=" dropdown-header noti-title">
+              <h6 class="text-overflow m-0">Welcome !</h6>
+          </div>
+
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <i class="dripicons-user mr-1"></i>
+              <span>{{ userName }}</span>
+          </a>
+
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <i class="dripicons-user-id mr-1"></i>
+              <span>{{ user }}</span>
+          </a>
+
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <i class="uil-envelope"></i>
+              <span>{{ userEmail }}</span>
+          </a>
+
+          <!-- item-->
+          <a href="javascript:void(0);"ng-click="logoutUser()"  class="dropdown-item notify-item">
+              <i class="mdi mdi-logout mr-1"></i>
+              <span>Logout</span>
+          </a>
+      </div>
+  </li>
+
+</ul>
+<button class="button-menu-mobile open-left disable-btn">
+      <i class="mdi mdi-menu"></i>
+  </button>
+  <div class="app-search d-block">
+      <form class="float-right">
+          <div class="form-group mb-0">
+              <select class="form-control pl-2" ng-model="mcase.selectedCase_id"  id="SelectCase" ng-options="cs._id as cs.caseName for cs in cases "  ng-change="$parent.mcase.searchByCaseID(mcase.selectedCase_id)" >
+              </select>
+          </div>
+      </form>
+  </div>

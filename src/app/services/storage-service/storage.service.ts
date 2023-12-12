@@ -107,7 +107,7 @@ export class StorageService {
   GetUserInfo() {
     const obj:any = JSON.parse(<any>localStorage.getItem(this.USER_KEY));
     if(obj && obj.USER){
-      return obj.USER
+      return JSON.stringify(obj.USER[0]);
     }else{
       return {};
     }
@@ -124,14 +124,14 @@ export class StorageService {
     }
   }
   getRefCode() {
-    const userinfo = this.GetUserInfo();
+    const userinfo:any = this.GetUserInfo();
     if(userinfo && userinfo.refCode){
       return userinfo.refCode;
     }
     return null;
   }
   getUserAppId(){
-    const userinfo = this.GetUserInfo();
+    const userinfo:any = this.GetUserInfo();
     if(userinfo && userinfo.appId){
       return userinfo.appId;
     }

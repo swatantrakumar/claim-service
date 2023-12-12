@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { HashLocationStrategy, Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ClaimRoutingModule } from './claim-service/claim-routing.module';
+import { CoreModule } from './core/core.module';
+import { ClaimServiceModule } from './claim-service/claim-service.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -19,7 +21,9 @@ import { ClaimRoutingModule } from './claim-service/claim-routing.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     ClaimRoutingModule,
-    AuthModule
+    AuthModule,
+    ClaimServiceModule,
+    CoreModule
   ],
   providers: [
     Location,
