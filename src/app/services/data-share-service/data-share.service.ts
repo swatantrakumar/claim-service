@@ -6,11 +6,13 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DataShareService {
-
+  claimData:Subject<any> = new Subject();
 
   constructor() { }
 
-
+  setClaimData(responce:any){
+    this.claimData.next(responce);
+  }
   //End For App
 
 

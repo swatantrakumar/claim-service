@@ -18,6 +18,9 @@ export class AuthDataShareService {
   sessionexpired:Subject<any> = new Subject();
   resetPass:Subject<any> = new Subject();
 
+  caseList:Subject<any> = new Subject();
+  activeCaseId:Subject<any> = new Subject();
+
 
   constructor() { }
 
@@ -59,6 +62,12 @@ export class AuthDataShareService {
   }
   resetPassword(responce:any){
     this.resetPass.next(responce);
+  }
+  setCaseList(responce:any){
+    this.caseList.next(responce);
+  }
+  setActiveCase(id:string){
+    this.activeCaseId.next(id)
   }
 
 

@@ -37,7 +37,10 @@
               "src/styles.scss",
               "src/assets/scss/app.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/vendor.min.js",
+              "src/assets/js/app.min.js"
+            ]
           },
           "configurations": {
             "production": {
