@@ -35,15 +35,10 @@ export class StorageService {
     return localStorage.getItem(this.EXPIRY_IN);
   }
   SetIdToken(token: any) {
-    localStorage.setItem(this.ID_TOKEN, JSON.stringify(token));
+    localStorage.setItem(this.ID_TOKEN, token);
   }
   GetIdToken() {
-    let obj = JSON.parse(<any>localStorage.getItem(this.ID_TOKEN));
-    if(obj && obj != null ){
-      return obj;
-    }else{
-      return null;
-    }
+    return  localStorage.getItem(this.ID_TOKEN);
   }
   IsJsonString(str:any) {
       try {
@@ -111,8 +106,8 @@ export class StorageService {
   }
   GetUserInfo() {
     const obj:any = JSON.parse(<any>localStorage.getItem(this.USER_KEY));
-    if(obj && obj.user){
-      return obj.user
+    if(obj && obj.USER){
+      return JSON.stringify(obj.USER[0]);
     }else{
       return {};
     }
@@ -129,14 +124,14 @@ export class StorageService {
     }
   }
   getRefCode() {
-    const userinfo = this.GetUserInfo();
+    const userinfo:any = this.GetUserInfo();
     if(userinfo && userinfo.refCode){
       return userinfo.refCode;
     }
     return null;
   }
   getUserAppId(){
-    const userinfo = this.GetUserInfo();
+    const userinfo:any = this.GetUserInfo();
     if(userinfo && userinfo.appId){
       return userinfo.appId;
     }
@@ -158,6 +153,21 @@ export class StorageService {
     const startTime = Date.now();
     localStorage.setItem(this.REFRESH_TOKEN_EXPIRY_TIME, startTime + this.refreshTokenAge);
   }
-
-
+  checkIdTokenStatus(){
+    let statusWithMsg={
+      "status":false,
+      "msg" : ""
+    };
+    if (this.GetIdToken() != null) {
+      if(this.GetIdTokenStatus() == StorageTokenStatus.ID_TOKEN_ACTIVE){
+        statusWithMsg.status = true;
+      }else{
+        statusWithMsg.status = false;
+      }
+    }else{
+      statusWithMsg.status=false;
+      statusWithMsg.msg="Your are already logout !!!";
+    }
+    return statusWithMsg;
+  }
 }

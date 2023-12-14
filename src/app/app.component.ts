@@ -1,3 +1,4 @@
+import { StorageService } from './services/storage-service/storage.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,11 +11,16 @@ export class AppComponent implements OnInit {
   title = 'claim-service';
   constructor(
     private router: Router,
+    private storageService:StorageService
 
   ) {}
 
   ngOnInit() {
-    this.router.navigate(['/signin']);
+    if(this.storageService.checkIdTokenStatus().status){
+      this.router.navigate(['/claim-service']);
+    }else{
+      this.router.navigate(['/signin']);
+    }
   }
 
 }

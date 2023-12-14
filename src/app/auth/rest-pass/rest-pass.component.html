@@ -13,14 +13,14 @@
               <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Reset Password</h4>
           </div>
 
-          <form >
+          <form [formGroup]="resetForm">
               <div class="form-group mb-3">
                   <label for="rp-emailaddress">Email address</label>
-                  <input class="form-control" type="email" id="rp-emailaddress" required="" ng-model="forgotUser.email" placeholder="Enter your email">
+                  <input class="form-control" type="email" formControlName="email" placeholder="Enter your email">
               </div>
 
               <div class="form-group mb-0 text-center">
-                  <button class="btn btn-primary" type="submit" ng-click="sendForgotPasswordCode()">Reset Password</button>
+                  <button class="btn btn-primary" type="submit" (click)="reset()">Reset Password</button>
               </div>
           </form>
       </div> <!-- end card-body-->

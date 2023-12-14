@@ -17,26 +17,26 @@
 
               <div class="form-group">
                   <label for="fullname">Full Name</label>
-                  <input class="form-control" type="text" id="fullname" data-ng-model="userRegData.name" placeholder="Enter your name" required >
+                  <input class="form-control" type="text" formControlName="name" placeholder="Enter your name" required >
               </div>
 
               <div class="form-group">
                   <label for="reg-emailaddress">Email address</label>
-                  <input class="form-control" type="email" id="reg-emailaddress" data-ng-model="userRegData.email" required placeholder="Enter your email">
+                  <input class="form-control" type="email" formControlName="email" required placeholder="Enter your email">
               </div>
 
               <div class="form-group">
                   <label for="reg-password">Password</label>
-                  <input class="form-control" type="password" required id="reg-password" data-ng-model="userRegData.password" placeholder="Enter your password" >
+                  <input class="form-control" type="password" required formControlName="password" placeholder="Enter your password" >
               </div>
 
               <div class="form-group">
                   <label for="mobile">Mobile</label>
-                  <input class="form-control" type="tel" required id="mobile" data-ng-model="userRegData.mobile" placeholder="Enter your mobile No.">
+                  <input class="form-control" type="tel" required formControlName="mobileNumber" placeholder="Enter your mobile No.">
               </div>
 
               <div class="form-group mb-0 text-center">
-                  <button class="btn btn-primary"  data-ng-click="registerAwsUser()"> Sign Up </button>
+                  <button class="btn btn-primary"  [disabled]="!signUpForm.valid" (click)="onSignUp()"> Sign Up </button>
               </div>
 
           </form>
