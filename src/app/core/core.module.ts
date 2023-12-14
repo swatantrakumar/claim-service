@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { UserAccountComponent } from './user-account/user-account.component';
+import { FormsModule } from '@angular/forms';
 
 let component = [
   FooterComponent,
@@ -12,7 +13,8 @@ let component = [
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports:component,
   declarations: component

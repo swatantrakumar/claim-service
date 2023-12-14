@@ -19,7 +19,19 @@ constructor(
   private stroageService: StorageService
  ) { }
 
+  getClaimData(payload:any){
+    let api = this.envService.getAuthApi('GET_CLAIM_STATIC');
+    this.http.post(api+'/'+payload._id,payload.data).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          this.dataShareService.setClaimData(respData);
+        }
+      },
+      (error)=>{
 
+      }
+    )
+  }
   //End For app functions
 
 

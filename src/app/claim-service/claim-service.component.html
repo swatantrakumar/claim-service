@@ -7,7 +7,174 @@
               <div class="col-12">
                   <div class="card">
                       <div class="card-body mt-4">
-                          <div class="row"></div>
+                          <div class="row">
+                              <ul class="nav nav-tabs mb-3  col-lg-12">
+                                <li class="nav-item">
+                                    <a data-toggle="tab" aria-expanded="true"
+                                      class="nav-link " [ngClass]="{'active': activeTabName=='MYCLAIM'}"
+                                      data-toggle="tab" data-target="#documents"
+                                      (click)="activeTab('MYCLAIM')">
+                                        <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">My claim</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" aria-expanded="true"
+                                      class="nav-link " [ngClass]="{'active': activeTabName=='CLAIMSTATUS'}"
+                                      (click)="activeTab('CLAIMSTATUS')">
+                                        <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">Claim Status</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" aria-expanded="false"
+                                      class="nav-link disabled ">
+                                        <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">My Support Requests</span>
+                                    </a>
+                                </li>
+                              </ul>
+                          </div>
+                          <div class="tab-content">
+                            <div class="tab-pane " id="documents"
+                            [ngClass]="{'active': activeTabName=='MYCLAIM'}"
+                                 *ngIf="activeTabName=='MYCLAIM'">
+
+                                <div class="row">
+                                    <div class="col-lg-2 col-7" ng-hide="hideDropDown">
+                                        <button id="{{myShortName+'submitClaim'}}"
+                                                (click)="activeSection()"
+                                                class="btn btn-outline-primary btn-rounded"> Submit New
+                                            Claim
+                                        </button>
+                                    </div> <!-- end col -->
+
+                                    <!-- <div class="col-lg-8 row " ng-show="CATEGORY_SELECTION">
+
+                                        <label
+                                                class=" mr-2 col-form-label">Category</label>
+                                        <select class="col-3 col-lg-3 form-control"
+                                                id="{{myShortName + 'type'}}"
+
+                                                ng-model='formSelection'
+                                                ng-change="findTheForm(formSelection)">
+                                            <option ng-repeat="(key,value) in sourceList('formDom')"
+                                                    value="{{key}}">
+                                                {{value}}
+                                            </option>
+                                        </select>
+                                        <label
+                                                class=" mr-2 ml-2 col-form-label">Class</label>
+                                        <select class="col-3 col-lg-3 form-control"
+                                                id="{{myShortName + 'Classs'}}"
+
+                                                ng-model='selectedForm'>
+                                            <option ng-repeat="cs in subSourceList" value="{{cs}}">
+                                                {{cs}}
+                                            </option>
+                                        </select>
+                                        <button class="btn btn-primary ml-1 mr-1"
+                                                ng-click="formPopUpWindow()">
+                                            Go
+                                        </button>
+                                        <button class="btn btn-primary" ng-click="showMyClaimForms()">
+                                            Back
+                                        </button>
+                                    </div> -->
+
+
+                                </div>
+                                <!-- <div class="row">
+                                    <div class="col-lg-12 text-right" ng-show="OnlineFormGrid">
+                                        <button type="button" ng-if="selectRowData.formStatus==='SAVED'"
+                                                class="btn btn-primary btn-rounded"
+                                                ng-click="editClaimForm()">Edit
+                                        </button>
+                                        <button type="button" ng-if="selectRowData.formStatus==='SUBMITTED'"
+                                                class="btn btn-primary btn-rounded" ng-click="viewDetail()">
+                                            View Details
+                                        </button>
+                                        <button type="button" ng-if="selectRowData.formStatus==='SUBMITTED'"
+                                                class="btn btn-primary btn-rounded"
+                                                ng-click="previewFormWindow()">preview
+                                        </button>
+
+                                    </div>
+                                </div> -->
+
+                                <div class="row">
+                                    <div class="col-lg-12 pt-3" >
+                                      <ag-grid-angular
+                                              style="width: 100%; height:430px;"
+                                              [rowData]="rowData"
+                                              [columnDefs]="columnDefs"
+                                              [defaultColDef]="defaultColDef"
+                                              [class]="themeClass"
+                                              animateRows= true
+                                              headerHeight= 50
+                                              rowHeight= 40
+                                              pagination= true
+                                              paginationPageSize= 50
+                                              suppressMenuHide= true
+                                              rowSelection= 'single'
+                                              >
+                                    </ag-grid-angular>
+                                    </div>
+                                </div>
+                                <!-- <div class="row" ng-show="!CATEGORY_SELECTION && selectedForm !='Banks'">
+                                    <div class="col-lg-10 text-center pl-5">
+                                        <div class="form-group row">
+                                            <label class="col-5 modal-title text-right mt-1">Authorised Representative</label>
+                                            <div class="col-5">
+                                                <select ng-model="claim_form.authorised_person" class="form-control">
+                                                    <option ng-repeat="person in get_authorised_persons()" value="{{person}}">{{person}}</option>
+                                                </select>
+                                                <p class="text-left" style="color: red;">*mandatory</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="row">
+                                    <div class="col-md-12 " ng-show="popUpWindow==='C' " ng-include
+                                         src=" 'es/onlineClaimsForm/claimForms/htm_form_c.html' "
+                                    ></div>
+                                    <div class="col-md-12 " ng-show="popUpWindow==='D' " ng-include
+                                         src=" 'es/onlineClaimsForm/claimForms/htm_form_d.html' "
+                                    ></div>
+                                    <div class="col-md-12 " ng-show="popUpWindow==='E' " ng-include
+                                         src=" 'es/onlineClaimsForm/claimForms/htm_form_e.html' "
+                                    ></div>
+                                    <div class="col-md-12 " ng-show="popUpWindow==='CA' " ng-include
+                                         src=" 'es/onlineClaimsForm/claimForms/htm_form_ca.html' "
+                                    ></div>
+                                    <div class="col-md-12 " ng-show="popUpWindow==='CA_APPROVAL' " ng-include
+                                    src=" 'es/onlineClaimsForm/claimForms/htm_form_ca_for_approval.html' "
+                               ></div>
+                                    <div class="col-md-12 " ng-show="popUpWindow==='F' " ng-include
+                                         src=" 'es/onlineClaimsForm/claimForms/htm_form_f.html' "
+                                    ></div>
+                                    <div class="col-md-12 " ng-show="popUpWindow==='B' " ng-include
+                                         src=" 'es/onlineClaimsForm/claimForms/htm_form_b.html' "
+                                    ></div>
+                                </div> -->
+
+                            </div>
+                            <div class="tab-pane  " [ngClass]="{'active': activeTabName=='CLAIMSTATUS'}"
+                            *ngIf="activeTabName=='CLAIMSTATUS'">
+
+                                 <p>CLAIMSTATUS</p>
+
+                            </div>
+
+                            <div class="tab-pane " id="document"
+                                 ng-class="{'active': activeTabName=='REVIEWAPPROVAL'}"
+                                 *ngIf="activeTabName=='REVIEWAPPROVAL'">
+
+                               <p>REVIEWAPPROVAL</p>
+
+                            </div>
+
+                        </div>
                       </div>
                   </div>
               </div>

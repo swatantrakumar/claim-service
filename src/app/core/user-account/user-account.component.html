@@ -35,7 +35,7 @@
           </a>
 
           <!-- item-->
-          <a href="javascript:void(0);"ng-click="logoutUser()"  class="dropdown-item notify-item">
+          <a href="javascript:void(0);" (click)="logoutUser()"  class="dropdown-item notify-item">
               <i class="mdi mdi-logout mr-1"></i>
               <span>Logout</span>
           </a>
@@ -49,7 +49,8 @@
   <div class="app-search d-block">
       <form class="float-right">
           <div class="form-group mb-0">
-              <select class="form-control pl-2" ng-model="mcase.selectedCase_id"  id="SelectCase" ng-options="cs._id as cs.caseName for cs in cases "  ng-change="$parent.mcase.searchByCaseID(mcase.selectedCase_id)" >
+              <select class="form-control pl-2" [(ngModel)]="selectedCaseId" (change)="setCase()" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let case of cases" [value]="case._id">{{case.caseName}}</option>
               </select>
           </div>
       </form>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageTokenStatus } from '../../shared/enums/storage-token-status.enum';
+import { elementAt } from 'rxjs';
 
 
 
@@ -12,6 +13,8 @@ export class StorageService {
   REFRESH_TOKEN: string = 'REFRESH_TOKEN';
   EXPIRY_IN:any= 'EXPIRY_IN';
   USER_KEY: string = 'USER';
+  CASE_LIST:string = 'CASE_LIST';
+  ACTIVE_CASE:string='ACTIVEA_CASE';
   ID_TOKEN_EXPIRY_TIME: string = 'ID_TOKEN_EXPIRY_TIME';
   REFRESH_TOKEN_EXPIRY_TIME:string='REFRESH_TOKEN_EXPIRY_TIME';
   userInfo: any;
@@ -105,19 +108,50 @@ export class StorageService {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
   GetUserInfo() {
-    const obj:any = JSON.parse(<any>localStorage.getItem(this.USER_KEY));
-    if(obj && obj.USER){
-      return JSON.stringify(obj.USER[0]);
-    }else{
-      return {};
+    return JSON.parse(<any>localStorage.getItem(this.USER_KEY));
+    // if(obj && obj.USER){
+    //   return JSON.parse(obj.USER[0]);
+    // }else{
+    //   return {};
+    // }
+  }
+  setCaseList(cases:any){
+    localStorage.setItem(this.CASE_LIST,JSON.stringify(cases))
+  }
+  GetCaseList(){
+    return JSON.parse(<any>localStorage.getItem(this.CASE_LIST));
+  }
+  SetActiveCase(caseId:string){
+    localStorage.setItem(this.ACTIVE_CASE,JSON.stringify(caseId));
+  }
+  GetActiveCaseId(){
+    return JSON.parse(<any>localStorage.getItem(this.ACTIVE_CASE));
+  }
+  GetActiveCase(){
+    let caseObj:any = {};
+    let id = this.GetActiveCaseId();
+    let caseList = this.GetCaseList();
+    if(caseList && caseList.length > 0){
+      caseList.forEach((element:any) => {
+        if(element._id == id){
+          caseObj = element;
+        }
+      });
     }
+    return caseObj;
   }
 
   getUserLog() {
     const user = JSON.parse(<any>localStorage.getItem(this.USER_KEY));
-    if(user && user != null && user != undefined && user.user){
-      this.userInfo = user.user;
-      this.log = { userId: this.userInfo.email, appId: this.getUserAppId(), refCode: this.userInfo.refCode };
+    if(user && user != null && user != undefined){
+      this.userInfo = user;
+      this.log = {
+        userId: this.userInfo.userId,
+        appId: this.getUserAppId(),
+        refCode: this.getRefCode(),
+        clientId: this.userInfo.clientId,
+        sessionId:this.userInfo.sessionId+";"+this.GetIdToken
+      };
       return this.log;
     }else{
       return null;

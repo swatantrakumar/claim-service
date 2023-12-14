@@ -8,6 +8,7 @@ import { StorageService } from '../storage-service/storage.service';
 import { HttpClient } from '@angular/common/http';
 import { EnvService } from '../env-service/env.service';
 import { Router } from '@angular/router';
+import { AuthDataShareService } from '../data-share-service/auth-data-share/auth-data-share.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class AwsCognitoService {
     private storageService:StorageService,
     private http:HttpClient,
     private envService:EnvService,
-    private router:Router
+    private router:Router,
+    private authDataShareService:AuthDataShareService
   ) { }
 
   getUserPool(){
@@ -63,9 +65,31 @@ export class AwsCognitoService {
     this.http.post(api, reqBody).subscribe(
       (respData:any) =>{
         if (respData && respData.USER) {
-          this.storageService.SetUserInfo(respData);
-          this.storageService.GetUserInfo();
-          this.router.navigate(['/claim-service']);
+          this.handleUserResponceData(respData);
+        }
+      },
+      (error)=>{
+
+      }
+    )
+  }
+  handleUserResponceData(respData:any){
+    let userInfo = JSON.parse(respData.USER[0]);
+    this.storageService.SetUserInfo(userInfo);
+    let payload = {
+      log : this.storageService.getUserLog()
+    }
+    this.getOnlineOpenCasesForClaimSubmission(payload)
+    this.router.navigate(['/claim-service']);
+  }
+  getOnlineOpenCasesForClaimSubmission(payload:any){
+    let api = this.envService.getAuthApi('GET_ONLINE_CASE_SUBMISSION');
+    this.http.post(api, payload).subscribe(
+      (respData:any) =>{
+        if (respData && respData.length>0) {
+          this.storageService.setCaseList(respData);
+          this.authDataShareService.setCaseList(respData);
+
         }
       },
       (error)=>{
@@ -75,6 +99,9 @@ export class AwsCognitoService {
   }
   signup(payload:any){
 
+  }
+  redirectToSignPage(){
+    this.router.navigate(['/signin']);
   }
   //End For app functions
 }
