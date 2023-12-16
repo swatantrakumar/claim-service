@@ -80,30 +80,49 @@ export class AwsCognitoService {
   }
   redirectAccordingToModule(){
     let module = this.storageService.getProjectModule();
-    if(module == 'MCLMN'){
-      let payload = {
-        log : this.storageService.getUserLog()
-      }
-      this.getOnlineOpenCasesForClaimSubmission(payload)
-      this.router.navigate(['/mclaimn']);
-    }else{
-      this.router.navigate(['/mclr']);
+    let obj = {
+      apiName : '',
+      routLink: '',
+      payload:{}
     }
+    if(module == 'MCLMN'){
+      obj.routLink = '/mclaimn';
+      obj.apiName = 'GET_ONLINE_CASE_SUBMISSION';
+      obj.payload = {log : this.storageService.getUserLog() }
+    }else{
+      obj.routLink = '/mclr';
+      obj.apiName = 'GET_CASES_OR_PERMISSIO';
+      obj.payload = this.storageService.getUserLog()
+    }
+    this.getOnlineOpenCasesForClaimSubmission(obj.payload,obj.apiName);
+    this.router.navigate([obj.routLink]);
   }
-  getOnlineOpenCasesForClaimSubmission(payload:any){
-    let api = this.envService.getAuthApi('GET_ONLINE_CASE_SUBMISSION');
+  getOnlineOpenCasesForClaimSubmission(payload:any,name:string){
+    let api = this.envService.getAuthApi(name);
     this.http.post(api, payload).subscribe(
       (respData:any) =>{
-        if (respData && respData.length>0) {
-          this.storageService.setCaseList(respData);
-          this.authDataShareService.setCaseList(respData);
-
+        if (respData) {
+          this.responceHandle(respData,name);
         }
       },
       (error)=>{
 
       }
     )
+  }
+  responceHandle(respData:any,apiName:string){
+    if(apiName == 'GET_ONLINE_CASE_SUBMISSION'){
+      this.storageService.setCaseList(respData);
+      this.authDataShareService.setCaseList(respData);
+    }else{
+      if(respData.CASES){
+        let cases = respData.CASES;
+        let permissions = respData.PERMS;
+        this.storageService.setCaseList(cases);
+        this.storageService.setPermissionList(permissions);
+        this.authDataShareService.setCaseList(cases);
+      }
+    }
   }
   signup(payload:any){
 

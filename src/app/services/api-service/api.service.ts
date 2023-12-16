@@ -32,6 +32,19 @@ constructor(
       }
     )
   }
+  getStaticData(payload:any){
+    let api = this.envService.getAuthApi('GET_STATIC_DATA');
+    this.http.post(api+'/'+payload.path,payload.data).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          this.dataShareService.setStaticData(respData);
+        }
+      },
+      (error)=>{
+
+      }
+    )
+  }
   //End For app functions
 
 

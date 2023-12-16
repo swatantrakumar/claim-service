@@ -7,11 +7,15 @@ import { map } from 'rxjs/operators';
 })
 export class DataShareService {
   claimData:Subject<any> = new Subject();
+  staticData:Subject<any> = new Subject();
 
   constructor() { }
 
   setClaimData(responce:any){
     this.claimData.next(responce);
+  }
+  setStaticData(responce:any){
+    this.staticData.next(responce)
   }
   //End For App
 
