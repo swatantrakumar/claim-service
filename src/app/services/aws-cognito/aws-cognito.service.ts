@@ -76,11 +76,19 @@ export class AwsCognitoService {
   handleUserResponceData(respData:any){
     let userInfo = JSON.parse(respData.USER[0]);
     this.storageService.SetUserInfo(userInfo);
-    let payload = {
-      log : this.storageService.getUserLog()
+    this.redirectAccordingToModule();
+  }
+  redirectAccordingToModule(){
+    let module = this.storageService.getProjectModule();
+    if(module == 'MCLMN'){
+      let payload = {
+        log : this.storageService.getUserLog()
+      }
+      this.getOnlineOpenCasesForClaimSubmission(payload)
+      this.router.navigate(['/mclaimn']);
+    }else{
+      this.router.navigate(['/mclr']);
     }
-    this.getOnlineOpenCasesForClaimSubmission(payload)
-    this.router.navigate(['/claim-service']);
   }
   getOnlineOpenCasesForClaimSubmission(payload:any){
     let api = this.envService.getAuthApi('GET_ONLINE_CASE_SUBMISSION');

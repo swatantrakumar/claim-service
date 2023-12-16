@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ClaimServiceComponent } from './claim-service.component';
 
 const claimRoutes : Routes = [
-  {path: 'claim-service', component: ClaimServiceComponent}
+  {path: 'mclaimn', component: ClaimServiceComponent}
 ];
 
 

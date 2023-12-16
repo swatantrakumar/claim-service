@@ -21,6 +21,8 @@ export class StorageService {
   log: any;
   refreshTokenAge:any=2505600000 //refresh token age 29 days
 
+  PROJECT_MODULE:any="PROJECT_MODULE";
+
 
   constructor(
 
@@ -203,5 +205,11 @@ export class StorageService {
       statusWithMsg.msg="Your are already logout !!!";
     }
     return statusWithMsg;
+  }
+  setProjectModule(module:any){
+    localStorage.setItem(this.PROJECT_MODULE,module);
+  }
+  getProjectModule(){
+    return localStorage.getItem(this.PROJECT_MODULE);
   }
 }

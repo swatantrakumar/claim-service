@@ -1,6 +1,7 @@
 import { StorageService } from './services/storage-service/storage.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AwsCognitoService } from 'src/app/services/aws-cognito/aws-cognito.service';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,15 @@ export class AppComponent implements OnInit {
   title = 'claim-service';
   constructor(
     private router: Router,
-    private storageService:StorageService
+    private storageService:StorageService,
+    private awsCognitoService:AwsCognitoService
 
   ) {}
 
   ngOnInit() {
     if(this.storageService.checkIdTokenStatus().status){
-      this.router.navigate(['/claim-service']);
+      this.awsCognitoService.redirectAccordingToModule();
+      //this.router.navigate(['/claim-service']);
     }else{
       this.router.navigate(['/signin']);
     }
