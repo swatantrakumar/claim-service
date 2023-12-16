@@ -5,12 +5,14 @@ import { HeaderComponent } from './header/header.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { FormsModule } from '@angular/forms';
 import { CaseSearchComponent } from './case-search/case-search.component';
+import { MenuComponent } from './menu/menu.component';
 
 let component = [
   FooterComponent,
   HeaderComponent,
   UserAccountComponent,
-  CaseSearchComponent
+  CaseSearchComponent,
+  MenuComponent
 ]
 
 @NgModule({
