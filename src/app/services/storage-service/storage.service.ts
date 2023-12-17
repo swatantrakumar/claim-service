@@ -14,12 +14,15 @@ export class StorageService {
   EXPIRY_IN:any= 'EXPIRY_IN';
   USER_KEY: string = 'USER';
   CASE_LIST:string = 'CASE_LIST';
+  PERMISSION_LIST:any='PERMISSION_LIST';
   ACTIVE_CASE:string='ACTIVEA_CASE';
   ID_TOKEN_EXPIRY_TIME: string = 'ID_TOKEN_EXPIRY_TIME';
   REFRESH_TOKEN_EXPIRY_TIME:string='REFRESH_TOKEN_EXPIRY_TIME';
   userInfo: any;
   log: any;
   refreshTokenAge:any=2505600000 //refresh token age 29 days
+
+  PROJECT_MODULE:any="PROJECT_MODULE";
 
 
   constructor(
@@ -140,6 +143,12 @@ export class StorageService {
     }
     return caseObj;
   }
+  setPermissionList(permisssionList:any){
+    localStorage.setItem(this.PERMISSION_LIST,JSON.stringify(permisssionList));
+  }
+  getPermissionList(){
+    return JSON.parse(<any>localStorage.getItem(this.PERMISSION_LIST));
+  }
 
   getUserLog() {
     const user = JSON.parse(<any>localStorage.getItem(this.USER_KEY));
@@ -150,7 +159,7 @@ export class StorageService {
         appId: this.getUserAppId(),
         refCode: this.getRefCode(),
         clientId: this.userInfo.clientId,
-        sessionId:this.userInfo.sessionId+";"+this.GetIdToken
+        sessionId:this.userInfo.sessionId+";"+this.GetIdToken()
       };
       return this.log;
     }else{
@@ -203,5 +212,11 @@ export class StorageService {
       statusWithMsg.msg="Your are already logout !!!";
     }
     return statusWithMsg;
+  }
+  setProjectModule(module:any){
+    localStorage.setItem(this.PROJECT_MODULE,module);
+  }
+  getProjectModule(){
+    return localStorage.getItem(this.PROJECT_MODULE);
   }
 }

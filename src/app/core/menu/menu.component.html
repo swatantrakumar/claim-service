@@ -1,0 +1,39 @@
+<!-- NAVBAR START -->
+<nav class="navbar navbar-expand-lg py-lg-1 navbar-dark ">
+  <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="mdi mdi-menu"></i>
+      </button>
+      <!-- menus -->
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <!-- right menu -->
+          <ul class="navbar-nav ml-auto align-items-center" style="line-height: 2.6;">
+              <li class="nav-item mr-0">
+                 <a class="nav-link" href="javascript: void(0);" (click)="moveToId('client-master')" >Client Master</a>
+              </li>
+              <li class="nav-item mr-0">
+                 <a class="nav-link" href="javascript: void(0);" (click)="moveToId('user-management')" >User Management</a>
+              </li>
+              <li class="nav-item mr-0">
+                 <a class="nav-link" href="javascript: void(0);" (click)="moveToId('case-ragistration')" >Case Registration</a>
+              </li>
+              <li class="nav-item mr-0">
+                 <a class="nav-link" href="javascript: void(0);" (click)="moveToId('claim-forms')" >Claim Forms</a>
+              </li>
+              <li class="nav-item mr-0">
+                 <a class="nav-link" href="javascript: void(0);" (click)="moveToId('permissions')" >Permissions</a>
+              </li>
+              <li class="nav-item mr-0">
+                 <a class="nav-link" href="javascript: void(0);" (click)="moveToId('document')" >Document Folder</a>
+              </li>
+          </ul>
+      </div>
+      <div class="form-group mb-0" style="width: 250px;">
+        <select class="form-control pl-2" [(ngModel)]="selectedCaseId" (change)="setCase()" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let case of cases" [value]="case._id">{{case.caseName}}</option>
+        </select>
+    </div>
+  </div>
+</nav>
+<!-- NAVBAR END -->

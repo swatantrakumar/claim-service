@@ -6,6 +6,11 @@
         </span>
       </a>
       <app-user-account></app-user-account>
+      <button *ngIf="project_module == 'MCLMN'" class="button-menu-mobile open-left disable-btn">
+        <i class="mdi mdi-menu"></i>
+      </button>
+      <app-menu *ngIf="project_module == 'MCRL'"></app-menu>
+      <app-case-search *ngIf="project_module == 'MCLMN'" ></app-case-search>
       <!-- <div ng-include src="'es/popUp/htm_horizontalNavBar.html'"></div> -->
   </div>
 

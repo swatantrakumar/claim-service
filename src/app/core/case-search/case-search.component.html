@@ -1,0 +1,9 @@
+<div class="app-search d-block">
+  <form class="float-right">
+      <div class="form-group mb-0">
+          <select class="form-control pl-2" [(ngModel)]="selectedCaseId" (change)="setCase()" [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let case of cases" [value]="case._id">{{case.caseName}}</option>
+          </select>
+      </div>
+  </form>
+</div>

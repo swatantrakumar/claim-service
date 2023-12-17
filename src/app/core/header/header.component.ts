@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageService } from 'src/app/services/storage-service/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -6,8 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+  project_module:any='';
+  constructor(
+    private storageService:StorageService
+  ) {
+    this.project_module = this.storageService.getProjectModule();
+  }
 
   ngOnInit() {
   }

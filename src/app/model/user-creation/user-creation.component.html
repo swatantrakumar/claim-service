@@ -1,0 +1,96 @@
+<!-- Large modal -->
+<div class="modal fade" id="new-user-ragistration" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="myLargeModalLabel" ng-hide="popUpMode==='UPDATE'">USER REGISTRATION</h4>
+              <h4 class="modal-title" id="myLargeModalLabel" ng-show="popUpMode==='UPDATE'">UPDATE USER</h4>
+          </div>
+          <div class="modal-body">
+              <div class="pl-3 pr-3" >
+                  <div ng-if="modal.view='USER'">
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="{{myShortName + 'userid'}}" class="col-form-label">User Id</label>
+                              <input type="email" class="form-control" ng-disabled="popUpMode==='UPDATE'" id="{{myShortName + 'userid'}}"   ng-model="user.userId" placeholder="Email Id" required>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="{{myShortName + 'refCode'}}" class="col-form-label">Org Code</label>
+                              <input type="text" class="form-control" ng-disabled="permCategory!=='BACKOFFICE'" id="{{myShortName + 'refCode'}}"   ng-model="user.refCode" placeholder="Org Code" required>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="{{myShortName + 'firstname'}}">First Name</label>
+                              <input class="form-control"  id="{{myShortName + 'firstname'}}" type="text"  ng-model="user.first_name" placeholder="First Name"  required/>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="{{myShortName + 'lastname'}}">Last Name</label>
+                              <input class="form-control"  id="{{myShortName + 'lastname'}}" type="text"  ng-model="user.last_name" placeholder="Last Name"  required/>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="{{myShortName + 'panNo'}}">PAN</label>
+                              <input class="form-control"  id="{{myShortName + 'panNo'}}" type="text"  ng-model="user.pan" placeholder="PAN"/>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="{{myShortName + 'mobile'}}">Mobile</label>
+                              <input class="form-control"  id="{{myShortName + 'mobile'}}" type="text"  ng-model="user.mobile" placeholder="Mobile"/>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="{{myShortName + 'email'}}" class="col-form-label">Email*</label>
+                              <input  id="{{myShortName + 'email'}}" type="email" class="form-control"  ng-model="user.email" placeholder="Email"  required/>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label  class="col-form-label">Permission Category</label>
+                              <select class="form-control" ng-model="user.permissionCategory">
+                                  <option value=""> NONE</option>
+                                  <option value="BACKOFFICE"> Back Office</option>
+                                  <option value="ORG_ADMIN"> Org Admin</option>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+
+             <!--     <div class="col-md-12 noPadding marginTopBottom">
+                      <div  class="form-group col-md-6">
+                          <label>Permission Category</label>
+                          <select class="col-md-6" ng-model="user.permissionCategory">
+                              <option value=""> NONE</option>
+                              <option value="BACKOFFICE"> Back Office</option>
+                              <option value="ORG_ADMIN"> Org Admin</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="form-row">
+                      <div  ng-include src="'es/attachment/partial_attachment.html'" ></div>
+                  </div>
+-->                    <div class="form-row" >
+                <!--      <div class="form-group col-lg-6 text-center">
+                          <button class="btn btn-primary" ng-click="openToLinkDocument('#new-user-ragistration')">Link Document</button>
+                          <button class="btn btn-primary" ng-click="openDocumentUpload('#new-user-ragistration')">Documents</button>
+                      </div>-->
+                  <div class="form-group col-lg-6">&nbsp;</div>
+                      <div class="form-group col-lg-6 text-right">
+                          <button class="btn btn-primary" ng-click="saveNewUser()" id="{{myShortName + 'register'}}"ng-hide="popUpMode==='UPDATE'">Save</button>
+                          <button class="btn btn-primary" ng-click="saveUpdatedUser()" id="{{myShortName + 'uregister'}}" ng-show="popUpMode==='UPDATE'">Update</button>
+                          <button class="btn btn-primary" id="{{myShortName + 'exit'}}" ng-click="removePopup()" >Close</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<script>
+  /*Model Js Start*/
+  $(".modal").draggable({
+    handle: ".modal-header"
+  });
+  /*Model Js End*/
+</script>

@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ClaimRoutingModule } from './claim-service/claim-routing.module';
 import { CoreModule } from './core/core.module';
 import { ClaimServiceModule } from './claim-service/claim-service.module';
+import { ErpModule } from './erp/erp.module';
+import { ModelModule } from './model/model.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -23,7 +25,9 @@ import { ClaimServiceModule } from './claim-service/claim-service.module';
     ClaimRoutingModule,
     AuthModule,
     ClaimServiceModule,
-    CoreModule
+    CoreModule,
+    ErpModule,
+    ModelModule
   ],
   providers: [
     Location,

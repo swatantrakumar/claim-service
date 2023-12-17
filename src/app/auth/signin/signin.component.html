@@ -14,7 +14,20 @@
               <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Sign In</h4>
           </div>
 
+
           <form [formGroup]="loginForm">
+                <div class="row  pt-2 pb-2">
+                  <div class="col-lg-12 text-center">
+                      <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="MCLMN" formControlName="type" class="custom-control-input" value="MCLMN" >
+                          <label class="custom-control-label font-18" for="MCLMN">My Claim</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="ERP" formControlName="type" class="custom-control-input" value="MCRL">
+                          <label class="custom-control-label font-18" for="ERP">ERP</label>
+                      </div>
+                  </div>
+              </div>
               <div class="form-group">
                   <label for="log-emailaddress">Email address</label>
                   <input class="form-control" type="email" formControlName="userId"  placeholder="Enter your email">
