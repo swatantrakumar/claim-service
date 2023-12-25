@@ -17,6 +17,7 @@ export class DataShareService {
   setStaticData(responce:any){
     this.staticData.next(responce)
   }
+
   //End For App
 
 

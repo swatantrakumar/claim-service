@@ -1,0 +1,60 @@
+
+<table class="table table-bordered table-centered mb-0 mt-2" >
+  <thead class="thead-light text-center">
+  <tr>
+      <th colspan="2">Signature of financial creditor or person authorised to act on his
+          behalf
+          <br>
+          [Please enclose the authority if this is being submitted on behalf of the financial
+          creditor]
+      </th>
+  </tr>
+  </thead>
+  <tr>
+      <td class="text-left w-25" >Name in BLOCK LETTERS</td>
+      <td >
+          <input type="text" class="text-uppercase form-control" ng-model="claim_form.claimRep" ng-blur="saveClaimForm()">
+      </td>
+  </tr>
+  <tr>
+      <td class="text-left w-25" >Position with or in relation to creditor
+      </td>
+      <td >
+              <input type="text" class="form-control" ng-model="claim_form.relation" ng-blur="saveClaimForm()">
+      </td>
+  </tr>
+  <tr>
+      <td class="text-left w-25" >Address of person signing</td>
+      <td >
+              <input type="text" class="form-control" ng-model="claim_form.claimRepAddress" ng-blur="saveClaimForm()">
+      </td>
+  </tr>
+
+</table>
+
+<div >
+<p>*PAN, Passport, AADHAAR Card or the identity card issued by the Election Commission of
+  India.</p>
+</div>
+
+<div class="form-row">
+<div class="form-group col-lg-12  text-center">
+  <button type="button" class="btn btn-outline-primary btn-rounded" ng-click="showMyClaimForms()">Exit</button>
+  <button type="button" class="btn btn-outline-primary btn-rounded" ng-click="goNextPage()">Save & Next</button>
+  </div>
+</div>
+
+<!-- <div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">
+<div class="col-md-4">&nbsp;</div>
+<div class="col-md-2">
+  <button type="button" class="btn-fun" ng-click="showMyClaimForms()">Previous</button>
+</div>
+<div class="col-md-2">
+  <button type="button" class="btn-fun" ng-click="goNextPage()">Save & Next</button>
+</div>
+<div class="col-md-4">&nbsp;</div>
+</div>
+<div class="col-md-12">&nbsp;</div>
+</div>
+<div class="col-md-12">&nbsp;</div> -->

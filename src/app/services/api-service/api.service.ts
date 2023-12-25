@@ -32,6 +32,20 @@ constructor(
       }
     )
   }
+  getClaimStaticDataFromCase(payload:any){
+    let api = this.envService.getAuthApi('GET_CLAIM_STATIC_DATA_FROM_CASE');
+    this.http.get(api+'/'+payload._id).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          console.log(respData);
+          //this.dataShareService.setClaimStaticData(respData);
+        }
+      },
+      (error)=>{
+
+      }
+    )
+  }
   getStaticData(payload:any){
     let api = this.envService.getAuthApi('GET_STATIC_DATA');
     this.http.post(api+'/'+payload.path,payload.data).subscribe(

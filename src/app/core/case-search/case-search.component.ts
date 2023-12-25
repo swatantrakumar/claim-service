@@ -46,12 +46,19 @@ export class CaseSearchComponent implements OnInit {
     }
   }
   getClaimDataFormCaseId(id:string){
+    this.getClaimStaticDataForTheCase(id);
     let log = this.storageService.getUserLog();
     let payload = {
       _id : id,
       data: {log:log}
     }
     this.apiServie.getClaimData(payload);
+  }
+  getClaimStaticDataForTheCase(id:string){
+    let payload = {
+      _id : id
+    }
+    this.apiServie.getClaimStaticDataFromCase(payload);
   }
 
 }
