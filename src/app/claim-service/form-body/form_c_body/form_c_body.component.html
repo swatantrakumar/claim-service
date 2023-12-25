@@ -1,0 +1,247 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-centered mb-0">
+      <thead class="thead-light text-center">
+      <tr>
+          <th colspan="3"> Relevant Particulars
+          </th>
+      </tr>
+      </thead>
+      <tr>
+          <td scope="col">1</td>
+          <td class="text-left w-25"> Name of the financial creditor</td>
+          <td scope="col" class="text-left">
+              <div *ngFor="let claimant of claim_form.creditors track by $index">
+                  {{claimant.name}}
+              </div>
+          </td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td class="text-left"> Identification number of the financial creditor <br>
+              (If an incorporated body, provide identification number and proof of incorporation. If a
+              partnership or
+              individual provide identification records* of all the partners or the individual)
+
+          </td>
+          <td>
+              <div class="row">
+                  <div class="col-md-10" ng-show="showIdDetails">
+                      <div ng-include
+                           src="'es/onlineClaimsForm/common_partial/partial_idDetailsWithOutCin.html'"></div>
+                  </div>
+                  <div class="col-md-10" ng-show="showCinDetails">
+                      <div ng-include src="'es/onlineClaimsForm/common_partial/partial_idDetailsWithCin.html'"></div>
+                  </div>
+                  <div class="col-md-2">
+                      <button type="button" class="btn btn-outline-primary btn-rounded"
+                              ng-click="idVerificationWindow()">Add/Update
+                      </button>
+                  </div>
+              </div>
+          </td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td class="text-left">Address and email address of the financial creditor for
+              correspondence
+          </td>
+          <td class="text-left">
+              <div ng-include src="'es/onlineClaimsForm/common_partial/partial_addressInformation.html'"></div>
+
+          </td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td class="text-left">Total amount of claim
+              (including any interest as at the insolvency commencement date)
+          </td>
+          <td>
+              <div class="row">
+                  <div class="col-md-10 marginTopBottom" ng-show="claimModeByClass">
+                      <div ng-include
+                           src="'es/onlineClaimsForm/common_partial/partial_claimAmountWithUnitDetails.html'"></div>
+
+                  </div>
+                  <!--Banks Table-->
+                  <div class="col-md-10 marginTopBottom" ng-show="claimModeByBank">
+                      <div ng-include
+                           src="'es/onlineClaimsForm/common_partial/partial_claimAmountWithBank_nbfc.html'"></div>
+
+                  </div>
+
+
+                  <div class="col-md-2 marginTopBottom">
+                      <button type="button" class="btn btn-outline-primary btn-rounded" ng-click="claimModelPopUp()">
+                          Add/Update
+                      </button>
+                  </div>
+              </div>
+          </td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td class="text-left"> Details of documents by reference to which the debt can be
+              substantiated
+          </td>
+          <td ng-if="activecase.caseType == null">
+              <div>
+
+                  <div class="form-group row">
+                      <div class="col-lg-3 " *ngFor="let doc of claim_form.docList track by $index">
+                          <img class="pointer" src="img/cross.png" style="width:15px"
+                               ng-click="deleteDocument(doc,$index)">
+                          <a ng-click="downloadFile(doc)" class="pointer textAlignLeft"
+                             disabled>{{doc.rollName}}</a>
+                          <!--<button style="background: transparent;position: absolute;right: 2px;top: 0px;height: 17px;width: 4px;font-size: x-small;border: none;" ng-click="removeDoc(doc,index)">x</button>-->
+                      </div>
+                  </div>
+                  <!-- <div class="col-md-12" style="padding-top: 30px;margin-left: -3px;">
+                      <input class="col-md-10" type="file" multiple="multiple"
+                             onchange="angular.element(this).scope().setFiles(event,'docs')">
+                      <button class="col-md-2 btn-fun" ng-click="uploadFile('docs')">
+                          <img style="width: 20px !important;height: 20px !important;"
+                               src="img/upload.png">
+                      </button>
+                  </div> -->
+                  <div class="form-group">
+
+                      <div class="input-group">
+                          <div class="custom-file col-lg-10">
+                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04"
+                                     onchange="angular.element(this).scope().setFiles(event,'docs','')">
+                              <label class="custom-file-label" for="inputGroupFile04">{{getSelectedFilenameForUpload()}}</label>
+                          </div>
+                          <div class="col-lg-2 col-2">
+                              <button type="button" ng-click="uploadFile('docs')" class="btn btn-primary"><i
+                                      class="dripicons-upload"></i></button>
+                          </div>
+                      </div>
+
+                  </div>
+                  <!-- <div ng-show="wait" class="col-md-10" id="print" ng-include align="center" src="'es/popUp/waitPopUp.html'" style="position: absolute !important; z-index: 999"></div> -->
+
+              </div>
+          </td>
+      </tr>
+
+
+      <tr ng-if="selectedForm=='Banks' && activecase.caseType && activecase.caseType == 'Home Buyers'" *ngFor="let item of list_of_files_to_attach_for_banks | keyvalue ;let i=index "  ng-repeat="(key, value) in list_of_files_to_attach_for_banks track by $index">
+          <td>{{alphabates[i]}}</td>
+          <td class="text-left">{{item.value}}
+          </td>
+          <td>
+              <div>
+
+                  <div class="form-group row">
+                      <div class="col-lg-3 " *ngFor="let doc of claim_form.formAttachments[item.key];let i=index"  >
+                          <img class="pointer" src="img/cross.png" style="width:15px"
+                               ng-click="deleteDocument(doc,$index,key)">
+                          <a ng-click="downloadFile(doc)" class="pointer textAlignLeft" style="font-size: 70%;"
+                             disabled>{{doc.rollName}}</a>
+                      </div>
+                  </div>
+                  <div class="form-group">
+
+                      <div class="input-group">
+                          <div class="custom-file col-lg-10">
+                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04_{{i}}"
+                                     onchange="angular.element(this).scope().setFiles(event,'docs')">
+                              <label class="custom-file-label" for="inputGroupFile04_{{i}}">{{getSelectedFilenameForUploadcustom(i)}}</label>
+                          </div>
+                          <div class="col-lg-2 col-2">
+                              <button type="button" ng-click="uploadFile('docs', key)" class="btn btn-primary"><i
+                                      class="dripicons-upload"></i></button>
+                          </div>
+                      </div>
+
+                  </div>
+                  <div ng-if="$index == 1">
+                      <p>(PAN, Adhaar, etc)</p>
+                  </div>
+
+              </div>
+          </td>
+      </tr>
+
+
+      <tr>
+          <td>6</td>
+          <td class="text-left"> Details of how and when debt incurred</td>
+          <td>
+                              <textarea class="form-control w-100" ng-model="claim_form.debtDetails"
+                                        ng-blur="saveClaimForm()"
+                              ></textarea>
+          </td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td class="text-left">Details of any mutual credit, mutual debts, or other mutual
+              dealings
+              between the corporate debtor and the
+              creditor which may be set-off against the claim
+          </td>
+          <td>
+          <textarea class="form-control w-100" ng-model="claim_form.mutualDealing" ng-blur="saveClaimForm()"
+          ></textarea>
+          </td>
+      </tr>
+      <tr>
+          <td>8</td>
+          <td class="text-left">Details of any security held, the value of the security, and the
+              date
+              it was given
+          </td>
+          <td>
+              <div class="row">
+                  <div class="col-md-10">
+                      <div ng-include src="'es/onlineClaimsForm/common_partial/partial_securityDetails.html'"></div>
+
+                  </div>
+                  <div class="col-md-2">
+                      <button type="button" class="btn btn-outline-primary btn-rounded"
+                              ng-click="onlineClaimFormPopUp('securityDetails')">Add/Update
+                      </button>
+                  </div>
+              </div>
+          </td>
+      </tr>
+      <tr>
+          <td>9</td>
+          <td class="text-left"> Details of the bank account to which the amount of the claim or
+              any
+              part thereof can be transferred
+              pursuant to a resolution plan
+          </td>
+          <td>
+              <div class="row">
+                  <div class="col-md-10 ">
+                      <div ng-include src="'es/onlineClaimsForm/common_partial/partial_bankDetails.html'"></div>
+
+                  </div>
+                  <div class="col-md-2">
+                      <button type="button" class="btn btn-outline-primary btn-rounded"
+                              ng-click="onlineBankAccount()">
+                          Add/Update
+                      </button>
+                  </div>
+              </div>
+          </td>
+      </tr>
+      <tr>
+          <td>10</td>
+          <td class="text-left">List of documents attached to this claim in order to prove the
+              existence and non-payment of claim due to the
+              financial creditor
+          </td>
+          <td>
+              <div class="form-group row">
+                  <div class="col-md-3 textAlignLeft" *ngFor="let doc of claim_form.docList;let i=index"  style="position:relative;">
+                      <a ng-click="downloadFile(doc)" class="pointer textAlignLeft"
+                         style="overflow: hidden;background: transparent;border: none;" disabled>{{doc.rollName}}</a>
+                  </div>
+              </div>
+          </td>
+      </tr>
+
+  </table>
+</div>

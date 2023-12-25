@@ -1,0 +1,45 @@
+<div class="list-group mt-1">
+  <div class="font-weight-bold">To</div>
+  <div> The Interim Resolution Professional / Resolution Professional,</div>
+  <div class="font-weight-bold" > {{claim_form.irpName}},</div>
+  <div ng-if="claim_form.irpAddress!=null">
+          {{claim_form.irpAddress.address}}, {{claim_form.irpAddress.city}}, {{claim_form.irpAddress.state}}, {{claim_form.irpAddress.country}}, {{claim_form.irpAddress.pinCode}}
+  </div >
+  <div class="font-weight-bold">Subject: Submission of claim and proof of claim.</div>
+  <div><p>Madam/Sir,</p></div>
+  <div class="mb-1"><b>{{claim_form.primaryClaimant.name}}</b>, hereby submits this claim in respect of the corporate
+      insolvency
+      resolution process of <b>{{claim_form.respName}}</b>. The details for the same are set out
+      below:
+  </div>
+</div>
+
+
+<!-- <div class="col-md-12">
+  <div class="col-md-12 "><b>To</b></div>
+  <div class="col-md-12 marginTopBottom">
+      <div class="col-md-4">
+          The Interim Resolution Professional / Resolution Professional,
+      </div>
+  </div>
+  <div class="col-md-12 marginTopBottom">
+      <div class="col-md-12"><b>
+          {{claim_form.irpName}},
+          {{claim_form.irpAddress.address}}, {{claim_form.irpAddress.city}}, {{claim_form.irpAddress.state}}, {{claim_form.irpAddress.country}}, {{claim_form.irpAddress.pinCode}}
+      </b>
+      </div>
+  </div>
+  <div class="col-md-12 marginTopBottom">
+      <b>Subject: Submission of claim and proof of claim.</b>
+  </div>
+
+  <div class="col-md-12 marginTopBottom">
+      <p>Madam/Sir, </p>
+  </div>
+  <div class="col-md-12 marginTopBottom" style="padding-left: 13px !important;">
+      <b>{{claim_form.primaryClaimant.name}}</b>, submits this claim in respect of the corporate
+      insolvency
+      resolution process of <b>{{claim_form.respName}}</b>. The details for the same are set out
+      below:
+  </div>
+</div> -->

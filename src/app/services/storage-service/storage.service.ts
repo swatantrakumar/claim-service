@@ -219,4 +219,12 @@ export class StorageService {
   getProjectModule(){
     return localStorage.getItem(this.PROJECT_MODULE);
   }
+  get_authorised_persons(){
+    let activeCase = this.GetActiveCase();
+    if(activeCase && activeCase.authorised_person){
+      return activeCase.authorised_person;
+    }else{
+      return [];
+    }
+  }
 }
