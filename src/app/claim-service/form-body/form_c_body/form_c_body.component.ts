@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { StorageService } from 'src/app/services/storage-service/storage.service';
 
 @Component({
   selector: 'app-form_c_body',
@@ -7,6 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class Form_c_bodyComponent implements OnInit {
   @Input() claim_form:any
+  @Input()
+  showIdDetails!: boolean;
+  @Input() showCinDetails!:boolean;
+  @Input() claimModeByClass:any;
+  @Input() claimModeByBank:any;
+  @Input() selectedForm:any;
+  activecase:any;
 
   list_of_files_to_attach_for_banks = {
       claim_form:'Claim Form',
@@ -19,7 +27,11 @@ export class Form_c_bodyComponent implements OnInit {
       other:'Other'
   }
   alphabates = 'abcdefghijklmnopqrstuvwxyz';
-  constructor() { }
+  constructor(
+    private storageService:StorageService
+  ) {
+    this.activecase = this.storageService.GetActiveCase();
+   }
 
   ngOnInit() {
   }
@@ -30,5 +42,29 @@ export class Form_c_bodyComponent implements OnInit {
   getSelectedFilenameForUploadcustom(index:any){
 
   }
+  idVerificationWindow(){
 
+  }
+  claimModelPopUp(){
+
+  }
+
+  deleteDocument(doc:any,index:any,key?:any){
+
+  }
+  downloadFile(doc:any){
+
+  }
+  uploadFile(type:any,key?:any){
+
+  }
+  saveClaimForm(){
+
+  }
+  onlineClaimFormPopUp(type:any){
+
+  }
+  onlineBankAccount(){
+
+  }
 }

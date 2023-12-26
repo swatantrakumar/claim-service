@@ -7,6 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class Form_cComponent implements OnInit {
   @Input() claim_form:any;
+  @Input()
+  showIdDetails!: boolean;
+  @Input() showCinDetails:any;
+  @Input() claimModeByClass:any;
+  @Input() claimModeByBank:any;
+  @Input() showDeclaration:any;
+  @Input() showVerification:any;
 
   constructor() { }
 
