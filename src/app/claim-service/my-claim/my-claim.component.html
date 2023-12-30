@@ -77,7 +77,7 @@
 </div>
 <div class="row">
   <div class="col-md-12 " *ngIf="popUpWindow==='C' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_c.html' ">
-    <app-form_c [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [showDeclaration]="showDeclaration" [showVerification]="showVerification"></app-form_c>
+    <app-form_c [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm"></app-form_c>
   </div>
   <div class="col-md-12 " *ngIf="popUpWindow==='D' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_d.html' ">
     <p>form D</p>

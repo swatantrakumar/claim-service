@@ -9,7 +9,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr>
+  <tr *ngIf="claim_form.bankAccount" >
       <td>{{claim_form.bankAccount.partyName}}</td>
       <td>{{claim_form.bankAccount.bankName}}</td>
       <td>{{claim_form.bankAccount.accountNumber}}</td>

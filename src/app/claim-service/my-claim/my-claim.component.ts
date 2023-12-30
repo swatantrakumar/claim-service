@@ -5,6 +5,7 @@ import { DataShareService } from '../../services/data-share-service/data-share.s
 import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { AuthDataShareService } from 'src/app/services/data-share-service/auth-data-share/auth-data-share.service';
+import { ApiService } from 'src/app/services/api-service/api.service';
 
 @Component({
   selector: 'lib-my-claim',
@@ -19,7 +20,7 @@ export class MyClaimComponent implements OnInit {
   CATEGORY_SELECTION:boolean=false;
   OnlineFormGrid:boolean=true;
   formSelection:any='';
-  selectedForm:any='';
+  selectedForm:string='';
   subSourceList:any=[];
   popUpWindow="NONE";
   hideDropDown:boolean=true;
@@ -63,13 +64,17 @@ export class MyClaimComponent implements OnInit {
   constructor(
     private dataShareService:DataShareService,
     private storageService:StorageService,
-    private authDataShareService:AuthDataShareService
+    private authDataShareService:AuthDataShareService,
+    private apiService:ApiService
   ) {
     this.claimDataSubscription = this.dataShareService.claimData.subscribe(data =>{
       this.setClaimData(data)
     })
     this.authDataShareService.activeCaseId.subscribe(id=>{
       this.showMyClaimForms();
+    })
+    this.dataShareService.claimBlankForm.subscribe(data =>{
+      this.setClaimBlankForm(data);
     })
    }
 
@@ -204,7 +209,7 @@ export class MyClaimComponent implements OnInit {
             // this.finCreditor.ownership=100;
     }
     if(!editClaim){
-        //this.getNewBlankForm();
+        this.getNewBlankForm();
       }
 
       this.claim_form.formName=this.popUpWindow;
@@ -213,6 +218,19 @@ export class MyClaimComponent implements OnInit {
       this.showVerification=false;
       this.hideDropDown=false;
       this.CATEGORY_SELECTION=false;
+  }
+  getNewBlankForm(){
+    let payload = {
+      path:this.storageService.GetActiveCaseId(),
+      data : {log:this.storageService.getUserLog()}
+    }
+    this.apiService.getNewClaimForm(payload);
+  }
+  setClaimBlankForm(data:any){
+    this.claim_form = data;
+    this.claim_form.catClass=this.selectedForm;
+    this.claim_form.category=this.formSelection;
+    this.claim_form.formName=this.popUpWindow;
   }
    editClaimForm(){
 

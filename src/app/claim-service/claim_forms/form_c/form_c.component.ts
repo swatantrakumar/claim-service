@@ -7,13 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class Form_cComponent implements OnInit {
   @Input() claim_form:any;
-  @Input()
-  showIdDetails!: boolean;
-  @Input() showCinDetails:any;
-  @Input() claimModeByClass:any;
-  @Input() claimModeByBank:any;
-  @Input() showDeclaration:any;
-  @Input() showVerification:any;
+  @Input() showIdDetails: boolean = false;
+  @Input() showCinDetails: boolean = false;
+  @Input() claimModeByClass: boolean = false;
+  @Input() claimModeByBank: boolean = false;
+  @Input() showDeclaration: boolean = false;
+  @Input() showVerification: boolean = false;
+  @Input() selectedForm:string='';
 
   constructor() { }
 

@@ -106,14 +106,14 @@
       </tr>
 
 
-      <tr [ngClass]="selectedForm=='Banks' && activecase.caseType && activecase.caseType == 'Home Buyers' ? '':'d-none'" *ngFor="let item of list_of_files_to_attach_for_banks | keyvalue ;let i=index "  >
+      <tr [ngClass]="selectedForm=='Banks' && activecase.caseType && activecase.caseType == 'Home Buyers' ? '':'d-none'" *ngFor="let item of list_of_files_to_attach_for_banks | keyvalue:onCompare ;let i=index "  >
           <td>{{alphabates[i]}}</td>
           <td class="text-left">{{item.value}}
           </td>
           <td>
               <div>
 
-                  <div class="form-group row">
+                  <div class="form-group row" *ngIf="claim_form.formAttachments && claim_form.formAttachments[item.key]" >
                       <div class="col-lg-3 " *ngFor="let doc of claim_form.formAttachments[item.key];let i=index"  >
                           <img class="pointer" src="img/cross.png" style="width:15px" (click)="deleteDocument(doc,i,item.key)">
                           <a (click)="downloadFile(doc)" class="pointer textAlignLeft" style="font-size: 70%;" disabled>{{doc.rollName}}</a>
@@ -122,8 +122,7 @@
                   <div class="form-group">
                       <div class="input-group">
                           <div class="custom-file col-lg-10">
-                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04_{{i}}"
-                                     onchange="angular.element(this).scope().setFiles(event,'docs')">
+                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04_{{i}}" onclick="this.value = null" (change)="setFiles($event,'docs')">
                               <label class="custom-file-label" for="inputGroupFile04_{{i}}">{{getSelectedFilenameForUploadcustom(i)}}</label>
                           </div>
                           <div class="col-lg-2 col-2">
