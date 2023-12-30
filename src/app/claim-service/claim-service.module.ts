@@ -20,6 +20,7 @@ import { SecurityDetailsComponent } from './common/securityDetails/securityDetai
 import { BankDetailsComponent } from './common/bankDetails/bankDetails.component';
 import { DeclarationComponent } from './claim_header_footer/declaration/declaration.component';
 import { VerificationComponent } from './claim_header_footer/verification/verification.component';
+import { ModelModule } from '../model/model.module';
 
 const components = [
   ClaimServiceComponent,
@@ -46,7 +47,8 @@ const components = [
     CommonModule,
     CoreModule,
     FormsModule,
-    AgGridModule
+    AgGridModule,
+    ModelModule
   ],
   declarations: components
 })

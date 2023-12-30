@@ -1,0 +1,83 @@
+<div  #creditorModel class="modal fade" id="open-creditor-details" tabindex="-1" role="dialog"
+aria-labelledby="scrollableModalTitle" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+  <div class="modal-dialog modal-full-width">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="creditorDetails">Creditor Details</h4>
+        </div >
+        <div class="modal-body">
+            <div class="table-responsive">
+            <table class="table table-bordered table-centered mb-0">
+                <thead class="thead-light ">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Pin Code</th>
+
+                    <th ng-if="selectedForm=='Home Buyers' || selectedForm=='Home Buyers(Authorised Rep)'
+                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' ">Ownership%</th>
+                    <th></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="text" class="w-100 form-control" id="{{myShortName}}finc_name" ng-model="finCreditor.name"></td>
+                    <td><input type="text" id="{{myShortName}}finc_email" ng-blur="isEmailExistedInDb(finCreditor.email)" ng-model="finCreditor.email" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_phone" ng-model="finCreditor.phone" class="w-100 form-control">
+                    </td>
+                    <td><input type="text" id="{{myShortName}}finc_address" ng-model="finCreditor.address" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_city" ng-model="finCreditor.city" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_state" ng-model="finCreditor.state" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_country" ng-model="finCreditor.country" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_pinCode" ng-model="finCreditor.pinCode" class="w-100 form-control"></td>
+                    <td ng-if="selectedForm=='Home Buyers' || selectedForm=='Home Buyers(Authorised Rep)'
+                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' "><input type="text" id="{{myShortName}}finc_ownership" ng-model="finCreditor.ownership"
+                        class="w-100 form-control"></td>
+                    <td class="text-center">
+                        <button  type="button" class="btn btn-primary" ng-click="addCreditorDetails()">
+                            +
+                        </button>
+
+                    </td>
+                </tr>
+                <tr *ngfor="let detail of CreditorDetails;let i=index">
+                    <td>{{detail.name}}</td>
+                    <td>{{detail.email}}</td>
+                    <td>{{detail.phone}}</td>
+                    <td>{{detail.address.address}}</td>
+                    <td>{{detail.address.city}}</td>
+                    <td>{{detail.address.state}}</td>
+                    <td>{{detail.address.country}}</td>
+                    <td>{{detail.address.pinCode}}</td>
+                    <td ng-if="selectedForm=='Home Buyers' || selectedForm=='Home Buyers(Authorised Rep)'
+                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' ">{{detail.ownership}}</td>
+                    <td >
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-primary" ng-click="editDetails('creditor',$index)"><img src="img/edit.png" style="width:15px"></button>
+                                    <button type="button" class="btn btn-primary" ng-click="deleteCreditorDetails($index)"><img src="img/cross.png" style="width:15px"></button>
+
+                            </div>
+                            <!-- <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-primary" ng-click="deleteCreditorDetails($index)"><img src="img/cross.png" style="width:15px"></button>
+                            </div> -->
+
+                        </td>
+                    <!-- <td style="width:5%" ng-click="deleteCreditorDetails($index)"><img src="img/cross.png" style="width:15px"></td> -->
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="saveCreditorDetails()">Save</button>
+                <button type="button" class="btn btn-primary" (click)="closeModal()">Cancel</button>
+            </div>
+    </div>
+  </div>
+</div>
