@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 export class DataShareService {
   claimData:Subject<any> = new Subject();
   staticData:Subject<any> = new Subject();
+  claimBlankForm:Subject<any> = new Subject();
 
   constructor() { }
 
@@ -16,6 +17,9 @@ export class DataShareService {
   }
   setStaticData(responce:any){
     this.staticData.next(responce)
+  }
+  setClaimNewForm(responce:any){
+    this.claimBlankForm.next(responce)
   }
 
   //End For App

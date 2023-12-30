@@ -1,0 +1,96 @@
+<div class="list-group mb-2 mt-2 ">
+  <div class="font-weight-bold text-center"><u>VERIFICATION</u></div>
+  <div> I,&nbsp;<span *ngFor="let claimant of claim_form.creditors;let i=index"><b>{{claimant.name}},&nbsp;</b></span>
+      the claimant here in above, do hereby verify that the contents of this proof of claim are true and correct to my knowledge and belief and no material fact has been concealed therefrom.
+  </div>
+  <div>
+            Verified this at {{claim_form.place}} on {{claim_form.formDate | date:'dd-MMM-yyyy'}}
+   </div>
+</div>
+<!-- <form class="form-horizontal">
+<div class="form-group row mb-0 ">
+  <div class="col-lg-10"></div>
+  <div class="col-lg-2 form-group mb-0">
+      <img class="thumb" style="height: 28px;width: 97px;margin-left: -13px;" ng-src="{{claim_form.signature}}" ng-model="claim_form.signature"/> </br>
+
+      <label style="margin-left:-29px;border: 2px solid gray;color: gray;background-color: white;padding: 1px 15px;border-radius: 8px;font-size: 12px; font-weight: bold;">
+          Signature
+          <input type="file" size="60" style="display:none"
+                 onchange="angular.element(this).scope().signatureFileUpload(event)"  multiple>
+      </label>
+  </div>
+</div>
+</form> -->
+<div class="text-right mr-5">(Signature of claimant)</div>
+<div class="row">
+      [Note: In the case of company or limited liability partnership, the declaration and verification
+      shall be made by the director/manager/secretary/designated partner and in the case of other
+      entities, an officer authorised for the purpose by the entity.]
+</div>
+<div class="form-row">
+      <div class="form-group col-lg-12  text-center">
+          <button type="button" class="btn btn-outline-primary btn-rounded" (click)="showMyClaimForms()">Exit</button>
+          <button type="button" class="btn btn-outline-primary btn-rounded" (click)="goPreviousPge()">Previous</button>
+          <button type="button" class="btn btn-outline-primary btn-rounded" (click)="previewFormWindow(claim_form)">Preview</button>
+
+      </div>
+</div>
+
+
+<!-- <div class="col-md-12">&nbsp;</div>
+<h6 align="center"><u><b>VERIFICATION</b></u></h6>
+<div class="col-md-12 marginTopBottom">
+I,<b>{{claim_form.primaryClaimant.name}}</b>
+the claimant here in above, do hereby verify that the contents of this proof of claim are true and correct to my knowledge and belief and no material fact has been concealed therefrom.
+
+</div>
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">
+<div class="col-md-8 marginTopBottom">
+  Verified this at {{claim_form.place}} on {{claim_form.formDate | date:'dd-MMM-yyyy'}}
+</div>
+</div>
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">
+<div class="col-md-9">&nbsp;</div>
+<div class="col-md-3" style="padding-left: 27px !important;">
+      <div class="col-md-12" style="padding-left: 27px !important;">
+      <div class="col-md-12">
+          <img class="thumb" style="margin-left: 41px;" ng-src="{{claim_form.signature}}" ng-model="claim_form.signature"/>
+      </div>
+      <br>
+      <label style="margin-left: 33px;border: 2px solid gray;color: gray;background-color: white;padding: 1px 15px;border-radius: 8px;font-size: 12px; font-weight: bold;">Upload Signature
+          <input type="file" size="60" style="display:none" onchange="angular.element(this).scope().signatureFileUpload(event)">
+      </label>
+  </div>
+</div>
+</div>
+<div class="col-md-12">
+<div class="col-md-10">&nbsp;</div>
+<div class="col-md-2">
+  (Signature of claimant)
+</div>
+</div>
+<div class="col-md-12">
+[Note: In the case of company or limited liability partnership, the declaration and verification
+shall be made by the director/manager/secretary/designated partner and in the case of other
+entities, an officer authorised for the purpose by the entity.]</p>
+</div>
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">
+<div class="col-md-4">&nbsp;</div>
+
+<div class="col-md-2">
+  <button type="button" class="btn-fun" ng-click="goPreviousPge()">Previous</button>
+</div>
+
+<div class="col-md-2">
+  <button type="button" class="btn-fun" ng-click="previewFormWindow()">Preview</button>
+</div>
+
+<div class="col-md-2">&nbsp;</div>
+</div>
+
+<div class="col-md-12">&nbsp;</div> -->

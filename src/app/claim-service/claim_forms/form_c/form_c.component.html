@@ -14,18 +14,22 @@
           <div>
             <app-form_header [claim_form]="claim_form"></app-form_header>
           </div>
-          <div ng-include src="'es/onlineClaimsForm/formBody/partial_body_form_c.html'">
-            <app-form_c_body [claim_form]="claim_form"></app-form_c_body>
+          <div>
+            <app-form_c_body [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [selectedForm]="selectedForm"></app-form_c_body>
           </div>
           <div>
             <app-form_footer></app-form_footer>
           </div>
       </div>
-      <div class="col-md-12" ng-show="showDeclaration" >
-          <div ng-include src="'es/onlineClaimsForm/header_footer/partial_declaration.html'"></div>
+      <div class="col-md-12" *ngIf="showDeclaration" >
+          <div>
+            <app-declaration [claim_form]="claim_form"></app-declaration>
+          </div>
       </div>
-      <div class="col-md-12" ng-show="showVerification" >
-          <div ng-include src="'es/onlineClaimsForm/header_footer/partial_verification.html'"></div>
+      <div class="col-md-12" *ngIf="showVerification" >
+          <div>
+            <app-verification [claim_form]="claim_form"></app-verification>
+          </div>
       </div>
       <div class="col-md-12">&nbsp;</div>
 

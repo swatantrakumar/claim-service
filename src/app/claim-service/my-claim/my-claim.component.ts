@@ -5,6 +5,7 @@ import { DataShareService } from '../../services/data-share-service/data-share.s
 import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { AuthDataShareService } from 'src/app/services/data-share-service/auth-data-share/auth-data-share.service';
+import { ApiService } from 'src/app/services/api-service/api.service';
 
 @Component({
   selector: 'lib-my-claim',
@@ -19,10 +20,16 @@ export class MyClaimComponent implements OnInit {
   CATEGORY_SELECTION:boolean=false;
   OnlineFormGrid:boolean=true;
   formSelection:any='';
-  selectedForm:any='';
+  selectedForm:string='';
   subSourceList:any=[];
   popUpWindow="NONE";
   hideDropDown:boolean=true;
+  showIdDetails:boolean=false;
+  showCinDetails:boolean=false;
+  claimModeByClass:boolean=false;
+  claimModeByBank:boolean=false;
+  showDeclaration:boolean=false;
+  showVerification:boolean=false;
 
   selectRowData:any={}
   claim_form:any={}
@@ -57,13 +64,17 @@ export class MyClaimComponent implements OnInit {
   constructor(
     private dataShareService:DataShareService,
     private storageService:StorageService,
-    private authDataShareService:AuthDataShareService
+    private authDataShareService:AuthDataShareService,
+    private apiService:ApiService
   ) {
     this.claimDataSubscription = this.dataShareService.claimData.subscribe(data =>{
       this.setClaimData(data)
     })
     this.authDataShareService.activeCaseId.subscribe(id=>{
       this.showMyClaimForms();
+    })
+    this.dataShareService.claimBlankForm.subscribe(data =>{
+      this.setClaimBlankForm(data);
     })
    }
 
@@ -77,6 +88,13 @@ export class MyClaimComponent implements OnInit {
     this.claim_form.authorised_person='';
     this.popUpWindow="NONE";
     this.hideDropDown=true;
+    this.showIdDetails=false;
+    this.showCinDetails=false;
+    this.claimModeByClass=false;
+    this.claimModeByBank=false;
+    this.showDeclaration=false;
+    this.showVerification=false;
+
 
   }
   activeSection(){
@@ -122,58 +140,58 @@ export class MyClaimComponent implements OnInit {
       //this.stepsModel ={};
       if( this.formSelection=='FC' && this.selectedForm=='Home Buyers' && this.activeTabName != 'REVIEWAPPROVAL'){
           this.popUpWindow="CA";
-            // this.showIdDetails=true;
-            // this.showCinDetails=false;
-            // this.claimModeByBank=false;
-            // this.claimModeByClass=true;
+          this.showIdDetails=true;
+          this.showCinDetails=false;
+          this.claimModeByBank=false;
+          this.claimModeByClass=true;
 
     }
     else if(this.formSelection=='FC' && this.selectedForm=='Home Buyers' && this.activeTabName == 'REVIEWAPPROVAL'){
         this.popUpWindow="CA_APPROVAL";
-        // this.showIdDetails=true;
-        // this.showCinDetails=false;
-        // this.claimModeByBank=false;
-        // this.claimModeByClass=true;
+        this.showIdDetails=true;
+        this.showCinDetails=false;
+        this.claimModeByBank=false;
+        this.claimModeByClass=true;
     }
     else if(this.formSelection=='FC' && this.selectedForm=='Commercial Buyer'){
           this.popUpWindow="CA";
-          // this.claimModeByBank=false;
-          // this.claimModeByClass=true;
-          // this.showIdDetails=true;
-          // this.showCinDetails=false;
+          this.claimModeByBank=false;
+          this.claimModeByClass=true;
+          this.showIdDetails=true;
+          this.showCinDetails=false;
           // this.finCreditor.ownership=100;
     }else if( this.formSelection=='FC' && this.selectedForm=='Home Buyers(Authorised Rep)'){
           this.popUpWindow="CA";
-            // this.showIdDetails=true;
-            // this.showCinDetails=false;
+          this.showIdDetails=true;
+          this.showCinDetails=false;
     }else if(this.formSelection=='FC' && this.selectedForm=='Commercial Buyer(Authorised Rep)'){
           this.popUpWindow="CA";
-          // this.showIdDetails=true;
-          // this.showCinDetails=false;
+          this.showIdDetails=true;
+          this.showCinDetails=false;
           // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='Banks'){
           this.popUpWindow="C";
-            // this.showIdDetails=false;
-            // this.showCinDetails=true;
-            //   this.claimModeByBank=true;
-            //   this.claimModeByClass=false;
+          this.showIdDetails=false;
+          this.showCinDetails=true;
+              this.claimModeByBank=true;
+              this.claimModeByClass=false;
             //   this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='NBFC'){
           this.popUpWindow="C";
-            // this.showIdDetails=false;
-            // this.showCinDetails=true;
-            // this.claimModeByBank=true;
-            // this.claimModeByClass=false;
+          this.showIdDetails=false;
+          this.showCinDetails=true;
+            this.claimModeByBank=true;
+            this.claimModeByClass=false;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='Banks(Authorised Rep)'){
           this.popUpWindow="C";
-            // this.showIdDetails=false;
-            // this.showCinDetails=true;
+          this.showIdDetails=false;
+          this.showCinDetails=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='NBFC(Authorised Rep)'){
           this.popUpWindow="C";
-            // this.showIdDetails=false;
-            // this.showCinDetails=true;
+          this.showIdDetails=false;
+          this.showCinDetails=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='OC' && this.selectedForm=='Operational Creditor'){
           this.popUpWindow="B";
@@ -191,15 +209,28 @@ export class MyClaimComponent implements OnInit {
             // this.finCreditor.ownership=100;
     }
     if(!editClaim){
-        //this.getNewBlankForm();
+        this.getNewBlankForm();
       }
 
       this.claim_form.formName=this.popUpWindow;
       // this.showForm=true;
-      // this.showDeclaration=false;
-      // this.showVerification=false;
+      this.showDeclaration=false;
+      this.showVerification=false;
       this.hideDropDown=false;
       this.CATEGORY_SELECTION=false;
+  }
+  getNewBlankForm(){
+    let payload = {
+      path:this.storageService.GetActiveCaseId(),
+      data : {log:this.storageService.getUserLog()}
+    }
+    this.apiService.getNewClaimForm(payload);
+  }
+  setClaimBlankForm(data:any){
+    this.claim_form = data;
+    this.claim_form.catClass=this.selectedForm;
+    this.claim_form.category=this.formSelection;
+    this.claim_form.formName=this.popUpWindow;
   }
    editClaimForm(){
 

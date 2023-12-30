@@ -1,0 +1,35 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-centered mb-0">
+      <thead class="thead-light ">
+      <tr>
+          <th>Unit No</th>
+          <th>Area(in Sq. Feet)</th>
+          <th>Unit Type/Tower No</th>
+          <th>Amount(in Rs)</th>
+          <th>Tax</th>
+          <th>Interest(in Rs)</th>
+          <th>Total</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let mList of claim_form.claimAmountDetails;let i=index">
+          <td>{{mList.unitDetails.unit}}</td>
+          <td>{{mList.unitDetails.area}}</td>
+          <td>{{mList.unitDetails.type}}</td>
+          <td>{{mList.amount}}</td>
+          <td>{{mList.tax}}</td>
+          <td>{{mList.interest}}</td>
+          <td>{{mList.total}}</td>
+      </tr>
+      <tr>
+          <td colspan="3">Total</td>
+          <td><b>{{claim_form.amount | number:'1.2-2'}}</b></td>
+          <td><b>{{claim_form.tax | number:'1.2-2'}}</b></td>
+          <td><b>{{claim_form.interest | number:'1.2-2'}}</b></td>
+          <td><b>{{claim_form.total | number:'1.2-2'}}</b></td>
+
+      </tr>
+      </tbody>
+  </table>
+  </div>

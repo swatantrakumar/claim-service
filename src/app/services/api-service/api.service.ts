@@ -59,6 +59,19 @@ constructor(
       }
     )
   }
+  getNewClaimForm(payload:any){
+    let api = this.envService.getAuthApi('GET_CLAIM_NEW_FORM');
+    this.http.post(api+'/'+payload.path,payload.data).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          this.dataShareService.setClaimNewForm(respData);
+        }
+      },
+      (error)=>{
+
+      }
+    )
+  }
   //End For app functions
 
 

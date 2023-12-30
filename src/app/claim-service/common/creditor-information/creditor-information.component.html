@@ -5,7 +5,7 @@
       </button>
   </div>
   <div ng-show="creditDetails" class="row">
-      <div class="col-lg-3" *ngFor="let claimant of claim_form.creditors track by $index">
+      <div class="col-lg-3" *ngFor="let claimant of claim_form.creditors;let i=index">
           <div> {{claimant.name}}</div>
           <div > {{claimant.address.address}}, {{claimant.address.city}},</div>
           <div> {{claimant.address.state}}, {{claimant.address.country}}, {{claimant.address.pinCode}}</div>
