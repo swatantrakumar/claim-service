@@ -9,6 +9,8 @@ import { ModelService } from 'src/app/services/model/model.service';
 export class CreditorInformationComponent implements OnInit {
 
   @Input() claim_form:any;
+  @Input() selectedForm:string='';
+  creditDetails:boolean=false;
 
   constructor(
     private modelService:ModelService
@@ -20,5 +22,9 @@ export class CreditorInformationComponent implements OnInit {
   onlineClaimFormPopUp(id:string){
     this.modelService.open('creditModel',{})
   }
+  creditorDetails(responce:any){
+    this.creditDetails = responce;
+  }
+
 
 }

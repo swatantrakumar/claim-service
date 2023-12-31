@@ -88,7 +88,7 @@
     right: 0;
     top: 50px;
     opacity: 0;
-    transition: top .5s ease;    
+    transition: top .5s ease;
 }
 .search-active{
   opacity: 1!important;
@@ -129,7 +129,7 @@
     left: 181px;
     top: -9px;
     right: 0px;
-    z-index: 1001;
+    z-index: 990;
     max-block-size: 1px;
 
 }
@@ -215,5 +215,11 @@ display: block;
        opacity: 1;
        background: none 0% 0% / auto repeat scroll padding-box padding-box transparent;
        vertical-align: top;
+}
+.mat-button-wrapper{
+  color:white!important;
+}
+.mat-focus-indicator{
+  background-color: #000;
 }
 

@@ -72,6 +72,29 @@ constructor(
       }
     )
   }
+  checkEmailExist(payload:any){
+    let api = this.envService.getAuthApi('CHECK_EMAIL_EXISTS');
+    this.http.post(api,payload).subscribe(
+      (respData:any) =>{
+        let obj = {
+          status:false,
+          msg:''
+        }
+        if(respData.success && respData.success.length > 0){
+          obj.status = true;
+          obj.msg = 'Email is already used please use another';
+        }
+        this.dataShareService.shareCheckEmailExists(obj);
+      },
+      (error)=>{
+        let obj = {
+          status:false,
+          msg:'Error while fetch email details'
+        }
+        this.dataShareService.shareCheckEmailExists(obj);
+      }
+    )
+  }
   //End For app functions
 
 
