@@ -166,6 +166,14 @@ export class StorageService {
       return null;
     }
   }
+  getUserId(){
+    const user = JSON.parse(<any>localStorage.getItem(this.USER_KEY));
+    if(user && user != null && user != undefined){
+      return user.userId;
+    }else{
+      return null;
+    }
+  }
   getRefCode() {
     const userinfo:any = this.GetUserInfo();
     if(userinfo && userinfo.refCode){

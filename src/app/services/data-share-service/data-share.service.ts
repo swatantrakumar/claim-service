@@ -9,6 +9,8 @@ export class DataShareService {
   claimData:Subject<any> = new Subject();
   staticData:Subject<any> = new Subject();
   claimBlankForm:Subject<any> = new Subject();
+  confirmationResponce:Subject<any> = new Subject();
+  emailExists:Subject<any> = new Subject();
 
   constructor() { }
 
@@ -20,6 +22,12 @@ export class DataShareService {
   }
   setClaimNewForm(responce:any){
     this.claimBlankForm.next(responce)
+  }
+  shareConfirmationResponce(responce:boolean){
+    this.confirmationResponce.next(responce);
+  }
+  shareCheckEmailExists(responce:any){
+    this.emailExists.next(responce)
   }
 
   //End For App

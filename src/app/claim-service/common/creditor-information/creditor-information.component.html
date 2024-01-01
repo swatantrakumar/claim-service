@@ -1,10 +1,10 @@
 <div class="list-group">
   <div class="font-weight-bold">From</div>
-  <div> <button type="button" class="btn btn-outline-primary btn-rounded" ng-click="onlineClaimFormPopUp('creditorDetails')">Add
+  <div> <button type="button" class="btn btn-outline-primary btn-rounded" (click)="onlineClaimFormPopUp('creditorDetails')">Add
           Creditor Details
       </button>
   </div>
-  <div ng-show="creditDetails" class="row">
+  <div *ngIf="creditDetails" class="row">
       <div class="col-lg-3" *ngFor="let claimant of claim_form.creditors;let i=index">
           <div> {{claimant.name}}</div>
           <div > {{claimant.address.address}}, {{claimant.address.city}},</div>
@@ -43,3 +43,4 @@
       </div>
   </div>
 </div> -->
+<app-creditor-details [id]="'creditModel'" [selectedForm]="selectedForm" (creditorDetails)="creditorDetails($event)"></app-creditor-details>

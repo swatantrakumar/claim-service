@@ -1,0 +1,36 @@
+<div mdbModal #alertModal="mdbModal" class="modal fade top"  tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',keyboard: false,class: 'modal-full-height modal-right',containerClass: '',animated: true}">
+    <!-- <div class="modal-dialog deletealertmst modal-sm modal-notify modal-{{class_name}}" role="document">
+        <div class="modal-content text-center" style="min-height:auto">
+            <div class="modal-body p-3">
+                <div class="icon-box mb-2"><i class="material-icons">&#xE5CD;</i></div>
+                <h4 class="heading">{{ headerMessage }}</h4>
+                <p class="m-0"><small>{{ bodyMessage }}</small></p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a type="button" mdbBtn [color]="class_name" outline="true" *ngIf="class_name == 'primary'" class="waves-effect noshadow rounded btn-sm mx-2" mdbWavesEffect (click)="ok()">Delete</a>
+                <a type="button" mdbBtn [color]="class_name" class="waves-effect noshadow rounded btn-sm mx-2" mdbWavesEffect data-dismiss="modal" (click)="cancel()" [innerHtml]="noButtonText()"></a>
+
+                <a type="button" mdbBtn [color]="class_name" *ngIf="class_name == 'success' || class_name == 'info'" class="waves-effect noshadow rounded btn-sm mx-2" mdbWavesEffect data-dismiss="modal" (click)="ok()" [innerHtml]="yesButtonText()"></a>
+            </div>
+        </div>
+    </div> -->
+    <div class="modal-dialog modal-sm modal-notify deletealertmst">
+      <div class="modal-content">
+          <div class="modal-body p-4">
+              <div class="text-center">
+                  <i class="dripicons-information h1 text-info"></i>
+
+                  <p class="mt-3">{{message}}.</p>
+              </div>
+              <div class="form-group col-lg-12 text-center">
+                  <button class="btn btn-primary" *ngIf="alert" (click)="ok()" id="save">Save</button>
+                  <button class="btn btn-primary" (click)="ok()" id="yes">Yes</button>
+                  <button class="btn btn-primary" (click)="cancel()" id="no">no</button>
+
+              </div>
+          </div>
+
+      </div>
+  </div>
+</div>

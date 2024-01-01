@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 import { ClaimServiceModule } from './claim-service/claim-service.module';
 import { ErpModule } from './erp/erp.module';
 import { ModelModule } from './model/model.module';
+import { AngularMaterialModule } from './angular-material-module/angular-material.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -22,6 +23,7 @@ import { ModelModule } from './model/model.module';
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    AngularMaterialModule,
     ClaimRoutingModule,
     AuthModule,
     ClaimServiceModule,

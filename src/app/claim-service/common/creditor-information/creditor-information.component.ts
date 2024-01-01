@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ModelService } from 'src/app/services/model/model.service';
 
 @Component({
   selector: 'app-creditor-information',
@@ -8,10 +9,22 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CreditorInformationComponent implements OnInit {
 
   @Input() claim_form:any;
+  @Input() selectedForm:string='';
+  creditDetails:boolean=false;
 
-  constructor() { }
+  constructor(
+    private modelService:ModelService
+  ) { }
 
   ngOnInit() {
   }
+
+  onlineClaimFormPopUp(id:string){
+    this.modelService.open('creditModel',{})
+  }
+  creditorDetails(responce:any){
+    this.creditDetails = responce;
+  }
+
 
 }

@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class Form_headerComponent implements OnInit {
 
   @Input() claim_form:any;
+  @Input() selectedForm:any='';
   constructor() { }
 
   ngOnInit() {

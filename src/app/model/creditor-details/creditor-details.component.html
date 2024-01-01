@@ -1,0 +1,79 @@
+<div  mdbModal #creditorModel="mdbModal" class="modal fade top"  tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',keyboard: false}">
+  <div class="modal-dialog modal-full-width">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="creditorDetails">Creditor Details</h4>
+        </div >
+        <div class="modal-body">
+            <div class="table-responsive">
+            <table class="table table-bordered table-centered mb-0">
+                <thead class="thead-light ">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Pin Code</th>
+
+                    <th *ngIf="selectedForm=='Home Buyers' || selectedForm=='Home Buyers(Authorised Rep)'
+                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' ">Ownership%</th>
+                    <th></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="text" class="w-100 form-control" id="{{myShortName}}finc_name" [(ngModel)]="finCreditor.name"></td>
+                    <td><input type="text" id="{{myShortName}}finc_email" (blur)="isEmailExistedInDb(finCreditor.email)" [(ngModel)]="finCreditor.email" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_phone" [(ngModel)]="finCreditor.phone" class="w-100 form-control">
+                    </td>
+                    <td><input type="text" id="{{myShortName}}finc_address" [(ngModel)]="finCreditor.address" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_city" [(ngModel)]="finCreditor.city" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_state" [(ngModel)]="finCreditor.state" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_country" [(ngModel)]="finCreditor.country" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_pinCode" [(ngModel)]="finCreditor.pinCode" class="w-100 form-control"></td>
+                    <td *ngIf="selectedForm=='Home Buyers' || selectedForm=='Home Buyers(Authorised Rep)'
+                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' "><input type="text" id="{{myShortName}}finc_ownership" [(ngModel)]="finCreditor.ownership"
+                        class="w-100 form-control"></td>
+                    <td class="text-center">
+                        <button  type="button" class="btn btn-primary" (click)="addCreditorDetails()">
+                            +
+                        </button>
+
+                    </td>
+                </tr>
+                <tr *ngFor="let detail of CreditorDetails;let i=index">
+                    <td>{{detail.name}}</td>
+                    <td>{{detail.email}}</td>
+                    <td>{{detail.phone}}</td>
+                    <td>{{detail.address.address}}</td>
+                    <td>{{detail.address.city}}</td>
+                    <td>{{detail.address.state}}</td>
+                    <td>{{detail.address.country}}</td>
+                    <td>{{detail.address.pinCode}}</td>
+                    <td *ngIf="selectedForm=='Home Buyers' || selectedForm=='Home Buyers(Authorised Rep)'
+                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' ">{{detail.ownership}}</td>
+                    <td >
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-primary" (click)="editDetails('creditor',i)"><img src="/assets/img/edit.png" style="width:15px"></button>
+                                    <button type="button" class="btn btn-primary" (click)="deleteCreditorDetails(i)"><img src="/assets/img/cross.png" style="width:15px"></button>
+
+                            </div>
+
+                        </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="saveCreditorDetails()">Save</button>
+                <button type="button" class="btn btn-primary" (click)="closeModal()">Cancel</button>
+            </div>
+    </div>
+  </div>
+</div>
