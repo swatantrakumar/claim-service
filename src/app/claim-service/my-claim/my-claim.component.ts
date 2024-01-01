@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { AuthDataShareService } from 'src/app/services/data-share-service/auth-data-share/auth-data-share.service';
 import { ApiService } from 'src/app/services/api-service/api.service';
+import { NotificationService } from 'src/app/services/notify/notification.service';
 
 @Component({
   selector: 'lib-my-claim',
@@ -30,9 +31,13 @@ export class MyClaimComponent implements OnInit {
   claimModeByBank:boolean=false;
   showDeclaration:boolean=false;
   showVerification:boolean=false;
+  in_progess_for_claimform_submit:boolean=false;
 
   selectRowData:any={}
   claim_form:any={}
+  claimObj:any = {};
+  paymentDetails:any=[];
+
 
 
 
@@ -65,8 +70,20 @@ export class MyClaimComponent implements OnInit {
     private dataShareService:DataShareService,
     private storageService:StorageService,
     private authDataShareService:AuthDataShareService,
-    private apiService:ApiService
+    private apiService:ApiService,
+    private notificationService:NotificationService
   ) {
+    this.claimObj.amountAttribute = [{
+        type: '',
+        claimAmount: '',
+        approvedAmount: '',
+        incInVoting: false,
+        comment: ['']
+    }];
+    this.claimObj.document = [];
+    this.claimObj.unitDetails={}
+    this.claimObj.paymentDetails=[];
+    this.paymentDetails=[];
     this.claimDataSubscription = this.dataShareService.claimData.subscribe(data =>{
       this.setClaimData(data)
     })
@@ -75,6 +92,14 @@ export class MyClaimComponent implements OnInit {
     })
     this.dataShareService.claimBlankForm.subscribe(data =>{
       this.setClaimBlankForm(data);
+    })
+    this.dataShareService.saveClaimResponce.subscribe(res =>{
+      this.in_progess_for_claimform_submit = false;
+      this.claim_form = res.success;
+      if(res.type && res.type == "SUBMIT"){
+        this.showMyClaimForms()
+        this.notificationService.notify('bg-success',"Claim Form Submitted Successfully!!!");
+      }
     })
    }
 
@@ -94,8 +119,6 @@ export class MyClaimComponent implements OnInit {
     this.claimModeByBank=false;
     this.showDeclaration=false;
     this.showVerification=false;
-
-
   }
   activeSection(){
     if(this.OnlineFormGrid==true){

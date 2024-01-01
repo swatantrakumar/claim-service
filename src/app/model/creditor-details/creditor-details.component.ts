@@ -5,6 +5,7 @@ import { CommonFunctionService } from 'src/app/services/common-function/common-f
 import { NotificationService } from 'src/app/services/notify/notification.service';
 import { DataShareService } from 'src/app/services/data-share-service/data-share.service';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
+import { ApiService } from 'src/app/services/api-service/api.service';
 
 @Component({
   selector: 'app-creditor-details',
@@ -30,7 +31,8 @@ export class CreditorDetailsComponent implements OnInit {
     private commonFunctionService:CommonFunctionService,
     private notificationService:NotificationService,
     private dataShareService:DataShareService,
-    private storageService:StorageService
+    private storageService:StorageService,
+    private apiService:ApiService
   ) {
     this.dataShareService.confirmationResponce.subscribe(check =>{
       if(this.activeIndex > -1){
@@ -39,12 +41,12 @@ export class CreditorDetailsComponent implements OnInit {
     })
     this.dataShareService.emailExists.subscribe(check =>{
       if(check.status){
-        this.isEmailExisted = check;
+        this.isEmailExisted = check.status;
       }
       if(check.msg && check.msg != ''){
         this.notificationService.notify('bg-danger',check.msg);
       }
-      this.isEmailExisted = check;
+      this.isEmailExisted = check.status;
     })
    }
 
@@ -170,8 +172,8 @@ export class CreditorDetailsComponent implements OnInit {
       value = this.CreditorDetails[0];
     }
     //$scope.primaryClaimant=value;
-    this.claim_form.creditors = this.CreditorDetails;
-    this.claim_form.primaryClaimant = value;
+    this.claim_form['creditors'] = this.CreditorDetails;
+    this.claim_form['primaryClaimant'] = value;
     this.saveClaimForm();
     this.creditDetails=true;
     this.creditorDetails.emit(this.creditDetails);
@@ -185,7 +187,7 @@ export class CreditorDetailsComponent implements OnInit {
       this.claim_form.formType = "USER_CLAIM";
     }
       var x = this.claim_form.primaryClaimant;
-      this.claim_form.userId = this.storageService.getUserId();
+      this.claim_form['userId'] = this.storageService.getUserId();
       if(this.claim_form.claimAmountDetails){
         for(var i=0;i<this.claim_form.claimAmountDetails.length;i++){
                 this.claim_form.claimAmountDetails[i].type=this.claim_form.claimAmountDetails[i].unitDetails.type;
@@ -218,6 +220,15 @@ export class CreditorDetailsComponent implements OnInit {
       }else{
           this.claim_form.formStatus = "SAVED";
       }
+      this.commonFunctionService.setClientLog(this.claim_form);
+      this.commonFunctionService.setBaseEntity(this.claim_form);
+      let payload = {
+        path : "claimform",
+        data : this.claim_form,
+        type : submit
+      }
+      this.apiService.saveNewClaim(payload);
+
       // CommonUtilService.saveSingleCaseAttribute("claimform",this.claim_form)
       //   .success(function(data,status){
       //   this.in_progess_for_claimform_submit = false;
@@ -232,5 +243,6 @@ export class CreditorDetailsComponent implements OnInit {
       //   $scope.in_progess_for_claimform_submit = false;
       //   $.notify("Error occured while saving..", "error");
       // })
+
   }
 }

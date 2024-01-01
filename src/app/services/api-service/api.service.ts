@@ -95,6 +95,20 @@ constructor(
       }
     )
   }
+  saveNewClaim(payload:any){
+    let api = this.envService.getAuthApi('SAVE_CLAIM');
+    this.http.post(api+'/'+payload.path,payload.data).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          respData['type'] = payload.type;
+          this.dataShareService.setSaveClaimResponce(respData);
+        }
+      },
+      (error)=>{
+
+      }
+    )
+  }
   //End For app functions
 
 

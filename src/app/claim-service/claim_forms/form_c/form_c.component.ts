@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class Form_cComponent implements OnInit {
   @Input() claim_form:any;
+  @Input() claimObj:any;
   @Input() showIdDetails: boolean = false;
   @Input() showCinDetails: boolean = false;
   @Input() claimModeByClass: boolean = false;
@@ -14,6 +15,7 @@ export class Form_cComponent implements OnInit {
   @Input() showDeclaration: boolean = false;
   @Input() showVerification: boolean = false;
   @Input() selectedForm:string='';
+  @Input() activeTabName:string='';
 
   constructor() { }
 
