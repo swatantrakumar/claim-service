@@ -7,5 +7,6 @@ export enum EndPoint {
     GET_STATIC_DATA="rpts/sobj",
     GET_CLAIM_STATIC_DATA_FROM_CASE = "opt/gtclmstc",
     GET_CLAIM_NEW_FORM = "cas/nclf",
-    CHECK_EMAIL_EXISTS = "cas/checkexistingclaim"
+    CHECK_EMAIL_EXISTS = "cas/checkexistingclaim",
+    SAVE_CLAIM = "cas/svsicsat"
 }

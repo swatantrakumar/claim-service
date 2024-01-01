@@ -11,6 +11,7 @@ export class DataShareService {
   claimBlankForm:Subject<any> = new Subject();
   confirmationResponce:Subject<any> = new Subject();
   emailExists:Subject<any> = new Subject();
+  saveClaimResponce:Subject<any> = new Subject();
 
   constructor() { }
 
@@ -28,6 +29,9 @@ export class DataShareService {
   }
   shareCheckEmailExists(responce:any){
     this.emailExists.next(responce)
+  }
+  setSaveClaimResponce(responce:any){
+    this.saveClaimResponce.next(responce)
   }
 
   //End For App

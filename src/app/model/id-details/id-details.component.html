@@ -1,0 +1,67 @@
+<div  mdbModal #idDetailsModel="mdbModal" class="modal fade top"  tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',keyboard: false}">
+  <div class="modal-dialog modal-full-width">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="cinIdDetails">Identification Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-centered mb-0">
+                <thead class="thead-light ">
+                  <tr>
+                      <th >Name</th>
+                      <th >ID Type</th>
+                      <th >Name As On ID Card</th>
+                      <th > ID Number</th>
+                      <th *ngIf="CIN_NO">CIN Number</th>
+                      <th ></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td >
+                        <select [(ngModel)]="finCreditor.name" class="form-control">
+                            <option *ngFor="let cs of claim_form.creditors" value="{{cs.name}}">{{cs.name}}</option>
+                        </select>
+                    </td>
+                    <td >
+                        <select class="form-control"  [(ngModel)]="finCreditor.idType">
+                            <option value="AADHAAR">Aadhaar Card</option>
+                            <option value="PAN">Pan Card</option>
+                            <option value="PASSPORT">Passport</option>
+                            <option value="VOTERID">Voter ID Card</option>
+                            <option *ngIf="CIN_NO" value="CIN">Cin Number</option>
+
+                        </select>
+                    </td>
+                    <td ><input type="text" class="form-control" [(ngModel)]="finCreditor.nameOnId">
+                    </td>
+                    <td ><input type="text" class="form-control" [(ngModel)]="finCreditor.idNumber">
+                    </td>
+                    <td *ngIf="CIN_NO" ><input type="text" class="form-control" [(ngModel)]="finCreditor.cinNumber"></td>
+                    <td >
+                        <button type="button" class="btn btn-primary"  (click)="identificationDetails()">+
+                        </button>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let dList of fcIdentificationDetails;let i=index">
+                    <td >{{dList.name}}</td>
+                    <td >{{dList.idType}}</td>
+                    <td >{{dList.nameOnId}}</td>
+                    <td >{{dList.idNumber}}</td>
+                    <td >{{dList.cinNumber}}</td>
+                    <td class="text-center" >
+                      <img src="img/cross.png" style="width:15px" (click)="deleteIdRecords(i)">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="closeIdVerification()">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>

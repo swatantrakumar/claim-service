@@ -54,6 +54,22 @@ getPayload(obj:any){
   }
   removeSpecialCharacters(inputString:string) {
     if (inputString && inputString !== '') return inputString.replace(/[^a-z\d]+/gi, '');
-    return '';
-};
+      return '';
+  };
+  setClientLog(object:any){
+    object['log'] = this.storageService.getUserLog();
+  }
+  setBaseEntity(object:any){
+    if (object) {
+      if (!object.createdDate || !object.createdBy || object.createdBy === null) {
+          if (this.storageService.getUserId()) {
+              object.createdBy = this.storageService.getUserId();
+          }
+        } else {
+            if (this.storageService.getUserId()) {
+                object.updatedBy = this.storageService.getUserId();
+            }
+        }
+    }
+  }
 }
