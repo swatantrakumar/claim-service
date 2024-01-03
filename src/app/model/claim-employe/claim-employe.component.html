@@ -15,89 +15,200 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                           {{claim_form.commencementDate | date:'dd/MM/yyyy'}}
                       </div>
 
+                      <div class="col-lg-1 p-0 col-md-1" *ngIf="headerIntrestRate" ><label>Interest Rate</label></div>
+                      <div class="col-lg-1 col-md-2" *ngIf="headerIntrestRate">
+                          <input type="number" class="w-100 form-control" (change)="calculateTotalClaimAmount()" [(ngModel)]="claim_form.interestRate">
+                      </div>
+                      <div class="col-md-3" *ngIf="headerIntrestRate">
+                          <div class="form-check-inline">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="" [(ngModel)]="claim_form.calculateInterestAmount">Auto Calculate Interest Amount
+                              </label>
+                            </div>
+                      </div>
+
                   </div>
               </form>
-              <div class="text-center mb-2"><b>Claim Details - > Principal : {{claim_form.amount}} , Interest : {{claim_form.interest}}, Total: {{claim_form.total}}</b></div>
+              <div class="text-center mb-2"><b>Claim Details - > Principal : {{claim_form.amount}} , Interest : {{claim_form.interest}},<span *ngIf="claimModelWindow == 'CLAIM_MODEL_OPERATIONAL_CREDITOR'" >Penalty : {{claim_form.penalty}},</span> Total: {{claim_form.total}}</b></div>
               <div class="table-responsive">
                   <table class="table table-bordered table-centered mb-0">
                       <thead class="thead-light ">
                               <tr>
                                   <th >Sr</th>
-                                  <th>Employee/Workmen ID</th>
-                                  <th >Name</th>
-                                  <th >Type</th>
-                                  <th >Comment</th>
+                                  <th *ngFor="let emp of empFields" >{{emp.label}}</th>
+                                  <span *ngIf="empWithDetails" >
+                                    <th *ngFor="let details of claimDetaisFields">{{details.label}}</th>
+                                  </span>
                                   <th style="width:5%"></th>
                               </tr>
                       </thead>
                       <tbody>
                               <tr>
                                   <td></td>
-                                  <!-- <td style="width:20%"><input type="text" ng-model="claimObj.unitDetails.claimId"></td>-->
-                                  <td ><input type="text" class="form-control" ng-model="claimObj.unitDetails.unit"></td>
-                                  <td ><input type="text" class="form-control" ng-model="claimObj.unitDetails.name"></td>
-                                  <td ><select class="form-control" ng-model="claimObj.unitDetails.type">
-                                      <option *ngFor="let facility of claimTypes.EC.EC"  value="{{facility}}">{{facility}}</option>
-                                  </select></td>
-                                  <td ><input type="text" class="form-control" ng-model="claimObj.unitDetails.comment"></td>
+                                  <td *ngFor="let emp of empFields" >
+                                    <span *ngIf="emp.type == 'text'" >
+                                      <input type="text" class="form-control" [(ngModel)]="claimObj.unitDetails[emp.name]">
+                                    </span>
+                                    <span *ngIf="emp.type == 'select'">
+                                      <select class="form-control" [(ngModel)]="claimObj.unitDetails[emp.name]">
+                                        <option *ngFor="let facility of staticData[emp.name+'_'+emp.type]"  value="{{facility}}">{{facility}}</option>
+                                      </select>
+                                    </span>
+                                    <span *ngIf="emp.type == 'date'">
+                                      <input type="date" class="form-control w-100" [(ngModel)]="claimObj.unitDetails[emp.name]">
+                                    </span>
+                                    <span *ngIf="emp.type == 'label'">
+                                      <span *ngIf="!emp.data">{{claimObj.unitDetails[emp.name]}}</span><span *ngIf="emp.data && emp.data == 'claim'">{{claimObj[emp.name]}}</span>
+                                    </span>
+                                  </td>
+
+                                  <span *ngIf="empWithDetails" >
+                                    <td *ngFor="let details of claimDetaisFields" >
+                                      <span *ngIf="details.type == 'date'" >
+                                        <input type="date" class="form-control" [(ngModel)]="claimObj.paymentDetails[0].dueDate">
+                                      </span>
+                                      <span *ngIf="details.type == 'number'">
+                                        <span *ngIf="details.change">
+                                          <input  type="number" class="form-control" [(ngModel)]="claimObj.paymentDetails[0].amount" (change)="calculateInterest(claimObj.paymentDetails[0])">
+                                        </span>
+                                        <span *ngIf="!details.change">
+                                          <input type="number" class="form-control" [(ngModel)]="claimObj.paymentDetails[0].amount">
+                                        </span>
+                                      </span>
+                                      <span>
+                                        <input class="form-control" type="text" class="form-control" [(ngModel)]="claimObj.paymentDetails[0].total" [disabled]="details.disable" >
+                                      </span>
+                                    </td>
+                                  </span>
 
                                   <td >
-                                      <button type="button" class="btn btn-primary" ng-click="addClaimObj()">+</button>
+                                      <button type="button" class="btn btn-primary" (click)="addClaimObj()">+</button>
                                   </td>
                               </tr>
+                              <span *ngIf="others" >
+                                <tr *ngIf="claimObj && claimObj.unitDetails && claimObj.unitDetails.type=='OTHERS'">
+                                    <td class="p-1" colspan="3" >
+                                        <div >
+                                            <input class="form-control mt-1" placeholder="Please Enter Type" [(ngModel)]="claimObj.unitDetails.otherType">
+                                        </div>
+
+                                    </td>
+                                    <td class="p-1" colspan="6"></td>
+                                </tr>
+                              </span>
                               <tr  *ngFor="let claim of claimDetails;let i=index">
                                   <td>{{i+1}}</td>
-                                  <td>{{claim.unitDetails.unit}}</td>
-                                  <td>{{claim.unitDetails.name}}</td>
-                                  <td>{{claim.unitDetails.type}}</td>
-                                  <td>{{claim.unitDetails.comment}}</td>
-                                  <td ><img src="img/cross.png" style="width:15px" ng-click="deleteUnitDetails(claim,$index)"></td>
+                                  <td *ngFor="let emp of empFields" >
+                                    <span *ngIf="emp.type == 'date'" >{{claim.unitDetails[emp.name] | date : "dd/MMM/yy"}}</span>
+                                    <span *ngIf="emp.type != 'date'" >
+                                      <span *ngIf="!emp.data" >{{claim.unitDetails[emp.name]}}</span>
+                                      <span *ngIf="emp.data && emp.data == 'claim'">{{claim[emp.name]}}</span>
+                                      <span *ngIf="others" >
+                                        <span *ngIf="claim.unitDetails.otherType" >&nbsp;&nbsp;({{claim.unitDetails.otherType}})</span>
+                                      </span>
+                                    </span>
+                                  </td>
+
+                                  <span *ngIf="empWithDetails" >
+                                    <td *ngFor="let details of claimDetaisFields" >
+                                      <span *ngIf="details.type == 'date'" >{{claim.paymentDetails[0][details.name] | date :  "dd/MM/yy"}}</span>
+                                      <span *ngIf="details.type == 'text' || details.type == 'number' || details.type == 'select'">{{claim.paymentDetails[0][details.name]}}</span>
+                                    </td>
+                                  </span>
+
+                                  <td ><img src="/assets/img/cross.png" style="width:15px" (click)="deleteRecord(claim,i,'unit_details')"></td>
                               </tr>
                       </tbody>
                   </table>
               </div>
-              <div class="table-responsive mt-3">
+              <div class="table-responsive mt-3" *ngIf="showDetails" >
                   <div *ngFor="let claim of claimDetails;let i=index">
                       <div >
-                          <div class="text-center mb-2"> <b >Amount Details of :  {{claim.unitDetails.name}} ({{claim.unitDetails.unit}}/{{claim.unitDetails.type}}), Principal : {{claim.amount}} , Interest : {{claim.interest}}, Penalty : {{claim.penalty}}, Total: {{claim.total}}</b></div>
+                          <div class="text-center mb-2"> <b ><span *ngIf="claimModelWindow == 'CLAIM_MODEL_EMPLOYEE'" >Amount Details of :  {{claim.unitDetails.name}} ({{claim.unitDetails.unit}}/{{claim.unitDetails.type}}),</span><span *ngIf="claimModelWindow == 'CLAIM_MODEL_OTHERS' || claimModelWindow == 'CLAIM_MODEL_HOME_BUYER'">Payment Details : {{claim.unitDetails.unit}},</span><span *ngIf="claimModelWindow == 'CLAIM_MODEL_BANK'">Claim Details :{{claim.unitDetails.unit}}, {{claim.unitDetails.type}}</span> Principal : {{claim.amount}} , Interest : {{claim.interest}}, <span *ngIf="claimModelWindow != 'CLAIM_MODEL_HOME_BUYER' && claimModelWindow != 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW'">Penalty : {{claim.penalty}},</span> Total: {{claim.total}}</b></div>
                       <table class="table table-bordered table-centered mb-0">
 
                           <thead class="thead-light ">
                                   <tr>
                                       <th>Sr</th>
-
-                                      <th>Claim Due Date</th>
-                                      <th>Claim Amount</th>
-                                      <th>Interest Amount</th>
-                                      <th>Penalty + Charges</th>
-                                      <th>Total</th>
-                                      <!--<th>Comment</th>-->
+                                      <th *ngFor="let details of claimDetaisFields">{{details.label}}</th>
                                       <th></th>
                                   </tr>
                           </thead>
                           <tbody>
-                                  <tr>
+                                  <tr *ngIf="claimModelWindow != 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW'" >
                                       <td></td>
-                                      <td><input class="form-control" type="date" class="form-control" ng-model="payments[$index].dueDate"></td>
-                                      <td><input class="form-control" type="number" class="form-control" ng-model="payments[$index].amount" ng-change="calculateInterest(payments[$index])"></td>
-                                      <td><input class="form-control" type="number" class="form-control" ng-model="payments[$index].interest" ng-change="calculateInterest(payments[$index])"></td>
-                                      <td><input class="form-control" type="number" class="form-control" ng-model="payments[$index].penalty" ng-change="calculateInterest(payments[$index])"></td>
-                                      <td><input class="form-control" type="text" class="form-control" ng-model="payments[$index].total" disabled ></td>
-                                      <!--<td><input class="form-control" type="text" class="form-control" ng-model="payments[$index].comment"></td>-->
+                                      <td *ngFor="let details of claimDetaisFields" >
+                                        <span *ngIf="details.type == 'date'" >
+                                          <input type="date" class="form-control" [(ngModel)]="payments[i][details.name]">
+                                        </span>
+                                        <span *ngIf="details.type == 'number'">
+                                          <span *ngIf="details.change">
+                                            <span *ngIf="headerIntrestRate" >
+                                              <input  type="number" class="form-control" [(ngModel)]="paymentsReview[details.name]" (change)="calculateInterest(payments[i])" [disabled]="claim_form.calculateInterestAmount">
+                                            </span>
+                                            <span *ngIf="!headerIntrestRate" >
+                                              <input  type="number" class="form-control" [(ngModel)]="paymentsReview[details.name]" (change)="calculateInterest(payments[i])">
+                                            </span>
+                                          </span>
+                                          <span *ngIf="!details.change">
+                                            <input type="number" class="form-control" [(ngModel)]="payments[i][details.name]">
+                                          </span>
+                                        </span>
+                                        <span *ngIf="details.type == 'text'">
+                                          <input class="form-control" type="text" class="form-control" [(ngModel)]="payments[i][details.name]" [disabled]="details.disable" >
+                                        </span>
+                                        <span *ngIf="details.type == 'label'">
+                                          <span *ngIf="!details.data">{{claimObj.unitDetails[details.name]}}</span><span *ngIf="details.data && details.data == 'claim'">{{payments[i][details.name]}}</span>
+                                        </span>
+                                      </td>
                                       <td >
-                                          <button type="button" class="btn btn-primary" ng-click="addPaymentDetails(claim, $index)">+</button>
+                                          <button type="button" class="btn btn-primary" (click)="addPaymentDetails(claim, i)">+</button>
                                       </td>
                                   </tr>
-                                  <tr *ngFor="let payment of claim.paymentDetails;let i=index">
-                                          <td>{{payment.index}}</td>
-                                          <td>{{payment.dueDate | date :  "dd/MM/yy"}}</td>
-                                          <td>{{payment.amount}}</td>
-                                          <td>{{payment.interest}}</td>
-                                          <td>{{payment.penalty}}</td>
-                                          <td>{{payment.total}}</td>
-                                          <!--<td>{{payment.comment}}</td>-->
-                                          <td style="width:5%"><img class="pointer" src="img/cross.png" style="width:15px" ng-click="deletePaymentRow(claim, $index)"></td>
-                                      </tr>
+                                  <tr *ngIf="claimModelWindow == 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW' && payments_update_index != -1">
+                                    <td></td>
+                                    <td *ngFor="let details of claimDetaisFields" >
+                                      <span *ngIf="details.type == 'date'" >
+                                        <input type="date" class="form-control" [(ngModel)]="paymentsReview[details.name]" [disabled]="details.disable">
+                                      </span>
+                                      <span *ngIf="details.type == 'number'">
+                                        <span *ngIf="details.change">
+                                          <span *ngIf="headerIntrestRate" >
+                                            <input  type="number" class="form-control" [(ngModel)]="paymentsReview[details.name]" (change)="calculateInterest(payments)" [disabled]="claim_form.calculateInterestAmount">
+                                          </span>
+                                          <span *ngIf="!headerIntrestRate" >
+                                            <input  type="number" class="form-control" [(ngModel)]="paymentsReview[details.name]" (change)="calculateInterest(paymentsReview)" [disabled]="details.disable">
+                                          </span>
+                                        </span>
+                                        <span *ngIf="!details.change">
+                                          <input type="number" class="form-control" [(ngModel)]="paymentsReview[details.name]" [disabled]="details.disable">
+                                        </span>
+                                      </span>
+                                      <span *ngIf="details.type == 'text'">
+                                        <input class="form-control" type="text" class="form-control" [(ngModel)]="paymentsReview[details.name]" [disabled]="details.disable" >
+                                      </span>
+                                      <span *ngIf="details.type == 'label'">
+                                        <span *ngIf="!details.data">{{claimObj.unitDetails[details.name]}}</span><span *ngIf="details.data && details.data == 'claim'">{{paymentsReview[details.name]}}</span>
+                                      </span>
+                                    </td>
+                                    <td style="width:5%" class="px-0">
+                                      <button type="button" class="btn btn-primary px-1 py-0 ml-1" (click)="addPaymentDetailsReview(claim, i)">+</button>
+                                      <button  type="button" class="btn btn-danger px-1 py-0" (click)="cancilUpdatePayment()">X</button>
+                                  </td>
+                                </tr>
+                                  <tr *ngFor="let payment of claim.paymentDetails;let j=index">
+                                    <td *ngFor="let details of claimDetaisFields" >
+                                      <span *ngIf="details.type == 'date'" >{{payment[details.name] | date :  "dd/MM/yy"}}</span>
+                                      <span *ngIf="details.type == 'text' || details.type == 'number' || details.type == 'select'">{{payment[details.name]}}</span>
+                                    </td>
+
+
+                                    <td style="width:5%" >
+                                      <img *ngIf="claimModelWindow != 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW'" class="pointer" src="/assets/img/cross.png" style="width:15px" (click)="deleteRecord(claim, j,'payment_details')">
+                                      <img *ngIf="claimModelWindow == 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW'" class="pointer" style="width:15px" src="img/edit.png"  (click)="updatePaymentRow(payment, j)">
+                                    </td>
+
+                                </tr>
                           </tbody>
 
                       </table>
@@ -105,7 +216,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
               </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-primary" ng-click="closeClaimModel()">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="closeClaimModel()">Cancel</button>
           </div>
       </div>
     </div>
