@@ -60,6 +60,9 @@ export class Form_c_bodyComponent implements OnInit {
     this.fileHandlerService.setFiles(event,fileType,this.claim_form,this.fileTypes,this.uploadData)
   }
   idVerificationWindow(){
+    if (this.showCinDetails) {
+      this.CIN_NO = true;
+    }
     this.commonFunctionService.idVerificationWindow(this.claim_form,this.fcIdentificationDetails,this.CIN_NO);
   }
   claimDetails:any=[]

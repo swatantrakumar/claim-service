@@ -346,7 +346,7 @@ getPayload(obj:any){
           claim_form.claimModel = "EMPLOYEE";
           break;
      }
-     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{});
+     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{claimModelWindow:claimModelWindow});
   }
   calculateTotalClaimAmount(claimDetails:any,claim_form:any){
       var total:any=0;

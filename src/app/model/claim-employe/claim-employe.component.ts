@@ -72,9 +72,9 @@ export class ClaimEmployeComponent implements OnInit {
   }
   showModal(alert:any){
 
-    this.claimEmployeModel.show();
-    if(this.claimModelWindow){
-      switch (this.claimModelWindow) {
+
+    if(alert && alert.claimModelWindow){
+      switch (alert.claimModelWindow) {
         case 'CLAIM_MODEL_EMPLOYEE':
           this.empFields = [
             {"label":"Employee/Workmen ID","name":"unit","type":"text"},
@@ -183,6 +183,7 @@ export class ClaimEmployeComponent implements OnInit {
           break;
       }
     }
+    this.claimEmployeModel.show();
   }
   close(){
     this.claimEmployeModel.hide();
