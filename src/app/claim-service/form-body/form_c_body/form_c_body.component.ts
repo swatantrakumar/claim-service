@@ -2,6 +2,7 @@ import { KeyValue } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
 import { FileHandlerService } from 'src/app/services/file-handler/fileHandler.service';
+import { ModelService } from 'src/app/services/model/model.service';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
 
 @Component({
@@ -38,7 +39,8 @@ export class Form_c_bodyComponent implements OnInit {
   constructor(
     private storageService:StorageService,
     private commonFunctionService:CommonFunctionService,
-    private fileHandlerService:FileHandlerService
+    private fileHandlerService:FileHandlerService,
+    private modelService:ModelService
   ) {
     this.activecase = this.storageService.GetActiveCase();
    }
@@ -87,10 +89,10 @@ export class Form_c_bodyComponent implements OnInit {
 
   }
   onlineClaimFormPopUp(type:any){
-
+    this.modelService.open('securityDetailsModel',{})
   }
   onlineBankAccount(){
-
+    this.modelService.open('addBankDetailsModel',{})
   }
   onCompare( _right: KeyValue<any, any>,_left: KeyValue<any, any>): number {
     return 1;

@@ -1,0 +1,45 @@
+<div  mdbModal #securityDetailsModel="mdbModal" class="modal fade top"  tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',keyboard: false}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+            <div class="modal-header">
+                    <h4 class="modal-title" id="secDetails">Security Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                        <table class="table table-bordered table-centered mb-0">
+                            <thead class="thead-light ">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Details</th>
+                                        <th>Value</th>
+                                        <th></th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="date" class="form-control w-100" [(ngModel)]="security.date">
+                                    </td>
+                                    <td> <input type="text" class="form-control w-100" [(ngModel)]="security.name"></td>
+                                    <td> <input type="text" class="form-control w-100" [(ngModel)]="security.value"></td>
+                                    <td>
+                                    <button type="button" class="btn btn-primary" (click)="saveSecurity()">+</button>
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let sec of secDetails;let i=index">
+                                    <td>{{sec.date | date:'dd-MM-yyyy'}}</td>
+                                    <td>{{sec.name}}</td>
+                                    <td>{{sec.value}}</td>
+                                    <td ><img src="/assets/img/cross.png" style="width:15px" (click)="deleteSecurityDetails(i)"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="closeModal()">Cancel</button>
+            </div>
+    </div>
+  </div>
+</div>

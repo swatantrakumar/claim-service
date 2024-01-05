@@ -8,13 +8,17 @@ import { AngularMaterialModule } from '../angular-material-module/angular-materi
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { IdDetailsComponent } from './id-details/id-details.component';
 import { ClaimEmployeComponent } from './claim-employe/claim-employe.component';
+import { AddSecurityDetailsComponent } from './add-security-details/add-security-details.component';
+import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.component';
 
 let components =[
   UserCreationComponent,
   CreditorDetailsComponent,
   ConfirmationModalComponent,
   IdDetailsComponent,
-  ClaimEmployeComponent
+  ClaimEmployeComponent,
+  AddSecurityDetailsComponent,
+  AddBankDetailsComponent
 ]
 @NgModule({
   imports: [
