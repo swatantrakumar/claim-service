@@ -37,8 +37,8 @@ constructor(
     this.http.get(api+'/'+payload._id).subscribe(
       (respData:any) =>{
         if (respData) {
-          console.log(respData);
-          //this.dataShareService.setClaimStaticData(respData);
+          //console.log(respData);
+          this.dataShareService.setClaimStaticData(respData);
         }
       },
       (error)=>{

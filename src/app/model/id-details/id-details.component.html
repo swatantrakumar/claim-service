@@ -22,6 +22,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                   <tr>
                     <td >
                         <select [(ngModel)]="finCreditor.name" class="form-control">
+                            <option></option>
                             <option *ngFor="let cs of claim_form.creditors" value="{{cs.name}}">{{cs.name}}</option>
                         </select>
                     </td>
