@@ -10,6 +10,7 @@ import { IdDetailsComponent } from './id-details/id-details.component';
 import { ClaimEmployeComponent } from './claim-employe/claim-employe.component';
 import { AddSecurityDetailsComponent } from './add-security-details/add-security-details.component';
 import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.component';
+import { WaitModelComponent } from './wait-model/wait-model.component';
 
 let components =[
   UserCreationComponent,
@@ -18,7 +19,8 @@ let components =[
   IdDetailsComponent,
   ClaimEmployeComponent,
   AddSecurityDetailsComponent,
-  AddBankDetailsComponent
+  AddBankDetailsComponent,
+  WaitModelComponent
 ]
 @NgModule({
   imports: [

@@ -12,6 +12,7 @@ export class DataShareService {
   confirmationResponce:Subject<any> = new Subject();
   emailExists:Subject<any> = new Subject();
   saveClaimResponce:Subject<any> = new Subject();
+  fileUploadResponce:Subject<any> = new Subject();
   claimStaticData:any={};
 
   constructor() { }
@@ -39,6 +40,9 @@ export class DataShareService {
   }
   getClaimStaticData(){
     return this.claimStaticData;
+  }
+  shareFileUploadResponce(responce:any){
+    this.fileUploadResponce.next(responce);
   }
 
   //End For App

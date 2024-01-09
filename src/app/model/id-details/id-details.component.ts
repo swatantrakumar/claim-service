@@ -56,6 +56,7 @@ export class IdDetailsComponent implements OnInit {
     this.idDetailsModel.hide();
   }
   showModal(){
+    this.finCreditor = {};
     this.idDetailsModel.show();
   }
   identificationDetails(){

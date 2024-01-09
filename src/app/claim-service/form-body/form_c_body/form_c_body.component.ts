@@ -1,8 +1,10 @@
 import { KeyValue } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
+import { DataShareService } from 'src/app/services/data-share-service/data-share.service';
 import { FileHandlerService } from 'src/app/services/file-handler/fileHandler.service';
 import { ModelService } from 'src/app/services/model/model.service';
+import { NotificationService } from 'src/app/services/notify/notification.service';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
 
 @Component({
@@ -22,6 +24,8 @@ export class Form_c_bodyComponent implements OnInit {
   activecase:any;
   CIN_NO:boolean=false;
   fcIdentificationDetails:any=[];
+  attachment_key:string="";
+  fileType:string='';
 
 
 
@@ -40,9 +44,42 @@ export class Form_c_bodyComponent implements OnInit {
     private storageService:StorageService,
     private commonFunctionService:CommonFunctionService,
     private fileHandlerService:FileHandlerService,
-    private modelService:ModelService
+    private modelService:ModelService,
+    private dataShareService:DataShareService,
+    private notificationService:NotificationService
   ) {
     this.activecase = this.storageService.GetActiveCase();
+    this.dataShareService.fileUploadResponce.subscribe(data =>{
+      var notification = "";
+      if(typeof data == "object"){
+        Object.keys(data).forEach((key) => {
+            let value = data[key];
+            if(key !== 'data' && key!='uploadedFiles'){
+                notification = notification + key + " : " + value + "; "
+            }
+            if(this.attachment_key && key==='uploadedFiles'){
+                if(!this.claim_form.formAttachments[this.attachment_key]){
+                    this.claim_form.formAttachments[this.attachment_key]=[]
+                }
+                for(var i=0; i<value.length;i++){
+                    this.claim_form.formAttachments[this.attachment_key].push(value[i])
+                }
+                // $scope.claim_form.formAttachments[attachment_key] =value;
+                this.commonFunctionService.saveClaimForm(this.claim_form);
+            }
+        })
+      }
+     // getAllFiles();
+      this.notificationService.notify("bg-success",notification);
+      this.fileTypes[this.fileType]=[];
+      this.uploadData=[];
+      this.attachment_key = "";
+      if(data.data){
+          //$scope.activeNode.children = data.data;
+          this.claim_form.docList= data.data;
+      }
+      this.modelService.close("WAIT_MODEL");
+    })
    }
 
   ngOnInit() {
@@ -83,10 +120,12 @@ export class Form_c_bodyComponent implements OnInit {
 
   }
   uploadFile(type:any,key?:any){
-
+    this.attachment_key = key;
+    this.fileType = type;
+    this.fileHandlerService.uploadFile(this.claim_form,this.uploadData);
   }
   saveClaimForm(){
-
+    this.commonFunctionService.saveClaimForm(this.claim_form);
   }
   onlineClaimFormPopUp(type:any){
     this.modelService.open('securityDetailsModel',{})

@@ -346,7 +346,7 @@ getPayload(obj:any){
           claim_form.claimModel = "EMPLOYEE";
           break;
      }
-     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{claimModelWindow:claimModelWindow});
+     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{claimModelWindow:claimModelWindow,payments:payments});
   }
   calculateTotalClaimAmount(claimDetails:any,claim_form:any){
       var total:any=0;
@@ -387,9 +387,57 @@ getPayload(obj:any){
       claim_form.tax=parseFloat(tax).toFixed(2);
       claim_form.interest=parseFloat(interest).toFixed(2);
       claim_form.penalty=parseFloat(penalty).toFixed(2);
-      this.saveClaimForm();
+      this.saveClaimForm(claim_form);
   }
-  saveClaimForm(){
+
+  saveClaimForm(claim_form:any,submit?:any){
+    if(this.removeSpecialCharacters(claim_form.formType) ===""){
+      claim_form.formType = "USER_CLAIM";
+    }
+    var x = claim_form.primaryClaimant;
+    claim_form['userId'] = this.storageService.getUserId();
+    if(claim_form.claimAmountDetails){
+      for(var i=0;i<claim_form.claimAmountDetails.length;i++){
+        claim_form.claimAmountDetails[i].type=claim_form.claimAmountDetails[i].unitDetails.type;
+        claim_form.claimAmountDetails[i].unit=claim_form.claimAmountDetails[i].unitDetails.unit;
+        claim_form.claimAmountDetails[i].comment=claim_form.claimAmountDetails[i].unitDetails.comment;
+        claim_form.claimAmountDetails[i].otherType=claim_form.claimAmountDetails[i].unitDetails.otherType;
+
+      }
+    }
+    if(claim_form.category=='EC'){
+      claim_form.claimModel='EMPLOYEE';
+    }
+    if(submit && submit==='SUBMIT'){
+      if(claim_form.catClass == 'HOME_BUYER'){
+        if(!claim_form || !claim_form.authorised_person){
+          this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
+        }
+        if(!claim_form.formAttachments || !claim_form.formAttachments['application_form'] || claim_form.formAttachments['application_form'].length <= 0){
+            this.notificationService.notify('bg-danger',"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents");
+            return;
+        }
+      }
+      claim_form.formStatus = "SUBMITTED";
+      if(!claim_form.claimDate) claim_form.claimDate = new Date();
+    }else if(claim_form.formStatus === "SUBMITTED"){
+      //DO NOT CHANGE STATUS
+    }else{
+      claim_form.formStatus = "SAVED";
+    }
+    this.setClientLog(claim_form);
+    this.setBaseEntity(claim_form);
+    let payload = {
+      path : "claimform",
+      data : claim_form,
+      type : submit
+    }
+    this.apiService.saveNewClaim(payload);
 
   }
+  getProjectMode() {
+    var mode = "c";
+    return mode;
+  }
+
 }

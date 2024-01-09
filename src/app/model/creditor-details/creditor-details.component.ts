@@ -65,6 +65,7 @@ export class CreditorDetailsComponent implements OnInit {
   }
 
   showModal(){
+    this.finCreditor={};
     this.creditorModel.show();
   }
   addCreditorDetails(){
@@ -174,7 +175,7 @@ export class CreditorDetailsComponent implements OnInit {
     //$scope.primaryClaimant=value;
     this.claim_form['creditors'] = this.CreditorDetails;
     this.claim_form['primaryClaimant'] = value;
-    this.saveClaimForm();
+    this.commonFunctionService.saveClaimForm(this.claim_form);
     this.creditDetails=true;
     this.creditorDetails.emit(this.creditDetails);
     this.closeModal();
@@ -182,67 +183,5 @@ export class CreditorDetailsComponent implements OnInit {
   isEmailExistedInDb(email:string){
     this.commonFunctionService.checkEmailExistedOrNot(email);
   }
-  saveClaimForm(submit?:any){
-    if(this.commonFunctionService.removeSpecialCharacters(this.claim_form.formType) ===""){
-      this.claim_form.formType = "USER_CLAIM";
-    }
-      var x = this.claim_form.primaryClaimant;
-      this.claim_form['userId'] = this.storageService.getUserId();
-      if(this.claim_form.claimAmountDetails){
-        for(var i=0;i<this.claim_form.claimAmountDetails.length;i++){
-                this.claim_form.claimAmountDetails[i].type=this.claim_form.claimAmountDetails[i].unitDetails.type;
-                this.claim_form.claimAmountDetails[i].unit=this.claim_form.claimAmountDetails[i].unitDetails.unit;
-                this.claim_form.claimAmountDetails[i].comment=this.claim_form.claimAmountDetails[i].unitDetails.comment;
-                this.claim_form.claimAmountDetails[i].otherType=this.claim_form.claimAmountDetails[i].unitDetails.otherType;
 
-        }
-      }
-      if(this.claim_form.category=='EC'){
-      this.claim_form.claimModel='EMPLOYEE'
-      }
-      if(submit && submit==='SUBMIT'){
-        if(this.claim_form.catClass == 'HOME_BUYER'){
-            if(!this.claim_form || !this.claim_form.authorised_person){
-              this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
-                //$.notify("\"Please Add Authorised Representative\"", "error")
-            }
-            if(!this.claim_form.formAttachments || !this.claim_form.formAttachments['application_form'] || this.claim_form.formAttachments['application_form'].length <= 0){
-                //$.notify("\"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents\"", "error")
-                this.notificationService.notify('bg-danger',"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents");
-                return;
-            }
-        }
-
-          this.claim_form.formStatus = "SUBMITTED";
-          if(!this.claim_form.claimDate) this.claim_form.claimDate = new Date();
-      }else if(this.claim_form.formStatus === "SUBMITTED"){
-      //DO NOT CHANGE STATUS
-      }else{
-          this.claim_form.formStatus = "SAVED";
-      }
-      this.commonFunctionService.setClientLog(this.claim_form);
-      this.commonFunctionService.setBaseEntity(this.claim_form);
-      let payload = {
-        path : "claimform",
-        data : this.claim_form,
-        type : submit
-      }
-      this.apiService.saveNewClaim(payload);
-
-      // CommonUtilService.saveSingleCaseAttribute("claimform",this.claim_form)
-      //   .success(function(data,status){
-      //   this.in_progess_for_claimform_submit = false;
-      //       this.claim_form = data.success;
-      //       if(submit && submit==='SUBMIT'){
-      //           this.showMyClaimForms()
-      //           $.notify("Claim Form Submitted Successfully!!!", "success");
-      //       }
-      //       safeApply($scope);
-      //   })
-      //   .error(function(data,status){
-      //   $scope.in_progess_for_claimform_submit = false;
-      //   $.notify("Error occured while saving..", "error");
-      // })
-
-  }
 }
