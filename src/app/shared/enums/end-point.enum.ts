@@ -9,5 +9,7 @@ export enum EndPoint {
     GET_CLAIM_NEW_FORM = "cas/nclf",
     CHECK_EMAIL_EXISTS = "cas/checkexistingclaim",
     SAVE_CLAIM = "cas/svsicsat",
-    FILE_UPLOAD = "vdr/crtfl/"
+    FILE_UPLOAD = "vdr/crtfl/",
+    DELETE_FILE = "vdr/dlfl",
+    DOWNLOAD_FILE = "vdr/getfl/download"
 }

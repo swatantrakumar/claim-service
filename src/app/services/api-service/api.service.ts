@@ -126,6 +126,30 @@ constructor(
       }
     )
   }
+  removeDocument(payload:any){
+    let api = this.envService.getAuthApi('DELETE_FILE');
+    this.http.post(api,payload).subscribe(
+      (respData:any) =>{
+        this.dataShareService.shareFileRemoveResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occured while removing document, Please contact admin !!!");
+      }
+    )
+  }
+  downloadDocument(payload:any){
+    let api = this.envService.getAuthApi('DOWNLOAD_FILE');
+    this.http.post<HttpResponse<any>>(api,payload,{ responseType: 'string' as 'json'}).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          this.dataShareService.shareFileDownloadResponce(respData);
+        }
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Exception occuered while fetching File..");
+      }
+    )
+  }
   //End For app functions
 
 

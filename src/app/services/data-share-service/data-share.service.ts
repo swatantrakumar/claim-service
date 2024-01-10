@@ -13,6 +13,10 @@ export class DataShareService {
   emailExists:Subject<any> = new Subject();
   saveClaimResponce:Subject<any> = new Subject();
   fileUploadResponce:Subject<any> = new Subject();
+  fileRemoveResponce:Subject<any> = new Subject();
+  fileDownloadResponce:Subject<any> = new Subject();
+  formExist:Subject<any> = new Subject();
+  nextForm:Subject<any> = new Subject();
   claimStaticData:any={};
 
   constructor() { }
@@ -44,7 +48,18 @@ export class DataShareService {
   shareFileUploadResponce(responce:any){
     this.fileUploadResponce.next(responce);
   }
-
+  shareFileRemoveResponce(responce:any){
+    this.fileRemoveResponce.next(responce);
+  }
+  shareFileDownloadResponce(responce:any){
+    this.fileDownloadResponce.next(responce);
+  }
+  claimFormExist(exist:boolean){
+    this.formExist.next(exist);
+  }
+  claimNextForm(next:boolean){
+    this.nextForm.next(next);
+  }
   //End For App
 
 
