@@ -10,6 +10,10 @@ import { DataShareService } from 'src/app/services/data-share-service/data-share
 export class Form_footerComponent implements OnInit {
 
   @Input() claim_form:any;
+
+  @Input() goNextPage!:()=>void;
+  @Input() showMyClaimForms!:()=>void;
+
   constructor(
     private commonFunctionService:CommonFunctionService,
     private dataShareServie:DataShareService
@@ -20,11 +24,11 @@ export class Form_footerComponent implements OnInit {
   saveClaimForm(){
     this.commonFunctionService.saveClaimForm(this.claim_form);
   }
-  showMyClaimForms(){
-    this.dataShareServie.claimFormExist(true);
-  }
-  goNextPage(){
-    this.dataShareServie.claimNextForm(true);
-  }
+  // showMyClaimForms(){
+  //   this.dataShareServie.claimFormExist(true);
+  // }
+  // goNextPage(){
+  //   this.dataShareServie.claimNextForm(true);
+  // }
 
 }

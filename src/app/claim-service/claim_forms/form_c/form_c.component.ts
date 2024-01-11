@@ -16,6 +16,15 @@ export class Form_cComponent implements OnInit {
   @Input() showVerification: boolean = false;
   @Input() selectedForm:string='';
   @Input() activeTabName:string='';
+  @Input() creditDetails:boolean=false;
+  @Input() showForm:boolean=false;
+
+  @Input() downloadFile!:(doc:any)=>void;
+  @Input() goNextPage!:()=>void;
+  @Input() goPreviousPge!:()=>void;
+  @Input() showMyClaimForms!:()=>void;
+  @Input() previewFormWindow!:(obj:any)=>void;
+
 
   constructor() { }
 

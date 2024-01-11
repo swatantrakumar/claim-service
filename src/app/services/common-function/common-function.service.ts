@@ -439,5 +439,65 @@ getPayload(obj:any){
     var mode = "c";
     return mode;
   }
+  reformatDates(objectName:any, object:any) {
+    if (objectName && object) {
+        switch (objectName) {
+            case 'valuer':
+                if (object.demitDate) object.demitDate = new Date(object.demitDate);
+                if (object.appointmentDate) object.appointmentDate = new Date(object.appointmentDate);
+                if (object.appointmentDate) object.cocApprovalDate = new Date(object.cocApprovalDate);
+                break;
+            case 'litigation':
+                if (object.lastHearing) object.lastHearing = new Date(object.lastHearing);
+                if (object.nextHearing) object.nextHearing = new Date(object.nextHearing);
+                if (object.initiationDate) object.initiationDate = new Date(object.initiationDate);
+                break;
+            case 'claim':
+                if (object.receiptClaimDate) object.receiptClaimDate = new Date(object.receiptClaimDate);
+                break;
+            case 'vote':
+                if (object.stDate) object.stDate = new Date(object.stDate);
+                if (object.endDate) object.endDate = new Date(object.endDate);
+                break;
+            case 'case':
+                if (object.creationDate) object.creationDate = new Date(object.creationDate);
+                if (object.initiationDate) object.initiationDate = new Date(object.initiationDate);
+                if (object.submissionDate) object.submissionDate = new Date(object.submissionDate);
+                if (object.admissionDate) object.admissionDate = new Date(object.admissionDate);
+                if (object.irpAppointementDate) object.irpAppointementDate = new Date(object.irpAppointementDate);
+                if (object.insolvency_commencement_date) object.insolvency_commencement_date = new Date(object.insolvency_commencement_date);
+                if (object.liquidation_commencement_date) object.liquidation_commencement_date = new Date(object.liquidation_commencement_date);
+                if (object.bankruptcy_commencement_date) object.bankruptcy_commencement_date = new Date(object.bankruptcy_commencement_date);
+                break;
+            case 'bankaccount':
+                if (object.date) object.date = new Date(object.date);
+                break;
+            case 'userservice':
+                if (object.endDate) object.endDate = new Date(object.endDate);
+                /* if(object.startDate) object.startDate=new Date(object.startDate);*/
+                break;
+            case 'claims':
+                if (object.date) object.date = new Date(object.date);
+                /* if(object.startDate) object.startDate=new Date(object.startDate);*/
+                break;
+            case 'claimform':
+                if (object.claimDate) object.claimDate = new Date(object.claimDate);
+        }
+    }
+}
+  getClaimDataFormCaseId(id:string){
+    let log = this.storageService.getUserLog();
+    let payload = {
+      _id : id,
+      data: {log:log}
+    }
+    this.apiService.getClaimData(payload);
+  }
+  getClaimStaticDataForTheCase(id:string){
+    let payload = {
+      _id : id
+    }
+    this.apiService.getClaimStaticDataFromCase(payload);
+  }
 
 }

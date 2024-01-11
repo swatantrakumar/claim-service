@@ -8,6 +8,7 @@ import { AuthDataShareService } from 'src/app/services/data-share-service/auth-d
 import { ApiService } from 'src/app/services/api-service/api.service';
 import { NotificationService } from 'src/app/services/notify/notification.service';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
+import { ModelService } from 'src/app/services/model/model.service';
 
 @Component({
   selector: 'lib-my-claim',
@@ -34,6 +35,7 @@ export class MyClaimComponent implements OnInit {
   showVerification:boolean=false;
   in_progess_for_claimform_submit:boolean=false;
   showForm:boolean=false;
+  creditDetails:boolean=false;
 
   selectRowData:any={}
   claim_form:any={}
@@ -74,7 +76,8 @@ export class MyClaimComponent implements OnInit {
     private authDataShareService:AuthDataShareService,
     private apiService:ApiService,
     private notificationService:NotificationService,
-    private commonFunctionService:CommonFunctionService
+    private commonFunctionService:CommonFunctionService,
+    private modelService:ModelService
   ) {
     this.claimObj.amountAttribute = [{
         type: '',
@@ -93,16 +96,17 @@ export class MyClaimComponent implements OnInit {
     this.authDataShareService.activeCaseId.subscribe(id=>{
       this.showMyClaimForms();
     })
-    this.dataShareService.formExist.subscribe(data =>{
-      if(data){
-        this.showMyClaimForms()
-      }
-    })
-    this.dataShareService.nextForm.subscribe(data =>{
-      if(data){
-        this.goNextPage();
-      }
-    })
+    // this.dataShareService.formExist.subscribe(data =>{
+    //   if(data){
+    //     this.commonFunctionService.getClaimDataFormCaseId(this.storageService.GetActiveCaseId());
+    //     this.showMyClaimForms()
+    //   }
+    // })
+    // this.dataShareService.nextForm.subscribe(data =>{
+    //   if(data){
+    //     this.goNextPage();
+    //   }
+    // })
     this.dataShareService.claimBlankForm.subscribe(data =>{
       this.setClaimBlankForm(data);
     })
@@ -114,11 +118,17 @@ export class MyClaimComponent implements OnInit {
         this.notificationService.notify('bg-success',"Claim Form Submitted Successfully!!!");
       }
     })
+    this.dataShareService.fileDownloadResponce.subscribe(data =>{
+      if(data){
+        window.open(data);
+      }
+    });
    }
 
   ngOnInit() {
   }
   showMyClaimForms(){
+    this.commonFunctionService.getClaimDataFormCaseId(this.storageService.GetActiveCaseId());
     this.OnlineFormGrid=true;
     this.CATEGORY_SELECTION=false;
     this.formSelection='';
@@ -133,6 +143,7 @@ export class MyClaimComponent implements OnInit {
     this.showDeclaration=false;
     this.showVerification=false;
     this.showForm=false;
+    this.creditDetails=false;
   }
   activeSection(){
     if(this.OnlineFormGrid==true){
@@ -270,10 +281,64 @@ export class MyClaimComponent implements OnInit {
     this.claim_form.formName=this.popUpWindow;
   }
    editClaimForm(){
+      this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
+      if(!this.claim_form.formDate) this.claim_form.formDate = new Date();
+      this.formSelection=this.claim_form.category;
+      this.selectedForm=this.claim_form.catClass;
+      this.commonFunctionService.reformatDates("claims", this.claim_form)
+      this.activeSection();
+      this.formPopUpWindow(true);
 
-   }
-   previewFormWindow(){
+      if(!this.claim_form.primaryClaimant){
+        this.creditDetails=false;
+      }else{
+        this.creditDetails=true;
+      }
+   };
+   previewFormWindow(form?:any){
+      if(this.activeTabName=='CLAIMSTATUS'){
+        this.claim_form=this.commonFunctionService.cloneObject(form);
+      }
+      if(this.selectRowData){
+        this.claim_form = this.commonFunctionService.cloneObject(this.selectRowData);
+      }else{
+        this.claim_form=this.commonFunctionService.cloneObject(form);
+      }
 
+      switch(this.claim_form.catClass){
+        case 'Banks':
+        case 'NBFC':
+        case 'Banks(Authorised Rep)':
+        case 'NBFC(Authorised Rep)':
+          this.modelService.open('PREVIEW_MODEL',{});
+          // $('#previewFormC').modal('show');
+          // $scope.previewModal='#previewFormC'
+          break;
+
+        case 'Home Buyers':
+        case 'Commercial Buyer':
+        case 'Commercial Buyer(Authorised Rep)':
+        case 'Home Buyers(Authorised Rep)':
+          // $('#previewFormCA').modal('show');
+          // $scope.previewModal='#previewFormCA'
+          break;
+        case 'Operational Creditor':
+        // $scope.previewPopUpWindow="previewFormB";
+          // $('#previewFormB').modal('show');
+          // $scope.previewModal='#previewFormB'
+          break;
+        case 'Others':
+        //$scope.previewPopUpWindow="previewFormF";
+          // $('#previewFormF').modal('show');
+          // $scope.previewModal='#previewFormF'
+          break;
+        case 'Employee & Workmen':
+        //$scope.previewPopUpWindow="previewFormD";
+          // $('#previewFormD').modal('show');
+          // $scope.previewModal='#previewFormD'
+          break;
+
+      }
    }
    viewDetail(){
 
@@ -292,7 +357,7 @@ export class MyClaimComponent implements OnInit {
    }
    goNextPage(){
     let activecase = this.storageService.GetActiveCase();
-    if(activecase && activecase.caseName != 'Space Realcon India Pvt Ltd'){
+    if(activecase && activecase.caseName == 'Space Realcon India Pvt Ltd'){
       this.commonFunctionService.saveClaimForm(this.claim_form);
       if(this.showForm==true){
           this.showForm=false;
@@ -323,6 +388,21 @@ export class MyClaimComponent implements OnInit {
         this.notificationService.notify("bg-danger","Please upload file in Builder Buyer Agreement.. ");
       }
     }
+  }
+  goPreviousPge(){
+    if(this.showDeclaration==true ){
+      this.showForm=true;
+      this.showDeclaration=false;
+      this.showVerification=false;
+    }else if( this.showVerification==true){
+      this.showForm=false;
+      this.showDeclaration=true;
+      this.showVerification=false;
+    }
+  }
+  downloadFile(doc:any){
+    this.commonFunctionService.setClientLog(doc);
+    this.apiService.downloadDocument(doc);
   }
 
 }

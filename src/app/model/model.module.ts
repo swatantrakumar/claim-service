@@ -11,6 +11,7 @@ import { ClaimEmployeComponent } from './claim-employe/claim-employe.component';
 import { AddSecurityDetailsComponent } from './add-security-details/add-security-details.component';
 import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.component';
 import { WaitModelComponent } from './wait-model/wait-model.component';
+import { PreviewModelComponent } from './preview-model/preview-model.component';
 
 let components =[
   UserCreationComponent,
@@ -20,7 +21,8 @@ let components =[
   ClaimEmployeComponent,
   AddSecurityDetailsComponent,
   AddBankDetailsComponent,
-  WaitModelComponent
+  WaitModelComponent,
+  PreviewModelComponent
 ]
 @NgModule({
   imports: [

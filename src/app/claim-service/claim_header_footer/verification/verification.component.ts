@@ -8,19 +8,23 @@ import { Component, Input, OnInit } from '@angular/core';
 export class VerificationComponent implements OnInit {
   @Input() claim_form:any;
 
+  @Input() goPreviousPge!:()=>void;
+  @Input() previewFormWindow!:(obj:any)=>void;
+  @Input() showMyClaimForms!:()=>void;
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  showMyClaimForms(){
+  // showMyClaimForms(){
 
-  }
-  goPreviousPge(){
+  // }
+  // goPreviousPge(){
 
-  }
-  previewFormWindow(data:any){
+  // }
+  // previewFormWindow(data:any){
 
-  }
+  // }
 
 }

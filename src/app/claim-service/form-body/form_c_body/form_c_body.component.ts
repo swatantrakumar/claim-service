@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api-service/api.service';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
 import { DataShareService } from 'src/app/services/data-share-service/data-share.service';
@@ -7,6 +7,7 @@ import { FileHandlerService } from 'src/app/services/file-handler/fileHandler.se
 import { ModelService } from 'src/app/services/model/model.service';
 import { NotificationService } from 'src/app/services/notify/notification.service';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
+import { MyClaimComponent } from '../../my-claim/my-claim.component';
 
 @Component({
   selector: 'app-form_c_body',
@@ -22,6 +23,10 @@ export class Form_c_bodyComponent implements OnInit {
   @Input() claimModeByBank:boolean=false;
   @Input() selectedForm:string='';
   @Input() activeTabName:string='';
+
+
+  @Input() downloadFile!:(doc:any) => void;
+
   activecase:any;
   CIN_NO:boolean=false;
   fcIdentificationDetails:any=[];
@@ -97,11 +102,7 @@ export class Form_c_bodyComponent implements OnInit {
       this.activeIndex = -1;
       this.activekey = "";
     })
-    this.dataShareService.fileDownloadResponce.subscribe(data =>{
-      if(data){
-        window.open(data);
-      }
-    });
+
    }
 
   ngOnInit() {
@@ -192,10 +193,7 @@ export class Form_c_bodyComponent implements OnInit {
       }
     }
   }
-  downloadFile(doc:any){
-    this.commonFunctionService.setClientLog(doc);
-    this.apiService.downloadDocument(doc);
-  }
+
   uploadFile(type:any,key?:any){
     this.attachment_key = key;
     this.fileType = type;

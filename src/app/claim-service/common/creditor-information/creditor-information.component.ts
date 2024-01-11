@@ -10,7 +10,7 @@ export class CreditorInformationComponent implements OnInit {
 
   @Input() claim_form:any;
   @Input() selectedForm:string='';
-  creditDetails:boolean=false;
+  @Input() creditDetails:boolean=false;
 
   constructor(
     private modelService:ModelService

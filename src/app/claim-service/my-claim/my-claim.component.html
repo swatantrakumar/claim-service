@@ -77,7 +77,7 @@
 </div>
 <div class="row">
   <div class="col-md-12 " *ngIf="popUpWindow==='C' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_c.html' ">
-    <app-form_c [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj"></app-form_c>
+    <app-form_c [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [creditDetails]="creditDetails" [showForm]="showForm" [downloadFile]="downloadFile.bind(this)" [goNextPage]="goNextPage.bind(this)" [goPreviousPge]="goPreviousPge.bind(this)" [showMyClaimForms]="showMyClaimForms.bind(this)" [previewFormWindow]="previewFormWindow.bind(this)"></app-form_c>
   </div>
   <div class="col-md-12 " *ngIf="popUpWindow==='D' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_d.html' ">
     <p>form D</p>
@@ -99,3 +99,4 @@
   </div>
 </div>
 <app-wait-model [id]="'WAIT_MODEL'"></app-wait-model>
+<app-preview-model [id]="'PREVIEW_MODEL'"></app-preview-model>

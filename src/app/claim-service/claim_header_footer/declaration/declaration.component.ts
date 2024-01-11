@@ -8,25 +8,30 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DeclarationComponent implements OnInit {
   @Input() claim_form:any;
 
+  @Input() downloadFile!:(doc:any)=>void;
+  @Input() goNextPage!:()=>void;
+  @Input() goPreviousPge!:()=>void;
+  @Input() showMyClaimForms!:()=>void;
+
   date=new Date();
   constructor() { }
 
   ngOnInit() {
   }
 
-  downloadFile(doc:any){
 
-  }
   changeinrelatedParty(check:boolean){
-
+    if(check){
+      this.claim_form.cocEligible=false;
+    }
   }
-  showMyClaimForms(){
+  // showMyClaimForms(){
 
-  }
-  goPreviousPge(){
+  // }
+  // goPreviousPge(){
 
-  }
-  goNextPage(){
+  // }
+  // goNextPage(){
 
-  }
+  // }
 }
