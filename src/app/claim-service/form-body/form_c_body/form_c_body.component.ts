@@ -26,10 +26,11 @@ export class Form_c_bodyComponent implements OnInit {
 
 
   @Input() downloadFile!:(doc:any) => void;
+  @Input() deleteDocument!:(doc:any,index:number,key?:any) => void;
+  @Input() idVerificationWindow!: () => void;
+  @Input() claimModelPopUp!: () => void;
 
   activecase:any;
-  CIN_NO:boolean=false;
-  fcIdentificationDetails:any=[];
   attachment_key:string="";
   fileType:string='';
 
@@ -87,21 +88,7 @@ export class Form_c_bodyComponent implements OnInit {
       }
       this.modelService.close("WAIT_MODEL");
     })
-    this.dataShareService.confirmationResponce.subscribe(check =>{
-      if(this.activeIndex > -1){
-        this.deleteDoc(check);
-      }
-    })
-    this.dataShareService.fileRemoveResponce.subscribe(data =>{
-      if(data){
-        this.notificationService.notify("bg-success","Document has been removed successfully !!!");
-        this.commonFunctionService.saveClaimForm(this.claim_form);
-      }else{
-        this.notificationService.notify("bg-error","Error occured while removing document, Please contact admin !!!");
-      }
-      this.activeIndex = -1;
-      this.activekey = "";
-    })
+
 
    }
 
@@ -161,38 +148,13 @@ export class Form_c_bodyComponent implements OnInit {
     this.rx.size = rxFile.size;
     this.uploadData.push(this.rx);
   }
-  idVerificationWindow(){
-    if (this.showCinDetails) {
-      this.CIN_NO = true;
-    }
-    this.commonFunctionService.idVerificationWindow(this.claim_form,this.fcIdentificationDetails,this.CIN_NO);
-  }
-  claimDetails:any=[]
-  payments:any=[]
-  paymentsReview:any=[];
-  claimModelWindow:string='';
-  activeIndex:number=-1;
-  activekey:any;
-  claimModelPopUp(){
-    this.commonFunctionService.claimModelPopUp(this.claim_form,this.claimDetails,this.payments,this.activeTabName,this.claimModelWindow,this.claimObj);
-    //$scope.payments_update_index = -1;
-  }
 
-  deleteDocument(doc:any,index:any,key?:any){
-    if(this.claim_form.formStatus == "SUBMITTED"){
-      this.notificationService.notify("bg-danger","Cannot be deleted!!!");
-    }else{
-      if(doc){
-          this.activeIndex = index;
-          this.activekey = key;
-          let message = "Are you sure you want to delete "+ doc.rollName + " ? ";
-          let obj ={
-            msg : message
-          }
-          this.modelService.open('confirmation_modal',obj)
-      }
-    }
-  }
+
+
+
+
+
+
 
   uploadFile(type:any,key?:any){
     this.attachment_key = key;
@@ -211,16 +173,6 @@ export class Form_c_bodyComponent implements OnInit {
   onCompare( _right: KeyValue<any, any>,_left: KeyValue<any, any>): number {
     return 1;
   }
-  deleteDoc(check:boolean){
-    if(check){
-      let activeDocumentArray:any = [] ;
-      if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
-          activeDocumentArray = this.claim_form.formAttachments[this.activekey];
-      }else{
-          activeDocumentArray=this.claim_form.docList;
-      }
-      this.apiService.removeDocument(activeDocumentArray[this.activeIndex]);
-    }
-  }
+
 
 }

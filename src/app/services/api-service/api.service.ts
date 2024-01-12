@@ -150,6 +150,17 @@ constructor(
       }
     )
   }
+  getClaimStatusDetails(payload:any){
+    let api = this.envService.getAuthApi('GET_CLAIM_STATUS');
+    this.http.post<HttpResponse<any>>(api+"/"+payload.caseId+"/"+payload.id,payload.data).subscribe(
+      (respData:any) =>{
+        this.dataShareService.shareClaimStatusResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occurred while getting claim form");
+      }
+    )
+  }
   //End For app functions
 
 

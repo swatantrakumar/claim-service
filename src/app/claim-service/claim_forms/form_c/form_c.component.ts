@@ -20,10 +20,13 @@ export class Form_cComponent implements OnInit {
   @Input() showForm:boolean=false;
 
   @Input() downloadFile!:(doc:any)=>void;
+  @Input() deleteDocument!:(doc:any,index:number,key?:any) => void;
   @Input() goNextPage!:()=>void;
   @Input() goPreviousPge!:()=>void;
   @Input() showMyClaimForms!:()=>void;
   @Input() previewFormWindow!:(obj:any)=>void;
+  @Input() idVerificationWindow!: () => void;
+  @Input() claimModelPopUp!: () => void;
 
 
   constructor() { }

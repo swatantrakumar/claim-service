@@ -1,0 +1,39 @@
+<div class=" text-right">
+
+  Date: {{claim_form.formDate | date:'dd-MMM-yyyy'}}
+
+</div>
+<div class="list-group">
+  <div class="font-weight-bold">From</div>
+  <div class="row">
+      <div class="col-lg-3" *ngFor="let claimant of claim_form.creditors">
+          <div> {{claimant.name}}</div>
+          <div > {{claimant.address.address}}, {{claimant.address.city}},</div>
+          <div> {{claimant.address.state}}, {{claimant.address.country}}, {{claimant.address.pinCode}}</div>
+          <div>Email : {{claimant.email}}, Mobile: {{claimant.phone}}</div>
+       </div>
+  </div>
+
+</div>
+<div class="list-group mt-1">
+  <div class="font-weight-bold">To</div>
+  <div> The Interim Resolution Professional / Resolution Professional,</div>
+  <div class="font-weight-bold" > {{claim_form.irpName}},</div>
+  <div *ngIf="claim_form.irpAddress!=null">
+          {{claim_form.irpAddress.address}}, {{claim_form.irpAddress.city}}, {{claim_form.irpAddress.state}}, {{claim_form.irpAddress.country}}, {{claim_form.irpAddress.pinCode}}
+  </div >
+  <div class="font-weight-bold">Subject: Submission of claim and proof of claim.</div>
+  <div><p>Madam/Sir,</p></div>
+  <div class="mb-1"><b *ngIf="claim_form && claim_form.primaryClaimant && claim_form.primaryClaimant.name">{{claim_form.primaryClaimant.name}}</b>, hereby submits this claim in respect of the corporate
+      insolvency
+      resolution process of <b *ngIf="claim_form && claim_form.respName">{{claim_form.respName}}</b>. The details for the same are set out
+      below:
+  </div>
+</div>
+
+
+
+<!-- <div ng-include src="'es/onlineClaimsForm/common_partial/preview_creditorInformation.html'"></div>
+<div ng-include src="'es/onlineClaimsForm/common_partial/partial_irpInformation.html'"></div> -->
+
+

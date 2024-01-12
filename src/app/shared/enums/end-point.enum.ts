@@ -11,5 +11,6 @@ export enum EndPoint {
     SAVE_CLAIM = "cas/svsicsat",
     FILE_UPLOAD = "vdr/crtfl/",
     DELETE_FILE = "vdr/dlfl",
-    DOWNLOAD_FILE = "vdr/getfl/download"
+    DOWNLOAD_FILE = "vdr/getfl/download",
+    GET_CLAIM_STATUS = "cas/gcfc/"
 }

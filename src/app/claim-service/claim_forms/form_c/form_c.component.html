@@ -15,7 +15,7 @@
             <app-form_header [claim_form]="claim_form" [selectedForm]="selectedForm" [creditDetails]="creditDetails"></app-form_header>
           </div>
           <div>
-            <app-form_c_body [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [downloadFile]="downloadFile.bind(this)"></app-form_c_body>
+            <app-form_c_body [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [downloadFile]="downloadFile.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)"></app-form_c_body>
           </div>
           <div>
             <app-form_footer [claim_form]="claim_form" [goNextPage]="goNextPage.bind(this)"  [showMyClaimForms]="showMyClaimForms.bind(this)"></app-form_footer>

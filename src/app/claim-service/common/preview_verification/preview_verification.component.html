@@ -1,0 +1,24 @@
+<div class="list-group mb-2 mt-2 ml-2 ">
+  <div class="font-weight-bold text-center"><u>VERIFICATION</u></div>
+  <div> I,<span *ngFor="let claimant of claim_form.creditors"><b>{{claimant.name}},&nbsp;</b></span>
+      the claimant here in above, do hereby verify that the contents of this proof of claim are true and correct to my knowledge and belief and no material fact has been concealed therefrom.
+  </div>
+  <div>
+            Verified this at {{claim_form.place}} on {{claim_form.formDate | date:'dd-MMM-yyyy'}}
+   </div>
+</div>
+<div class="col-md-12">
+<table>
+<tr>
+<td style="width:55%"></td>
+<td style="width:10%"><img style="width:100px;" [src]="claim_form.signature" ng-model="claim_form.signature"/>
+  <br>(Signature of claimant)</td>
+</tr>
+</table>
+
+</div>
+<div class="mb-3 ml-2 mr-2">
+      [Note: In the case of company or limited liability partnership, the declaration and verification
+      shall be made by the director/manager/secretary/designated partner and in the case of other
+      entities, an officer authorised for the purpose by the entity.]
+</div>

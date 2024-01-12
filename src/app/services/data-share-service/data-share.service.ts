@@ -17,6 +17,7 @@ export class DataShareService {
   fileDownloadResponce:Subject<any> = new Subject();
   formExist:Subject<any> = new Subject();
   nextForm:Subject<any> = new Subject();
+  claimStatus:Subject<any> = new Subject();
   claimStaticData:any={};
 
   constructor() { }
@@ -59,6 +60,9 @@ export class DataShareService {
   }
   claimNextForm(next:boolean){
     this.nextForm.next(next);
+  }
+  shareClaimStatusResponce(responce:any){
+    this.claimStatus.next(responce);
   }
   //End For App
 

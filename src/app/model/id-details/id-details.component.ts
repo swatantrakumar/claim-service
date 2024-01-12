@@ -49,8 +49,15 @@ export class IdDetailsComponent implements OnInit {
     this.modelService.add(this);
   }
 
-  deleteIdRecords(index:number){
-
+  deleteIdRecords(object:any,index:number){
+    if(object && object[index]){
+      this.deleteIndex = index;
+      let message = "Are you sure you want to delete "+ object[index].nameOnId +" (" + object[index].idType + ":" + object[index].idNumber + ") ? ";
+      let obj ={
+        msg : message
+      }
+      this.modelService.open('confirmation_modal',obj)
+    }
   }
   closeIdVerification(){
     this.idDetailsModel.hide();

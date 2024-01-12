@@ -31,6 +31,9 @@ export class ClaimServiceComponent implements OnInit {
     //     $scope.showMyClaimForms()
     // }
   }
+  chagneTab(name:string){
+    this.activeTabName = name;
+  }
 
 
 

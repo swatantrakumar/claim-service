@@ -12,6 +12,7 @@ import { AddSecurityDetailsComponent } from './add-security-details/add-security
 import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.component';
 import { WaitModelComponent } from './wait-model/wait-model.component';
 import { PreviewModelComponent } from './preview-model/preview-model.component';
+import { CommonCoreModule } from '../claim-service/common/common.module';
 
 let components =[
   UserCreationComponent,
@@ -30,7 +31,8 @@ let components =[
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
-    AngularMaterialModule
+    AngularMaterialModule,
+    CommonCoreModule
   ],
   declarations: components,
   exports:components

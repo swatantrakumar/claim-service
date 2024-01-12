@@ -22,9 +22,7 @@ export class CreditorInformationComponent implements OnInit {
   onlineClaimFormPopUp(id:string){
     this.modelService.open('creditModel',{})
   }
-  creditorDetails(responce:any){
-    this.creditDetails = responce;
-  }
+
 
 
 }
