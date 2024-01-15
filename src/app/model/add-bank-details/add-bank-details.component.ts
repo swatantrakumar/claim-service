@@ -91,7 +91,7 @@ export class AddBankDetailsComponent implements OnInit {
     }
     //this.finCreditor.bankAccountDetail =[];
     this.claim_form.bankAccount = (this.commonFunctionService.cloneObject(this.accountDetails));
-    //this.saveClaimForm();
+    this.commonFunctionService.saveClaimForm(this.claim_form);
     //this.bankDetailsGrid=true;
     this.closeBankAccount();
   }

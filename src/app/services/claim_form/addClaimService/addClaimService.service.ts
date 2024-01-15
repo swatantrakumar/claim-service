@@ -12,31 +12,7 @@ constructor(
   private notificationService:NotificationService
 ) { }
 
-  addClaimObj(claimObj:any,claim_form:any,claimDetails:any){
-    if(!claimObj || !claimObj.unitDetails || !claimObj.unitDetails.unit){
-      this.notificationService.notify('bg-danger',"Please fill in all the details.. ");
-      return
-    }
-    if(claim_form.formName!=='B'){
-        claimObj.paymentDetails=[];
-    }else{
-        if(!claimObj.paymentDetails || !claimObj.paymentDetails[0] || claimObj.paymentDetails[0].total<=0){
-          this.notificationService.notify('bg-danger',"Please fill Amount..");
-          return;
-        }
-    }
-    //this.claimObj.paymentDetails[0].otherType=this.claimObj.unitDetails.otherType;
-    claimDetails.push(this.commonFunctionService.cloneObject(claimObj));
-    claim_form.claimAmountDetails = claimDetails;
-    if(claim_form.formName==='B'){
-        //this.calculateTotalClaimAmount();
-    }else{
-        //this.saveClaimForm();
-    }
-    claimObj={};
-    claimObj.unitDetails={}
-    claimObj.paymentDetails=[];
-  }
+
   addPaymentDetails(object:any,claimModelWindow:any,payments:any,index:number,claim_form:any,claimDetails:any){
     var mandatoryFields= ['paymentDate','mode','amount']
     switch(claimModelWindow){

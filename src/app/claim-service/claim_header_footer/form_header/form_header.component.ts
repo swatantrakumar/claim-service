@@ -9,6 +9,8 @@ export class Form_headerComponent implements OnInit {
 
   @Input() claim_form:any;
   @Input() selectedForm:any='';
+  @Input() creditDetails:boolean=false;
+
   constructor() { }
 
   ngOnInit() {

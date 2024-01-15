@@ -28,6 +28,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                     </td>
                     <td >
                         <select class="form-control"  [(ngModel)]="finCreditor.idType">
+                            <option></option>
                             <option value="AADHAAR">Aadhaar Card</option>
                             <option value="PAN">Pan Card</option>
                             <option value="PASSPORT">Passport</option>
@@ -53,7 +54,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                     <td >{{dList.idNumber}}</td>
                     <td >{{dList.cinNumber}}</td>
                     <td class="text-center" >
-                      <img src="img/cross.png" style="width:15px" (click)="deleteIdRecords(i)">
+                      <img src="/assets/img/cross.png" style="width:15px" (click)="deleteIdRecords(fcIdentificationDetails,i)">
                     </td>
                   </tr>
                 </tbody>

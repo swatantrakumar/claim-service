@@ -16,9 +16,9 @@ export class ClaimEmployeComponent implements OnInit {
 
   @Input() claim_form:any;
   @Input() claimObj:any;
-  @Input() payments:any;
+  payments:any;
   @Input() claimDetails:any;
-  @Input() claimModelWindow:any;
+  claimModelWindow:any;
   @Input() id: string ='';
   @ViewChild('claimEmployeModel') public claimEmployeModel!: ModalDirective;
 
@@ -36,6 +36,7 @@ export class ClaimEmployeComponent implements OnInit {
   headerIntrestRate:boolean=false;
   claimDetaisFields:any = []
   payments_update_index:number=-1;
+  claimStaticData:any;
 
 
 
@@ -44,13 +45,14 @@ export class ClaimEmployeComponent implements OnInit {
     private addClaimService:AddClaimServiceService,
     private deleteRecordService:DeleteRecordService,
     private dataShareService:DataShareService,
-    private commonFunctionService:CommonFunctionService
+    private commonFunctionService:CommonFunctionService,
+    private notificationService:NotificationService
   ) {
-    let claimDetails = this.dataShareService.getClaimStaticData();
-    if(claimDetails && claimDetails.calimType){
-      let types = claimDetails.calimType;
-      if(types && types.EC && types.EC.EC){
-        this.claimTypes = types.EC.EC;
+    this.claimStaticData = this.dataShareService.getClaimStaticData();
+    if(this.claimStaticData && this.claimStaticData.calimType){
+      let types = this.claimStaticData.calimType;
+      if(types){
+        this.claimTypes = types;
       }
     }
     this.dataShareService.confirmationResponce.subscribe(check =>{
@@ -71,9 +73,9 @@ export class ClaimEmployeComponent implements OnInit {
     this.modelService.add(this);
   }
   showModal(alert:any){
-
-
     if(alert && alert.claimModelWindow){
+      this.claimModelWindow = alert.claimModelWindow;
+      this.payments = alert.payments;
       switch (alert.claimModelWindow) {
         case 'CLAIM_MODEL_EMPLOYEE':
           this.empFields = [
@@ -123,9 +125,9 @@ export class ClaimEmployeComponent implements OnInit {
           break;
         case 'CLAIM_MODEL_BANK':
           this.empFields = [
-            {"label":"Claim Type","name":"unit","type":"select","change":true},
-            {"label":"Facility Type","name":"type","type":"select","change":false},
-            {"label":"Approval Date","name":"date","type":"date","ddn":""},
+            {"label":"Claim Type","name":"unit","type":"select","change":true,"ddn_field":"unit_select","call_back_field":"type_select","dataType":"key_value"},
+            {"label":"Facility Type","name":"type","type":"select","change":false,"ddn_field":"type_select"},
+            {"label":"Approval Date","name":"date","type":"date"},
             {"label":"Comment","name":"comment","type":"text"},
             {"label":"","name":"total","type":"label","data":'claim'}
           ]
@@ -139,6 +141,7 @@ export class ClaimEmployeComponent implements OnInit {
             {"label":"Penalty + Charges","name":"penalty","type":"number","change":true},
             {"label":"Total","name":"total","type":"text","disable":true}
           ]
+          this.staticData['unit_select'] = this.claimTypes[this.claim_form.category];
           break;
         case 'CLAIM_MODEL_HOME_BUYER':
           this.empFields = [
@@ -185,11 +188,46 @@ export class ClaimEmployeComponent implements OnInit {
     }
     this.claimEmployeModel.show();
   }
+  selectChange(emp:any){
+    if(emp && emp.change){
+      let fieldName = this.claimObj.unitDetails[emp.name];
+      let key = emp.call_back_field;
+      let list = this.claimTypes[this.claim_form.category][fieldName];
+      this.staticData[key] = list;
+    }
+  }
   close(){
     this.claimEmployeModel.hide();
   }
   addClaimObj(){
-    this.addClaimService.addClaimObj(this.claimObj,this.claim_form,this.claimDetails);
+    if(!this.claimObj || !this.claimObj.unitDetails || !this.claimObj.unitDetails.unit){
+      this.notificationService.notify('bg-danger',"Please fill in all the details.. ");
+      return
+    }
+    if(this.claim_form.formName!=='B'){
+        this.claimObj.paymentDetails=[];
+    }else{
+        if(!this.claimObj.paymentDetails || !this.claimObj.paymentDetails[0] || this.claimObj.paymentDetails[0].total<=0){
+          this.notificationService.notify('bg-danger',"Please fill Amount..");
+          return;
+        }
+    }
+    //this.claimObj.paymentDetails[0].otherType=this.claimObj.unitDetails.otherType;
+    this.claimDetails.push(this.commonFunctionService.cloneObject(this.claimObj));
+    this.claim_form.claimAmountDetails = this.claimDetails;
+    for(var i=0;i<this.claimDetails.length;i++){
+      if(this.payments.length != this.claimDetails.length){
+        this.payments.push({});
+      }
+    }
+    if(this.claim_form.formName==='B'){
+        this.calculateTotalClaimAmount();
+    }else{
+      this.commonFunctionService.saveClaimForm(this.claim_form);
+    }
+    this.claimObj={};
+    this.claimObj.unitDetails={}
+    this.claimObj.paymentDetails=[];
   }
   activeClaim:any={};
   deleteRecord(object:any,index:number,key:any){
@@ -214,7 +252,7 @@ export class ClaimEmployeComponent implements OnInit {
           break;
       }
 
-      //this.calculateTotalClaimAmount();
+      this.calculateTotalClaimAmount();
     }
     this.activeIndex = -1;
   }

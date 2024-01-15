@@ -1,0 +1,78 @@
+<div  mdbModal #previewModel="mdbModal" class="modal fade top"  tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',keyboard: false}">
+<div class="modal-dialog modal-full-width modal-dialog-scrollable">
+  <div class="modal-content">
+
+      <div class="modal-body">
+              <div class="row">
+                      <div class="col-12 col-lg-12 col-md-12 mt-3 ">
+                          <div class="row">
+                              <div class="col-lg-6">
+                                  <div class="form-group mb-1 row col-lg-12">
+                                      <label class="col-5 modal-title text-right mt-1">Authorised Representative</label>
+                                      <div class="col-7">
+                                          <input type="text" [value]="claim_form.authorised_person" class="form-control" [(ngModel)]="claim_form.authorised_person" disabled>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 text-right">
+
+                                  <button type="button" class="btn btn-primary btn-rounded" *ngIf="claim_form.formStatus!=='SUBMITTED'"
+                                          (click)="close()">Go Back
+                                  </button>
+                                  <button type="button" class="btn btn-primary btn-rounded" *ngIf="claim_form.formStatus==='SUBMITTED'"
+                                          (click)="close()">Go Back
+                                  </button>
+                                  <button [disabled]="in_progess_for_claimform_submit" type="button" class="btn btn-primary btn-rounded" *ngIf="claim_form.formStatus!=='SUBMITTED'"
+                                          (click)="finalSubmissionAlert()">
+                                          <span *ngIf="!in_progess_for_claimform_submit">Submit</span>
+                                              <span *ngIf="in_progess_for_claimform_submit">
+                                                  <span class="spinner-border spinner-border-sm"></span>Submit
+                                              </span>
+                                  </button>
+                                  <button type="button" class="btn btn-primary btn-rounded" (click)="printData('previewFormC')">print
+                                  </button>
+
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-lg-12 col-md-12 border" id="previewFormC">
+                                  <div class="list-group text-center">
+                                      <h4>FORM C </h4>
+                                      <h4>SUBMISSION OF CLAIM BY FINANCIAL CREDITOR</h4>
+
+                                      <p><i>(Under Regulation 8 of the Insolvency and Bankruptcy Board of India (Insolvency
+                                          Resolution Process
+                                          for Corporate Persons) Regulations, 2016)</i></p>
+                                  </div>
+                                  <div>
+                                    <app-preview_header [claim_form]="claim_form"></app-preview_header>
+                                  </div>
+                                  <div >
+                                    <app-preview_body [claim_form]="claim_form" [deleteDocument]="deleteDocument.bind(this)" [downloadFile]="downloadFile.bind(this)"></app-preview_body>
+                                  </div>
+                                  <div >
+                                    <app-preview_footer [claim_form]="claim_form"></app-preview_footer>
+                                  </div>
+                                  <div class="row">
+                                      <div >
+                                        <app-preview_declaration [claim_form]="claim_form" [downloadFile]="downloadFile.bind(this)"></app-preview_declaration>
+                                      </div>
+
+                                  </div>
+                                  <div class="row">
+                                      <div >
+                                        <app-preview_verification [claim_form]="claim_form"></app-preview_verification>
+                                      </div>
+
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+      </div>
+  </div>
+
+
+</div>

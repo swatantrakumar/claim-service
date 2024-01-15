@@ -37,7 +37,7 @@
                           </div>
                           <div class="tab-content">
                             <div class="tab-pane " id="documents" [ngClass]="{'active': activeTabName=='MYCLAIM'}" *ngIf="activeTabName=='MYCLAIM'">
-                              <lib-my-claim [activeTabName]="activeTabName"></lib-my-claim>
+                              <lib-my-claim [activeTabName]="activeTabName" (myClain)="chagneTab($event)"></lib-my-claim>
                             </div>
                             <div class="tab-pane  " [ngClass]="{'active': activeTabName=='CLAIMSTATUS'}"
                             *ngIf="activeTabName=='CLAIMSTATUS'">

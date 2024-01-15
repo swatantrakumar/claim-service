@@ -90,7 +90,7 @@ export class AddSecurityDetailsComponent implements OnInit {
     }
    this.secDetails.push(this.security);
    this.claim_form.secDetails=this.commonFunctionService.cloneObject(this.secDetails);
-   //this.saveClaimForm();
+   this.commonFunctionService.saveClaimForm(this.claim_form);
    this.security={};
   }
 

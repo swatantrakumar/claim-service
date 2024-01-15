@@ -1,0 +1,80 @@
+<div class="list-group mb-2 mt-2 ml-2 ">
+  <div class="font-weight-bold text-center"><u>DECLARATION</u></div>
+  <div> <span *ngFor="let claimant of claim_form.creditors">I &nbsp;<b>{{claimant.name}}</b>, currently residing at &nbsp;
+  <b>{{claimant.address.address}}, {{claimant.address.city}}, {{claimant.address.state}}, {{claimant.address.pinCode}}, {{claimant.address.country}}</b>
+   ,</span> do hereby declare and state as follows: -
+  </div>
+  <div>1.<b>{{claim_form.respName}}</b>
+      , the corporate debtor was, at the insolvency commencement date, being the
+      {{claim_form.commencementDate | date:"dd/MMM/yy"}} , actually indebted to me for a sum of
+      Rs.
+      <b>{{claim_form.total | number:'1.2-2'}}</b> .
+  </div>
+  <div>2. In respect of my claim of the said sum or any part thereof, I have relied on the
+      documents
+  </div>
+  <div>specified below:</div>
+  <div class="mt-2" *ngFor="let doc of claim_form.docList">
+      <a (click)="downloadFile(doc)" class="pointer textAlignLeft"
+         style="overflow: hidden;background: transparent;border: none;" disabled>{{doc.rollName}}</a>
+
+  </div>
+  <div>
+      3. The said documents are true, valid and genuine to the best of my knowledge, information and
+      belief and no
+      material facts have been concealed therefrom.
+  </div>
+  <div>
+      4. In respect of the said sum or any part thereof, neither I, nor any person, by my order, to my
+      knowledge or
+      belief, for my use, had or received any manner of satisfaction or security whatsoever, save and
+      except the
+      following:
+  </div>
+  <div>
+      <b>{{claim_form.mutualDealing}}</b>
+  </div>
+  <div *ngIf="claim_form.formName=='C' || claim_form.formName=='CA'">
+      <div>5.</div>
+      <table>
+          <tr>
+              <td></td>
+              <td *ngIf="claim_form.relatedParty">I am a <b>related party</b> of the corporate
+                  debtor, as defined under section 5 (24) of
+                  the
+                  Code.
+              </td>
+              <td  *ngIf="!claim_form.relatedParty">I am <b>not</b> a related party of the
+                  corporate debtor, as defined under section 5 (24) of
+                  the
+                  Code.
+              </td>
+          </tr>
+      </table>
+  </div>
+  <div *ngIf="claim_form.formName=='C'">
+      <div>6.I am  eligible to join committee of creditors by virtue of proviso to section 21 (2) of the Code even though I am a related party of the corporate debtor.</div>
+
+  </div>
+  <div *ngIf="claim_form.formName=='CA'">
+  <div>6. I am eligible to give voting instruction to the authorized representative by virtue of proviso to section 21 (2) of the Code even though I am a related party of the corporate debtor.</div>
+
+</div>
+</div>
+
+<div class="form-row ml-2">
+  <div class="form-group col-lg-10  ">
+      Date: {{date | date:'dd-MM-yyyy'}}
+  </div>
+  <div class="form-group m-0 col-lg-2  ">
+      <img style="width:100px;" [src]="claim_form.signature" ng-model="claim_form.signature"/>
+  </div>
+</div>
+<div class="form-row ml-2">
+  <div class="form-group col-lg-10  ">
+      <label class="ml-2 mr-1">Place:</label> {{claim_form.place}}
+  </div>
+  <div class="form-group col-lg-2  ">
+      (Signature of claimant)
+  </div>
+</div>

@@ -13,20 +13,20 @@
   <tr>
       <td class="text-left w-25" >Name in BLOCK LETTERS</td>
       <td >
-          <input type="text" class="text-uppercase form-control" ng-model="claim_form.claimRep" ng-blur="saveClaimForm()">
+          <input type="text" class="text-uppercase form-control" [(ngModel)]="claim_form.claimRep" (blur)="saveClaimForm()">
       </td>
   </tr>
   <tr>
       <td class="text-left w-25" >Position with or in relation to creditor
       </td>
       <td >
-              <input type="text" class="form-control" ng-model="claim_form.relation" ng-blur="saveClaimForm()">
+              <input type="text" class="form-control" [(ngModel)]="claim_form.relation" (blur)="saveClaimForm()">
       </td>
   </tr>
   <tr>
       <td class="text-left w-25" >Address of person signing</td>
       <td >
-              <input type="text" class="form-control" ng-model="claim_form.claimRepAddress" ng-blur="saveClaimForm()">
+              <input type="text" class="form-control" [(ngModel)]="claim_form.claimRepAddress" (blur)="saveClaimForm()">
       </td>
   </tr>
 
@@ -39,8 +39,8 @@
 
 <div class="form-row">
 <div class="form-group col-lg-12  text-center">
-  <button type="button" class="btn btn-outline-primary btn-rounded" ng-click="showMyClaimForms()">Exit</button>
-  <button type="button" class="btn btn-outline-primary btn-rounded" ng-click="goNextPage()">Save & Next</button>
+  <button type="button" class="btn btn-outline-primary btn-rounded" (click)="showMyClaimForms()">Exit</button>
+  <button type="button" class="btn btn-outline-primary btn-rounded" (click)="goNextPage()">Save & Next</button>
   </div>
 </div>
 

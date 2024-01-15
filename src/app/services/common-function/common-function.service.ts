@@ -346,7 +346,7 @@ getPayload(obj:any){
           claim_form.claimModel = "EMPLOYEE";
           break;
      }
-     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{claimModelWindow:claimModelWindow});
+     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{claimModelWindow:claimModelWindow,payments:payments});
   }
   calculateTotalClaimAmount(claimDetails:any,claim_form:any){
       var total:any=0;
@@ -387,9 +387,117 @@ getPayload(obj:any){
       claim_form.tax=parseFloat(tax).toFixed(2);
       claim_form.interest=parseFloat(interest).toFixed(2);
       claim_form.penalty=parseFloat(penalty).toFixed(2);
-      this.saveClaimForm();
+      this.saveClaimForm(claim_form);
   }
-  saveClaimForm(){
+
+  saveClaimForm(claim_form:any,submit?:any){
+    if(this.removeSpecialCharacters(claim_form.formType) ===""){
+      claim_form.formType = "USER_CLAIM";
+    }
+    var x = claim_form.primaryClaimant;
+    claim_form['userId'] = this.storageService.getUserId();
+    if(claim_form.claimAmountDetails){
+      for(var i=0;i<claim_form.claimAmountDetails.length;i++){
+        claim_form.claimAmountDetails[i].type=claim_form.claimAmountDetails[i].unitDetails.type;
+        claim_form.claimAmountDetails[i].unit=claim_form.claimAmountDetails[i].unitDetails.unit;
+        claim_form.claimAmountDetails[i].comment=claim_form.claimAmountDetails[i].unitDetails.comment;
+        claim_form.claimAmountDetails[i].otherType=claim_form.claimAmountDetails[i].unitDetails.otherType;
+
+      }
+    }
+    if(claim_form.category=='EC'){
+      claim_form.claimModel='EMPLOYEE';
+    }
+    if(submit && submit==='SUBMIT'){
+      if(claim_form.catClass == 'HOME_BUYER'){
+        if(!claim_form || !claim_form.authorised_person){
+          this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
+        }
+        if(!claim_form.formAttachments || !claim_form.formAttachments['application_form'] || claim_form.formAttachments['application_form'].length <= 0){
+            this.notificationService.notify('bg-danger',"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents");
+            return;
+        }
+      }
+      claim_form.formStatus = "SUBMITTED";
+      if(!claim_form.claimDate) claim_form.claimDate = new Date();
+    }else if(claim_form.formStatus === "SUBMITTED"){
+      //DO NOT CHANGE STATUS
+    }else{
+      claim_form.formStatus = "SAVED";
+    }
+    this.setClientLog(claim_form);
+    this.setBaseEntity(claim_form);
+    let payload = {
+      path : "claimform",
+      data : claim_form,
+      type : submit
+    }
+    this.apiService.saveNewClaim(payload);
 
   }
+  getProjectMode() {
+    var mode = "c";
+    return mode;
+  }
+  reformatDates(objectName:any, object:any) {
+    if (objectName && object) {
+        switch (objectName) {
+            case 'valuer':
+                if (object.demitDate) object.demitDate = new Date(object.demitDate);
+                if (object.appointmentDate) object.appointmentDate = new Date(object.appointmentDate);
+                if (object.appointmentDate) object.cocApprovalDate = new Date(object.cocApprovalDate);
+                break;
+            case 'litigation':
+                if (object.lastHearing) object.lastHearing = new Date(object.lastHearing);
+                if (object.nextHearing) object.nextHearing = new Date(object.nextHearing);
+                if (object.initiationDate) object.initiationDate = new Date(object.initiationDate);
+                break;
+            case 'claim':
+                if (object.receiptClaimDate) object.receiptClaimDate = new Date(object.receiptClaimDate);
+                break;
+            case 'vote':
+                if (object.stDate) object.stDate = new Date(object.stDate);
+                if (object.endDate) object.endDate = new Date(object.endDate);
+                break;
+            case 'case':
+                if (object.creationDate) object.creationDate = new Date(object.creationDate);
+                if (object.initiationDate) object.initiationDate = new Date(object.initiationDate);
+                if (object.submissionDate) object.submissionDate = new Date(object.submissionDate);
+                if (object.admissionDate) object.admissionDate = new Date(object.admissionDate);
+                if (object.irpAppointementDate) object.irpAppointementDate = new Date(object.irpAppointementDate);
+                if (object.insolvency_commencement_date) object.insolvency_commencement_date = new Date(object.insolvency_commencement_date);
+                if (object.liquidation_commencement_date) object.liquidation_commencement_date = new Date(object.liquidation_commencement_date);
+                if (object.bankruptcy_commencement_date) object.bankruptcy_commencement_date = new Date(object.bankruptcy_commencement_date);
+                break;
+            case 'bankaccount':
+                if (object.date) object.date = new Date(object.date);
+                break;
+            case 'userservice':
+                if (object.endDate) object.endDate = new Date(object.endDate);
+                /* if(object.startDate) object.startDate=new Date(object.startDate);*/
+                break;
+            case 'claims':
+                if (object.date) object.date = new Date(object.date);
+                /* if(object.startDate) object.startDate=new Date(object.startDate);*/
+                break;
+            case 'claimform':
+                if (object.claimDate) object.claimDate = new Date(object.claimDate);
+        }
+    }
+}
+  getClaimDataFormCaseId(id:string){
+    let log = this.storageService.getUserLog();
+    let payload = {
+      _id : id,
+      data: {log:log}
+    }
+    this.apiService.getClaimData(payload);
+  }
+  getClaimStaticDataForTheCase(id:string){
+    let payload = {
+      _id : id
+    }
+    this.apiService.getClaimStaticDataFromCase(payload);
+  }
+
 }

@@ -72,7 +72,7 @@
 
                   <div class="form-group row">
                       <div class="col-lg-3 " *ngFor="let doc of claim_form.docList;let i=index">
-                          <img class="pointer" src="img/cross.png" style="width:15px" (click)="deleteDocument(doc,i)">
+                          <img class="pointer" src="/assets/img/cross.png" style="width:15px" (click)="deleteDocument(doc,i)">
                           <a (click)="downloadFile(doc)" class="pointer textAlignLeft" disabled>{{doc.rollName}}</a>
                           <!--<button style="background: transparent;position: absolute;right: 2px;top: 0px;height: 17px;width: 4px;font-size: x-small;border: none;" ng-click="removeDoc(doc,index)">x</button>-->
                       </div>
@@ -115,7 +115,7 @@
 
                   <div class="form-group row" *ngIf="claim_form.formAttachments && claim_form.formAttachments[item.key]" >
                       <div class="col-lg-3 " *ngFor="let doc of claim_form.formAttachments[item.key];let i=index"  >
-                          <img class="pointer" src="img/cross.png" style="width:15px" (click)="deleteDocument(doc,i,item.key)">
+                          <img class="pointer" src="/assets/img/cross.png" style="width:15px" (click)="deleteDocument(doc,i,item.key)">
                           <a (click)="downloadFile(doc)" class="pointer textAlignLeft" style="font-size: 70%;" disabled>{{doc.rollName}}</a>
                       </div>
                   </div>
@@ -219,5 +219,4 @@
   </table>
 </div>
 
-<app-id-details [claim_form]="claim_form" [id]="'ID_DETAILS_WINDOW'" [CIN_NO]="CIN_NO" [fcIdentificationDetails]="fcIdentificationDetails"></app-id-details>
-<app-claim-employe [claim_form]="claim_form" [id]="'CLAIM_MODEL_EMPLOYEE'" [claimObj]="claimObj" [claimDetails]="claimDetails" [payments]="payments" [claimModelWindow]="claimModelWindow"></app-claim-employe>
+

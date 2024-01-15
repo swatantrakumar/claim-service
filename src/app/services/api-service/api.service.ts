@@ -5,6 +5,8 @@ import { from, of, Observable } from 'rxjs';//fromPromise
 import { DataShareService } from '../data-share-service/data-share.service';
 import { EnvService } from '../env-service/env.service';
 import { StorageService } from '../storage-service/storage.service';
+import { NotificationService } from '../notify/notification.service';
+import { ModelService } from '../model/model.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,8 @@ constructor(
   private dataShareService: DataShareService,
   private http:HttpClient,
   private envService: EnvService,
-  private stroageService: StorageService
+  private modelService: ModelService,
+  private notificationService:NotificationService
  ) { }
 
   getClaimData(payload:any){
@@ -106,6 +109,55 @@ constructor(
       },
       (error)=>{
 
+      }
+    )
+  }
+  addFileToS3(payload:any){
+    let api = this.envService.getAuthApi('FILE_UPLOAD');
+    this.http.post(api+'/'+payload.path,payload.data).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          this.dataShareService.shareFileUploadResponce(respData);
+        }
+      },
+      (error)=>{
+        this.modelService.close("WAIT_MODEL");
+        this.notificationService.notify("bg-danger","Error occured while uploading file, Please try after sometime...");
+      }
+    )
+  }
+  removeDocument(payload:any){
+    let api = this.envService.getAuthApi('DELETE_FILE');
+    this.http.post(api,payload).subscribe(
+      (respData:any) =>{
+        this.dataShareService.shareFileRemoveResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occured while removing document, Please contact admin !!!");
+      }
+    )
+  }
+  downloadDocument(payload:any){
+    let api = this.envService.getAuthApi('DOWNLOAD_FILE');
+    this.http.post<HttpResponse<any>>(api,payload,{ responseType: 'string' as 'json'}).subscribe(
+      (respData:any) =>{
+        if (respData) {
+          this.dataShareService.shareFileDownloadResponce(respData);
+        }
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Exception occuered while fetching File..");
+      }
+    )
+  }
+  getClaimStatusDetails(payload:any){
+    let api = this.envService.getAuthApi('GET_CLAIM_STATUS');
+    this.http.post<HttpResponse<any>>(api+"/"+payload.caseId+"/"+payload.id,payload.data).subscribe(
+      (respData:any) =>{
+        this.dataShareService.shareClaimStatusResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occurred while getting claim form");
       }
     )
   }

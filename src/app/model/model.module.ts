@@ -10,6 +10,9 @@ import { IdDetailsComponent } from './id-details/id-details.component';
 import { ClaimEmployeComponent } from './claim-employe/claim-employe.component';
 import { AddSecurityDetailsComponent } from './add-security-details/add-security-details.component';
 import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.component';
+import { WaitModelComponent } from './wait-model/wait-model.component';
+import { PreviewModelComponent } from './preview-model/preview-model.component';
+import { CommonCoreModule } from '../claim-service/common/common.module';
 
 let components =[
   UserCreationComponent,
@@ -18,7 +21,9 @@ let components =[
   IdDetailsComponent,
   ClaimEmployeComponent,
   AddSecurityDetailsComponent,
-  AddBankDetailsComponent
+  AddBankDetailsComponent,
+  WaitModelComponent,
+  PreviewModelComponent
 ]
 @NgModule({
   imports: [
@@ -26,7 +31,8 @@ let components =[
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
-    AngularMaterialModule
+    AngularMaterialModule,
+    CommonCoreModule
   ],
   declarations: components,
   exports:components
