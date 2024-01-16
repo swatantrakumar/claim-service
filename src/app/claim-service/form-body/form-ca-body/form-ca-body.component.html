@@ -106,9 +106,9 @@
       </tr>
 
 
-      <tr [ngClass]="selectedForm=='Banks' && activecase.caseType && activecase.caseType == 'Home Buyers' ? '':'d-none'" *ngFor="let item of list_of_files_to_attach_for_banks | keyvalue:onCompare ;let i=index "  >
+      <tr [ngClass]="selectedForm=='Home Buyers' && activecase.caseType && (activecase.caseType == 'Home Buyers' || activecase.caseType == 'Space Real Con India Pvt Ltd') ? '':'d-none'" *ngFor="let item of list_of_files_to_attach_for_home_buyer | keyvalue:onCompare ;let i=index "  >
           <td>{{alphabates[i]}}</td>
-          <td class="text-left">{{item.value}}
+          <td class="text-left">{{item.value}}<p class="text-left" style="color: red;" *ngIf="item.value == 'Claim Form' || item.value == 'Builder Buyer Agreement'">*mandatory</p>
           </td>
           <td>
               <div>
@@ -131,6 +131,9 @@
                           </div>
                       </div>
 
+                  </div>
+                  <div *ngIf="i == 0">
+                    <p>[Note: After filling this online form, please take out a print out of this form, sign it, scan and upload here]</p>
                   </div>
                   <div *ngIf="i == 1">
                       <p>(PAN, Adhaar, etc)</p>
@@ -214,6 +217,14 @@
                   </div>
               </div>
           </td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td class="text-left">Name of the insolvency professional who will act as the Authorised representative of creditors of the class
+        </td>
+        <td>
+            <input [(ngModel)]="claim_form.authorised_person"  (blur)="saveClaimForm()" style="width: 80rem;height:5rem;border: none;background: white;" disabled>
+        </td>
       </tr>
 
   </table>

@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./id_details.component.css']
 })
 export class Id_detailsComponent implements OnInit {
-  @Input() CIN:any;
+  @Input() CIN_NO:any=false;
   @Input() claim_form:any;
 
   constructor() { }

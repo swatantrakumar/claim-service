@@ -1,0 +1,36 @@
+<div class="table-responsive">
+  <table >
+      <thead class="thead-light ">
+      <tr>
+          <th>Sr</th>
+          <th>Claim Type</th>
+          <th>Claim Date</th>
+          <th> Amount</th>
+          <th>Interest Amount</th>
+          <th>Penalty + Charges</th>
+          <th>Total</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let mList of claim_form.claimAmountDetails;let i=index">
+          <td>{{i+1}}</td>
+          <td>{{mList.unitDetails.unit}}</td>
+          <td>{{mList.unitDetails.date | date:'dd/MM/yy'}}</td>
+          <td>{{mList.amount}}</td>
+          <td>{{mList.interest}}</td>
+
+          <td>{{mList.penalty}}</td>
+          <td>{{mList.total}}</td>
+      </tr>
+      <tr>
+          <td colspan="3">Total</td>
+          <td><b>{{claim_form.amount | number:'1.2-2'}}</b></td>
+          <td><b>{{claim_form.interest | number:'1.2-2'}}</b></td>
+          <td>{{claim_form.penalty | number:'1.2-2'}}</td>
+          <td><b>{{claim_form.total | number:'1.2-2'}}</b></td>
+
+      </tr>
+      </tbody>
+  </table>
+  </div>

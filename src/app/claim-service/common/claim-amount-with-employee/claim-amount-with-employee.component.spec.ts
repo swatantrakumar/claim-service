@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { Form_caComponent } from './form_ca.component';
+import { ClaimAmountWithEmployeeComponent } from './claim-amount-with-employee.component';
 
-describe('Form_caComponent', () => {
-  let component: Form_caComponent;
-  let fixture: ComponentFixture<Form_caComponent>;
+describe('ClaimAmountWithEmployeeComponent', () => {
+  let component: ClaimAmountWithEmployeeComponent;
+  let fixture: ComponentFixture<ClaimAmountWithEmployeeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Form_caComponent ]
+      declarations: [ ClaimAmountWithEmployeeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Form_caComponent);
+    fixture = TestBed.createComponent(ClaimAmountWithEmployeeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

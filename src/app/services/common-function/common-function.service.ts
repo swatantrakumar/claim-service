@@ -263,31 +263,7 @@ getPayload(obj:any){
       return todayDate.getFullYear();
 
   }
-  idVerificationWindow(claim_form:any,fcIdentificationDetails:any,CIN_NO:boolean){
-    if(!claim_form) claim_form= {}
-    fcIdentificationDetails = claim_form.ids;
-    switch(claim_form.catClass){
-      case 'Banks':
-      case 'Banks(Authorised Rep)':
-      case 'NBFC':
-      case 'NBFC(Authorised Rep)':
-      case 'Operational Creditor':
-      case 'Others':
-        CIN_NO = true;
-        this.modelService.open("ID_DETAILS_WINDOW",{});
-        break;
-      case 'Home Buyers':
-      case 'Home Buyers(Authorised Rep)':
-      case 'Commercial Buyer(Authorised Rep)':
-      case 'Commercial Buyer':
-      case 'Employee & Workmen':
-      case 'Employee & Workmen(Authorised Rep)':
-        CIN_NO = false;
-        this.modelService.open("ID_DETAILS_WINDOW",{});
-        break;
-    }
 
-  }
 
   claimModelPopUp(claim_form:any,claimDetails:any,payments:any,activeTabName:any,claimModelWindow:any,claimObj:any){
     //$scope.payments_update_index = -1;

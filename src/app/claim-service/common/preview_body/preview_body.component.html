@@ -26,12 +26,12 @@
 
                         <div  *ngIf="claim_form.catClass=='Banks'  || claim_form.catClass=='NBFC'">
                               <div >
-                                <app-id_details [claim_form]="claim_form" [CIN]="'true'"></app-id_details>
+                                <app-id_details [claim_form]="claim_form" [CIN_NO]="true"></app-id_details>
                               </div>
                           </div>
                   <div   *ngIf="claim_form.catClass=='Banks(Authorised Rep)' ||  claim_form.catClass=='NBFC(Authorised Rep)'">
                       <div >
-                        <app-id_details [claim_form]="claim_form" [CIN]="'true'"></app-id_details>
+                        <app-id_details [claim_form]="claim_form" [CIN_NO]="true"></app-id_details>
                       </div>
                   </div>
 

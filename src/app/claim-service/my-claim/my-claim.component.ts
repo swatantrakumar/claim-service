@@ -9,7 +9,8 @@ import { ApiService } from 'src/app/services/api-service/api.service';
 import { NotificationService } from 'src/app/services/notify/notification.service';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
 import { ModelService } from 'src/app/services/model/model.service';
-
+import { FileHandlerService } from 'src/app/services/file-handler/fileHandler.service';
+import { KeyValue } from '@angular/common';
 @Component({
   selector: 'lib-my-claim',
   templateUrl: './my-claim.component.html',
@@ -31,6 +32,8 @@ export class MyClaimComponent implements OnInit {
   showIdDetails:boolean=false;
   showCinDetails:boolean=false;
   claimModeByClass:boolean=false;
+  claimModeByEmployee:boolean=false;
+  claimModeByOther:boolean=false;
   claimModeByBank:boolean=false;
   showDeclaration:boolean=false;
   showVerification:boolean=false;
@@ -88,7 +91,8 @@ export class MyClaimComponent implements OnInit {
     private apiService:ApiService,
     private notificationService:NotificationService,
     private commonFunctionService:CommonFunctionService,
-    private modelService:ModelService
+    private modelService:ModelService,
+    private fileHandlerService:FileHandlerService
   ) {
     this.claimObj.amountAttribute = [{
         type: '',
@@ -107,17 +111,6 @@ export class MyClaimComponent implements OnInit {
     this.authDataShareService.activeCaseId.subscribe(id=>{
       this.showMyClaimForms();
     })
-    // this.dataShareService.formExist.subscribe(data =>{
-    //   if(data){
-    //     this.commonFunctionService.getClaimDataFormCaseId(this.storageService.GetActiveCaseId());
-    //     this.showMyClaimForms()
-    //   }
-    // })
-    // this.dataShareService.nextForm.subscribe(data =>{
-    //   if(data){
-    //     this.goNextPage();
-    //   }
-    // })
     this.dataShareService.claimBlankForm.subscribe(data =>{
       this.setClaimBlankForm(data);
     })
@@ -157,6 +150,37 @@ export class MyClaimComponent implements OnInit {
       this.activeIndex = -1;
       this.activekey = "";
     })
+    this.dataShareService.fileUploadResponce.subscribe(data =>{
+      var notification = "";
+      if(typeof data == "object"){
+        Object.keys(data).forEach((key) => {
+            let value = data[key];
+            if(key !== 'data' && key!='uploadedFiles'){
+                notification = notification + key + " : " + value + "; "
+            }
+            if(this.attachment_key && key==='uploadedFiles'){
+                if(!this.claim_form.formAttachments[this.attachment_key]){
+                    this.claim_form.formAttachments[this.attachment_key]=[]
+                }
+                for(var i=0; i<value.length;i++){
+                    this.claim_form.formAttachments[this.attachment_key].push(value[i])
+                }
+                // $scope.claim_form.formAttachments[attachment_key] =value;
+                this.commonFunctionService.saveClaimForm(this.claim_form);
+            }
+        })
+      }
+     // getAllFiles();
+      this.notificationService.notify("bg-success",notification);
+      this.fileTypes[this.fileType]=[];
+      this.uploadData=[];
+      this.attachment_key = "";
+      if(data.data){
+          //$scope.activeNode.children = data.data;
+          this.claim_form.docList= data.data;
+      }
+      this.modelService.close("WAIT_MODEL");
+    })
    }
 
   ngOnInit() {
@@ -174,6 +198,8 @@ export class MyClaimComponent implements OnInit {
     this.showCinDetails=false;
     this.claimModeByClass=false;
     this.claimModeByBank=false;
+    this.claimModeByEmployee=false;
+    this.claimModeByOther = false;
     this.showDeclaration=false;
     this.showVerification=false;
     this.showForm=false;
@@ -280,11 +306,11 @@ export class MyClaimComponent implements OnInit {
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='OC' && this.selectedForm=='Others'){
           this.popUpWindow="F";
-            // this.claimModeByOther=true;
+          this.claimModeByOther=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='EC' && this.selectedForm=='Employee & Workmen'){
             this.popUpWindow="D";
-            // this.claimModeByEmployee=true;
+            this.claimModeByEmployee=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='EC' && this.selectedForm=='Employee & Workmen(Authorised Rep)'){
             this.popUpWindow="E";
@@ -475,11 +501,31 @@ export class MyClaimComponent implements OnInit {
       this.apiService.removeDocument(activeDocumentArray[this.activeIndex]);
     }
   }
+
   idVerificationWindow(){
-    if (this.showCinDetails) {
-      this.CIN_NO = true;
+    if(!this.claim_form) this.claim_form= {}
+    this.fcIdentificationDetails = this.claim_form.ids;
+    switch(this.claim_form.catClass){
+      case 'Banks':
+      case 'Banks(Authorised Rep)':
+      case 'NBFC':
+      case 'NBFC(Authorised Rep)':
+      case 'Operational Creditor':
+      case 'Others':
+        this.CIN_NO = true;
+        this.modelService.open("ID_DETAILS_WINDOW",{});
+        break;
+      case 'Home Buyers':
+      case 'Home Buyers(Authorised Rep)':
+      case 'Commercial Buyer(Authorised Rep)':
+      case 'Commercial Buyer':
+      case 'Employee & Workmen':
+      case 'Employee & Workmen(Authorised Rep)':
+        this.CIN_NO = false;
+        this.modelService.open("ID_DETAILS_WINDOW",{});
+        break;
     }
-    this.commonFunctionService.idVerificationWindow(this.claim_form,this.fcIdentificationDetails,this.CIN_NO);
+
   }
   claimModelPopUp(){
     this.commonFunctionService.claimModelPopUp(this.claim_form,this.claimDetails,this.payments,this.activeTabName,this.claimModelWindow,this.claimObj);
@@ -488,5 +534,75 @@ export class MyClaimComponent implements OnInit {
   creditorDetails(responce:any){
     this.creditDetails = responce;
   }
+
+  //image handling
+  uploadData:any=[]
+  fileTypes:any={}
+  rxFiles:any = [];
+  rxid:string='';
+  rx:any = {};
+  activeNode:any='';
+  fileName:string='';
+  attachment_key:string="";
+  fileType:string='';
+  setFiles(event:any, fileType:string) {
+    this.activeNode = this.claim_form.myPath;
+    this.fileTypes[fileType] = [];
+    this.uploadData=[];
+    this.rxid = event.target.id;
+    var files = event.target.files;
+    this.fileName = files[0].name;
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        this.rxFiles.push(file);
+        var reader = new FileReader();
+        reader.onload = this.imageIsLoaded;
+        reader.readAsDataURL(file);
+    }
+    this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
+  }
+
+  imageIsLoaded= (e:any) => {
+    var rxFile = this.rxFiles[0];
+    this.rxFiles.splice(0, 1);
+    this.rx = {};
+    this.rx.fileData = e.target.result;
+    this.rx.fileData = this.rx.fileData.split(',')[1];
+    if (rxFile.name && rxFile.name != '') {
+        this.rx.fileName = rxFile.name;
+        this.rx.id = this.rxid;
+        var splits = this.rx.fileName.split('.');
+        this.rx.fileExtn = splits[splits.length-1];
+        this.rx.innerBucketPath = this.activeNode.key+ "/"+this.rx.fileName;
+    } else {
+        this.rx.fileName = rxFile.webkitRelativePath;
+    }
+    this.rx.size = rxFile.size;
+    this.uploadData.push(this.rx);
+  }
+  uploadFile(type:any,key?:any){
+    this.attachment_key = key;
+    this.fileType = type;
+    this.fileHandlerService.uploadFile(this.claim_form,this.uploadData);
+  }
+
+  getSelectedFilenameForUpload(){
+    return this.fileHandlerService.getSelectedFilenameForUpload(this.uploadData);
+  }
+  getSelectedFilenameForUploadcustom(index:any){
+    var fullId = 'inputGroupFile04_'+index;
+    return this.fileHandlerService.getSelectedFilenameForUploadcustom(this.uploadData,fullId);
+  }
+
+  saveClaimForm(){
+    this.commonFunctionService.saveClaimForm(this.claim_form);
+  }
+  onlineClaimFormPopUp(type:any){
+    this.modelService.open('securityDetailsModel',{})
+  }
+  onlineBankAccount(){
+    this.modelService.open('addBankDetailsModel',{})
+  }
+
 
 }
