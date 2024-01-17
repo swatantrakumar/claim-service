@@ -3,11 +3,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
 
 @Component({
-  selector: 'app-form_c_body',
-  templateUrl: './form_c_body.component.html',
-  styleUrls: ['./form_c_body.component.css']
+  selector: 'app-form-ca-body',
+  templateUrl: './form-ca-body.component.html',
+  styleUrls: ['./form-ca-body.component.css']
 })
-export class Form_c_bodyComponent implements OnInit {
+export class FormCaBodyComponent implements OnInit {
   @Input() claim_form:any
   @Input() showIdDetails: boolean = false;
   @Input() showCinDetails:boolean = false;
@@ -33,15 +33,17 @@ export class Form_c_bodyComponent implements OnInit {
 
 
 
-  list_of_files_to_attach_for_banks = {
-      claim_form:'Claim Form',
-      identification_document:'Identification Documents',
-      copy_of_agreement:'Copy of Agreement',
-      allotment_letter:'Allotment Letter Upload',
-      proof_of_payments:'Proof of Payments',
-      calculation_of_claim_amount:'Calculation of Claim Amount',
-      security_details:'Security details',
-      other:'Other'
+  list_of_files_to_attach_for_home_buyer = {
+    application_form:'Claim Form',
+    identification_documents:'Identification Documents',
+    allotment_letter:'Allotment Letter Upload',
+    builder_buyer_agreement:'Builder Buyer Agreement',
+    payment_receipt:'Payment Receipt',
+    calculation_of_claim_amount:'Calculation of Claim Amount',
+    tripartite_agreement:'Tripartite Agreement(incase of Home Loan)',
+    credit_Notes_other_adjustments:'Credit Notes/other adjustments',
+    court_order:'Court Order(if any)',
+    other:'Other'
   }
   alphabates = 'abcdefghijklmnopqrstuvwxyz';
   constructor(
@@ -56,4 +58,5 @@ export class Form_c_bodyComponent implements OnInit {
   onCompare( _right: KeyValue<any, any>,_left: KeyValue<any, any>): number {
     return 1;
   }
+
 }

@@ -4,6 +4,9 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
     <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="cinIdDetails">Identification Details</h4>
+          <button type="button" class="close py-2" data-dismiss="modal" aria-label="Close" (click)="closeIdVerification()">
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
         <div class="modal-body">
             <div class="table-responsive">
@@ -62,7 +65,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="closeIdVerification()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="closeIdVerification()">Ok</button>
         </div>
     </div>
   </div>

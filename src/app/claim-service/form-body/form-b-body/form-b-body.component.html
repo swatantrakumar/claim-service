@@ -7,22 +7,17 @@
       </thead>
       <tr>
           <td scope="col">1</td>
-          <td class="text-left w-25"> Name of the financial creditor</td>
-          <td scope="col" class="text-left">
-              <div *ngFor="let claimant of claim_form.creditors;let i=index">{{claimant.name}}</div>
-          </td>
+          <td class="text-left w-25">Name of operational creditor</td>
+          <td scope="col" class="text-left" *ngIf="claim_form.primaryClaimant && claim_form.primaryClaimant.name" >{{claim_form.primaryClaimant.name}}</td>
       </tr>
       <tr>
           <td>2</td>
-          <td class="text-left"> Identification number of the financial creditor <br>(If an incorporated body, provide identification number and proof of incorporation. If a partnership or individual provide identification records* of all the partners or the individual)</td>
+          <td class="text-left"> Identification number of operational creditor<br>(If an incorporated body provide identification number and proof of incorporation. If a
+            partnership or individual provide identification records* of all the partners or the
+            individual)</td>
           <td>
               <div class="row">
-                  <div class="col-md-10" *ngIf="showIdDetails">
-                      <div>
-                        <app-id_details [claim_form]="claim_form" [CIN_NO]="false"></app-id_details>
-                      </div>
-                  </div>
-                  <div class="col-md-10" *ngIf="showCinDetails">
+                  <div class="col-md-10">
                       <div>
                         <app-id_details [claim_form]="claim_form" [CIN_NO]="true"></app-id_details>
                       </div>
@@ -47,15 +42,9 @@
           <td class="text-left">Total amount of claim (including any interest as at the insolvency commencement date)</td>
           <td>
               <div class="row">
-                <div class="col-md-10 marginTopBottom" *ngIf="claimModeByClass">
+                <div class="col-md-10 marginTopBottom" >
                     <div>
-                      <app-claim_amount_with_unit_details [claim_form]="claim_form"></app-claim_amount_with_unit_details>
-                    </div>
-                </div>
-                <!--Banks Table-->
-                <div class="col-md-10 marginTopBottom" *ngIf="claimModeByBank">
-                    <div>
-                      <app-claim_amount_with_bank_nbfc [claim_form]="claim_form"></app-claim_amount_with_bank_nbfc>
+                      <app-claim-amount-with-operational [claim_form]="claim_form"></app-claim-amount-with-operational>
                     </div>
                 </div>
                 <div class="col-md-2 marginTopBottom">
@@ -67,7 +56,7 @@
       <tr>
           <td>5</td>
           <td class="text-left"> Details of documents by reference to which the debt can be substantiated</td>
-          <td *ngIf="activecase.caseType == null">
+          <td>
               <div>
 
                   <div class="form-group row">
@@ -89,7 +78,8 @@
 
                       <div class="input-group">
                           <div class="custom-file col-lg-10">
-                              <input  type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04" onclick="this.value = null" (change)="setFiles($event,'docs')">
+                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04"
+                              onclick="this.value = null" (change)="setFiles($event,'docs')">
                               <label class="custom-file-label" for="inputGroupFile04">{{getSelectedFilenameForUpload()}}</label>
                           </div>
                           <div class="col-lg-2 col-2">
@@ -103,85 +93,64 @@
               </div>
           </td>
       </tr>
-
-
-      <tr [ngClass]="selectedForm=='Banks' && activecase.caseType && activecase.caseType == 'Home Buyers' ? '':'d-none'" *ngFor="let item of list_of_files_to_attach_for_banks | keyvalue:onCompare ;let i=index "  >
-          <td>{{alphabates[i]}}</td>
-          <td class="text-left">{{item.value}}
-          </td>
-          <td>
-              <div>
-
-                  <div class="form-group row" *ngIf="claim_form.formAttachments && claim_form.formAttachments[item.key]" >
-                      <div class="col-lg-3 " *ngFor="let doc of claim_form.formAttachments[item.key];let i=index"  >
-                          <img class="pointer" src="/assets/img/cross.png" style="width:15px" (click)="deleteDocument(doc,i,item.key)">
-                          <a (click)="downloadFile(doc)" class="pointer textAlignLeft" style="font-size: 70%;" disabled>{{doc.rollName}}</a>
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <div class="input-group">
-                          <div class="custom-file col-lg-10">
-                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04_{{i}}" onclick="this.value = null" (change)="setFiles($event,'docs')">
-                              <label class="custom-file-label" for="inputGroupFile04_{{i}}">{{getSelectedFilenameForUploadcustom(i)}}</label>
-                          </div>
-                          <div class="col-lg-2 col-2">
-                              <button type="button" (click)="uploadFile('docs', item.key)" class="btn btn-primary"><i
-                                      class="dripicons-upload"></i></button>
-                          </div>
-                      </div>
-
-                  </div>
-                  <div *ngIf="i == 1">
-                      <p>(PAN, Adhaar, etc)</p>
-                  </div>
-
-              </div>
-          </td>
-      </tr>
-
-
       <tr>
           <td>6</td>
-          <td class="text-left"> Details of how and when debt incurred</td>
-          <td><textarea class="form-control w-100" [(ngModel)]="claim_form.debtDetails" (blur)="saveClaimForm()"></textarea>
+          <td class="text-left"> Details of any dispute as well as the record of pendency or order of suit or arbitration
+            proceedings</td>
+          <td><textarea class="form-control w-100" [(ngModel)]="claim_form.disputeDetails" (blur)="saveClaimForm()"></textarea>
           </td>
       </tr>
       <tr>
           <td>7</td>
-          <td class="text-left">Details of any mutual credit, mutual debts, or other mutual
-              dealings
-              between the corporate debtor and the
-              creditor which may be set-off against the claim
-          </td>
+          <td class="text-left">Details of how and when debt incurred</td>
           <td>
-          <textarea class="form-control w-100" [(ngModel)]="claim_form.mutualDealing" (blur)="saveClaimForm()"
+          <textarea class="form-control w-100" [(ngModel)]="claim_form.debtDetails" (blur)="saveClaimForm()"
           ></textarea>
           </td>
       </tr>
       <tr>
           <td>8</td>
-          <td class="text-left">Details of any security held, the value of the security, and the date it was given</td>
+          <td class="text-left">Details of any mutual credit, mutual debts, or other mutual dealings
+            between the corporate debtor and the creditor which may be set-off against the claim</td>
           <td>
-              <div class="row">
-                  <div class="col-md-10">
-                      <div>
-                        <app-securityDetails [claim_form]="claim_form"></app-securityDetails>
-                      </div>
-                  </div>
-                  <div class="col-md-2">
-                      <button type="button" class="btn btn-outline-primary btn-rounded" (click)="onlineClaimFormPopUp('securityDetails')">Add/Update
-                      </button>
-                  </div>
-              </div>
+            <textarea class="form-control w-100" [(ngModel)]="claim_form.mutualDealing" (blur)="saveClaimForm()"
+            ></textarea>
           </td>
       </tr>
       <tr>
-          <td>9</td>
-          <td class="text-left"> Details of the bank account to which the amount of the claim or
-              any
-              part thereof can be transferred
-              pursuant to a resolution plan
-          </td>
+        <td>9</td>
+        <td colspan="2" class="text-left">DETAILS OF:</td>
+      </tr>
+      <tr>
+        <td>9(a)</td>
+        <td class="text-left">Any security held, the value of security and its date, or</td>
+        <td>
+            <div class="row">
+              <div class="col-md-10">
+                  <div>
+                    <app-securityDetails [claim_form]="claim_form"></app-securityDetails>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <button type="button" class="btn btn-outline-primary btn-rounded" (click)="onlineClaimFormPopUp('securityDetails')">Add/Update
+                  </button>
+              </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>9(b)</td>
+        <td class="text-left">Any retention of title arrangement in respect of goods or properties to which the
+            claim refers
+        </td>
+        <td >
+            <textarea class="form-control" [(ngModel)]="claim_form.retentionDetails" (blur)="saveClaimForm()"></textarea>
+        </td>
+      </tr>
+      <tr>
+          <td>10</td>
+          <td class="text-left">Details of the bank account to which the amount of the claim or any part thereof can be
+            transferred pursuant to a resolution plan</td>
           <td>
               <div class="row">
                   <div class="col-md-10 ">
@@ -200,11 +169,8 @@
           </td>
       </tr>
       <tr>
-          <td>10</td>
-          <td class="text-left">List of documents attached to this claim in order to prove the
-              existence and non-payment of claim due to the
-              financial creditor
-          </td>
+          <td>11</td>
+          <td class="text-left">List of documents attached to this proof of claim in order to prove the existence and non-payment of claim due to the operational creditor</td>
           <td>
               <div class="form-group row">
                   <div class="col-md-3 textAlignLeft" *ngFor="let doc of claim_form.docList;let i=index"  style="position:relative;">

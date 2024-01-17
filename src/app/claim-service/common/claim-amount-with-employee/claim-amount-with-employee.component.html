@@ -1,0 +1,37 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-centered mb-0">
+      <thead class="thead-light text-center">
+      <tr>
+
+          <th >Employee/Workmen ID</th>
+          <th >Name</th>
+          <th >Type</th>
+          <th >Amount</th>
+          <th >Interest</th>
+          <th >Penalty + Charges</th>
+          <th >Total</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let mList of claim_form.claimAmountDetails">
+
+          <td>{{mList.unitDetails.unit}}</td>
+          <td>{{mList.unitDetails.name}}</td>
+          <td>{{mList.unitDetails.type}}</td>
+          <td class="text-center ">{{mList.amount}}</td>
+          <td class="text-center ">{{mList.interest}}</td>
+          <td class="text-center ">{{mList.penalty}}</td>
+          <td class="text-center ">{{mList.total}}</td>
+      </tr>
+      <tr>
+          <td colspan="3">Total</td>
+          <td class="text-center "><b>{{claim_form.amount | number:'1.2-2'}}</b></td>
+          <td class="text-center "><b>{{claim_form.interest | number:'1.2-2'}}</b></td>
+          <td class="text-center ">{{claim_form.penalty | number:'1.2-2'}}</td>
+          <td class="text-center "><b>{{claim_form.total | number:'1.2-2'}}</b></td>
+
+      </tr>
+      </tbody>
+  </table>
+  </div>

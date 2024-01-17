@@ -13,6 +13,7 @@ export class StorageService {
   REFRESH_TOKEN: string = 'REFRESH_TOKEN';
   EXPIRY_IN:any= 'EXPIRY_IN';
   USER_KEY: string = 'USER';
+  STATIC_DATA:string = 'STATIC_DATA';
   CASE_LIST:string = 'CASE_LIST';
   PERMISSION_LIST:any='PERMISSION_LIST';
   ACTIVE_CASE:string='ACTIVEA_CASE';
@@ -234,5 +235,11 @@ export class StorageService {
     }else{
       return [];
     }
+  }
+  setStaticData(staticData:any){
+    localStorage.setItem(this.STATIC_DATA, JSON.stringify(staticData));
+  }
+  GetStaticData() {
+    return JSON.parse(<any>localStorage.getItem(this.STATIC_DATA));
   }
 }

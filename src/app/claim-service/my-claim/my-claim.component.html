@@ -76,29 +76,15 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12 " *ngIf="popUpWindow==='C' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_c.html' ">
-    <app-form_c [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [creditDetails]="creditDetails" [showForm]="showForm" [downloadFile]="downloadFile.bind(this)" [goNextPage]="goNextPage.bind(this)" [goPreviousPge]="goPreviousPge.bind(this)" [showMyClaimForms]="showMyClaimForms.bind(this)" [previewFormWindow]="previewFormWindow.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)"></app-form_c>
+  <div class="col-md-12 " *ngIf="popUpWindow == 'B' || popUpWindow == 'C' || popUpWindow == 'D' || popUpWindow == 'CA' || popUpWindow == 'F'">
+    <app-form_c [popUpWindow]="popUpWindow" [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [claimModeByEmployee]="claimModeByEmployee" [claimModeByOther]="claimModeByOther" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [creditDetails]="creditDetails" [showForm]="showForm" [downloadFile]="downloadFile.bind(this)" [goNextPage]="goNextPage.bind(this)" [goPreviousPge]="goPreviousPge.bind(this)" [showMyClaimForms]="showMyClaimForms.bind(this)" [previewFormWindow]="previewFormWindow.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form_c>
   </div>
-  <div class="col-md-12 " *ngIf="popUpWindow==='D' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_d.html' ">
-    <p>form D</p>
-  </div>
+
   <div class="col-md-12 " *ngIf="popUpWindow==='E' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_e.html' ">
     <p>form E</p>
   </div>
-  <div class="col-md-12 " *ngIf="popUpWindow==='CA' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_ca.html' ">
-    <app-form_ca></app-form_ca>
-  </div>
-  <div class="col-md-12 " *ngIf="popUpWindow==='CA_APPROVAL' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_ca_for_approval.html' ">
-    <p>form CA_Approval</p>
-  </div>
-  <div class="col-md-12 " *ngIf="popUpWindow==='F' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_f.html' ">
-    <p>form F</p>
-  </div>
-  <div class="col-md-12 " *ngIf="popUpWindow==='B' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_b.html' ">
-    <p>form B</p>
-  </div>
+
 </div>
-<app-wait-model [id]="'WAIT_MODEL'"></app-wait-model>
 <app-preview-model [id]="'PREVIEW_MODEL'" [claim_form]="claim_form" [deleteDocument]="deleteDocument.bind(this)" [downloadFile]="downloadFile.bind(this)" [in_progess_for_claimform_submit]="in_progess_for_claimform_submit"></app-preview-model>
 <app-add-security-details [id]="'securityDetailsModel'"  [claim_form]="claim_form" ></app-add-security-details>
 <app-id-details [claim_form]="claim_form" [id]="'ID_DETAILS_WINDOW'" [CIN_NO]="CIN_NO" [fcIdentificationDetails]="fcIdentificationDetails"></app-id-details>

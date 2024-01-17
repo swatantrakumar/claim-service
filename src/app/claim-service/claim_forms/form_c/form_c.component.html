@@ -1,20 +1,25 @@
 <div class="col-md-12  " >
   <div class="col-md-12 border" id="formC">
       <div class="col-md-12" *ngIf="showForm" >
-           <div class="list-group text-center">
-              <h4 class="mt-3">FORM C </h4>
-                  <h4>SUBMISSION OF CLAIM BY FINANCIAL CREDITOR</h4>
-
-              <p ><i>(Under Regulation 8 of the Insolvency and Bankruptcy Board of India (Insolvency
-                  Resolution Process
-                  for Corporate Persons) Regulations, 2016)</i></p>
-          </div>
+           <div class="list-group text-center" [innerHTML]="headerContent"></div>
 
           <div>
             <app-form_header [claim_form]="claim_form" [selectedForm]="selectedForm" [creditDetails]="creditDetails"></app-form_header>
           </div>
-          <div>
-            <app-form_c_body [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [downloadFile]="downloadFile.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)"></app-form_c_body>
+          <div *ngIf="popUpWindow == 'B'" >
+            <app-form-b-body [claim_form]="claim_form"  [downloadFile]="downloadFile.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form-b-body>
+          </div>
+          <div *ngIf="popUpWindow == 'C'" >
+            <app-form_c_body [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [selectedForm]="selectedForm" [downloadFile]="downloadFile.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form_c_body>
+          </div>
+          <div *ngIf="popUpWindow == 'D'" >
+            <app-form-d-body [claim_form]="claim_form"  [claimModeByEmployee]="claimModeByEmployee" [downloadFile]="downloadFile.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form-d-body>
+          </div>
+          <div *ngIf="popUpWindow == 'CA' || popUpWindow == 'CA_APPROVAL'" >
+            <app-form-ca-body [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [selectedForm]="selectedForm" [downloadFile]="downloadFile.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form-ca-body>
+          </div>
+          <div *ngIf="popUpWindow == 'F'" >
+            <app-form-f-body [claim_form]="claim_form" [claimModeByOther]="claimModeByOther" [downloadFile]="downloadFile.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form-f-body>
           </div>
           <div>
             <app-form_footer [claim_form]="claim_form" [goNextPage]="goNextPage.bind(this)"  [showMyClaimForms]="showMyClaimForms.bind(this)"></app-form_footer>

@@ -1,3 +1,4 @@
+import { ClaimAmountWithOthersComponent } from './claim-amount-with-others/claim-amount-with-others.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,6 +16,8 @@ import { Preview_declarationComponent } from './preview_declaration/preview_decl
 import { Preview_footerComponent } from './preview_footer/preview_footer.component';
 import { Preview_headerComponent } from './preview_header/preview_header.component';
 import { Preview_verificationComponent } from './preview_verification/preview_verification.component';
+import { ClaimAmountWithEmployeeComponent } from './claim-amount-with-employee/claim-amount-with-employee.component';
+import { ClaimAmountWithOperationalComponent } from './claim-amount-with-operational/claim-amount-with-operational.component';
 
 
 const components = [
@@ -30,7 +33,10 @@ const components = [
   Preview_declarationComponent,
   Preview_footerComponent,
   Preview_headerComponent,
-  Preview_verificationComponent
+  Preview_verificationComponent,
+  ClaimAmountWithEmployeeComponent,
+  ClaimAmountWithOperationalComponent,
+  ClaimAmountWithOthersComponent
 ]
 
 @NgModule({

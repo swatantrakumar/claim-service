@@ -6,7 +6,7 @@
             <th >ID Type</th>
             <th >Name As On ID Card</th>
             <th > ID Number</th>
-            <th *ngIf="CIN" >CIN Number</th>
+            <th *ngIf="CIN_NO" >CIN Number</th>
         </tr>
       </thead>
       <tbody>
@@ -15,7 +15,7 @@
             <td >{{dList.idType}}</td>
             <td >{{dList.nameOnId}}</td>
             <td >{{dList.idNumber}}</td>
-            <td *ngIf="CIN">{{dList.cinNumber}}</td>
+            <td *ngIf="CIN_NO">{{dList.cinNumber}}</td>
         </tr>
       </tbody>
   </table>
