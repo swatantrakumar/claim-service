@@ -319,6 +319,7 @@ export class MyClaimComponent implements OnInit {
       if(!this.claim_form.formDate) this.claim_form.formDate = new Date();
       this.formSelection=this.claim_form.category;
       this.selectedForm=this.claim_form.catClass;
+      this.popUpWindow=this.claim_form.formName;
       this.commonFunctionService.reformatDates("claims", this.claim_form)
       this.activeSection();
       this.formPopUpWindow(true);
@@ -402,7 +403,6 @@ export class MyClaimComponent implements OnInit {
    }
    goNextPage(){
     let activecase = this.storageService.GetActiveCase();
-    if(activecase && activecase.caseName == 'Space Realcon India Pvt Ltd'){
       this.commonFunctionService.saveClaimForm(this.claim_form);
       if(this.showForm==true){
           this.showForm=false;
@@ -412,27 +412,7 @@ export class MyClaimComponent implements OnInit {
           this.showForm=false;
           this.showDeclaration=false;
           this.showVerification=true;
-      }
-    }else{
-      if(this.claim_form.formAttachments && this.claim_form.formAttachments != null){
-        if(this.claim_form.formAttachments.builder_buyer_agreement && this.claim_form.formAttachments.builder_buyer_agreement.length > 0){
-          this.commonFunctionService.saveClaimForm(this.claim_form);
-          if(this.showForm==true){
-              this.showForm=false;
-              this.showDeclaration=true;
-              this.showVerification=false;
-          }else if( this.showDeclaration==true){
-              this.showForm=false;
-              this.showDeclaration=false;
-              this.showVerification=true;
-          }
-        }else{
-          this.notificationService.notify("bg-danger","Please upload file in Builder Buyer Agreement.. ");
-        }
-      }else{
-        this.notificationService.notify("bg-danger","Please upload file in Builder Buyer Agreement.. ");
-      }
-    }
+      }    
   }
   goPreviousPge(){
     if(this.showDeclaration==true ){
