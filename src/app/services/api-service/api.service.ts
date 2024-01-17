@@ -19,7 +19,8 @@ constructor(
   private http:HttpClient,
   private envService: EnvService,
   private modelService: ModelService,
-  private notificationService:NotificationService
+  private notificationService:NotificationService,
+  private storageService:StorageService
  ) { }
 
   getClaimData(payload:any){
@@ -41,6 +42,7 @@ constructor(
       (respData:any) =>{
         if (respData) {
           //console.log(respData);
+          this.storageService.setStaticData(respData);
           this.dataShareService.setClaimStaticData(respData);
         }
       },

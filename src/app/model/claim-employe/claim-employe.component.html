@@ -4,6 +4,9 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
       <div class="modal-content">
           <div class="modal-header">
               <h4 class="modal-title" id="employee">Claim Amount</h4>
+              <button type="button" class="close py-2" data-dismiss="modal" aria-label="Close" (click)="closeClaimModel()">
+                <span aria-hidden="true">×</span>
+              </button>
           </div>
           <div class="modal-body">
               <form class="form-horizontal mt-1">
@@ -201,7 +204,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                   </td>
                                 </tr>
                                   <tr *ngFor="let payment of claim.paymentDetails;let j=index">
-                                    <td></td>
+                                    <td>{{j + 1}}</td>
                                     <td *ngFor="let details of claimDetaisFields" >
                                       <span *ngIf="details.type == 'date'" >{{payment[details.name] | date :  "dd/MM/yy"}}</span>
                                       <span *ngIf="details.type == 'text' || details.type == 'number' || details.type == 'select'">{{payment[details.name]}}</span>
@@ -221,7 +224,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
               </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-primary" (click)="closeClaimModel()">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="closeClaimModel()">Ok</button>
           </div>
       </div>
     </div>

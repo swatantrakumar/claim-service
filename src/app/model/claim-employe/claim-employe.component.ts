@@ -1,3 +1,4 @@
+import { StorageService } from 'src/app/services/storage-service/storage.service';
 import { DeleteRecordService } from './../../services/claim_form/deleteRecord/deleteRecord.service';
 import { CommonFunctionService } from './../../services/common-function/common-function.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -46,14 +47,12 @@ export class ClaimEmployeComponent implements OnInit {
     private deleteRecordService:DeleteRecordService,
     private dataShareService:DataShareService,
     private commonFunctionService:CommonFunctionService,
-    private notificationService:NotificationService
+    private notificationService:NotificationService,
+    private storageService:StorageService
   ) {
-    this.claimStaticData = this.dataShareService.getClaimStaticData();
-    if(this.claimStaticData && this.claimStaticData.calimType){
-      let types = this.claimStaticData.calimType;
-      if(types){
-        this.claimTypes = types;
-      }
+    let types = this.getClaimTypes();
+    if(types){
+      this.claimTypes = types;
     }
     this.dataShareService.confirmationResponce.subscribe(check =>{
       if(this.activeIndex > -1){
@@ -61,6 +60,14 @@ export class ClaimEmployeComponent implements OnInit {
       }
     })
 
+  }
+  getClaimTypes(){
+    let types = {};
+    this.claimStaticData = this.storageService.GetStaticData();
+    if(this.claimStaticData && this.claimStaticData.calimType){
+      types = this.claimStaticData.calimType;
+    }
+    return types;
   }
 
   ngOnInit() {
@@ -73,6 +80,7 @@ export class ClaimEmployeComponent implements OnInit {
     this.modelService.add(this);
   }
   showModal(alert:any){
+    if(!this.claimTypes) this.claimTypes = this.getClaimTypes();
     if(alert && alert.claimModelWindow){
       this.claimModelWindow = alert.claimModelWindow;
       this.payments = alert.payments;
@@ -185,6 +193,9 @@ export class ClaimEmployeComponent implements OnInit {
         default:
           break;
       }
+    }
+    if(this.claim_form && this.claim_form.claimAmountDetails){
+      this.claimDetails = this.claim_form.claimAmountDetails;
     }
     this.claimEmployeModel.show();
   }
