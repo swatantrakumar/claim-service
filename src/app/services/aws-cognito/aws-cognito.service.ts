@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { EnvService } from '../env-service/env.service';
 import { Router } from '@angular/router';
 import { AuthDataShareService } from '../data-share-service/auth-data-share/auth-data-share.service';
+import { ModelService } from '../model/model.service';
+import { NotificationService } from '../notify/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +18,16 @@ import { AuthDataShareService } from '../data-share-service/auth-data-share/auth
 
 export class AwsCognitoService {
   serverReq:boolean = false;
+  countryCode ="+91";
 
   constructor(
     private storageService:StorageService,
     private http:HttpClient,
     private envService:EnvService,
     private router:Router,
-    private authDataShareService:AuthDataShareService
+    private authDataShareService:AuthDataShareService,
+    private modelService:ModelService,
+    private notificationService:NotificationService
   ) { }
 
   getUserPool(){
@@ -53,8 +58,10 @@ export class AwsCognitoService {
         const cognitoExpiresIn = 86400;
         this.storageService.setExpiresIn(cognitoExpiresIn);
         this.getUserWithToken(idToken);
+        this.modelService.close("WAIT_MODEL");
       },
       onFailure: (err) =>{
+        this.modelService.close("WAIT_MODEL");
         console.log(err)
       }
     });
@@ -125,10 +132,54 @@ export class AwsCognitoService {
     }
   }
   signup(payload:any){
+    let user = payload;
+    var userPool = this.getUserPool();
+    var attributeList = [];
+    var email = user.email.toLowerCase();
+    var mobile = user.mobile.toString();
+    mobile = this.countryCode + mobile;
+    var dataEmail = {
+        Name: 'email',
+        Value: email
+    };
 
+    var dataPhoneNumber = {
+        Name: 'phone_number',
+        Value: mobile,
+    };
+
+    var attributeEmail = new CognitoUserAttribute(dataEmail);
+    var attributePhoneNumber = new CognitoUserAttribute(dataPhoneNumber);
+    if (user.name) {
+        var dataName = {
+            Name: 'name',
+            Value: user.name,
+        }
+        var attributeName = new CognitoUserAttribute(dataName);
+        attributeList.push(attributeName);
+    }
+    attributeList.push(attributeEmail);
+    attributeList.push(attributePhoneNumber);
+    userPool.signUp(user.email, user.password, attributeList, [],
+        (err, result) => {
+            if (!err) {
+              console.log(result);
+              let userName:string = '';
+              if(result && result.user) userName = result.user.getUsername();
+              this.notificationService.notify('bg-success',""+userName +" Successfully Registered.")
+              this.modelService.close("WAIT_MODEL");
+              this.redirectToSignPage();
+            } else {
+              this.modelService.close("WAIT_MODEL");
+              console.log(err);
+            }
+        }
+    );
   }
   redirectToSignPage(){
     this.router.navigate(['/signin']);
   }
   //End For app functions
 }
+
+
