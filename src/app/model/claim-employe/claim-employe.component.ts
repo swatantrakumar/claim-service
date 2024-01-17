@@ -133,7 +133,7 @@ export class ClaimEmployeComponent implements OnInit {
           ]
           this.others = true;
           this.claimDetaisFields = [
-            {"label":"Payment Date","name":"date","type":"date"},
+            {"label":"Payment Date","name":"paymentDate","type":"date"},
             {"label":"Payment Mode","name":"mode","type":"text"},
             {"label":"Payment Reference","name":"reference","type":"text"},
             {"label":"Payment Amount","name":"amount","type":"number","change":true},
