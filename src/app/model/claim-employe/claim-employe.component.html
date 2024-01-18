@@ -9,7 +9,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
               </button>
           </div>
           <div class="modal-body">
-              <form class="form-horizontal mt-1">
+              <div class="form-horizontal mt-1">
                   <div class="form-group row mb-3">
                       <div class="col-lg-2 col-md-3">
                           <label>CIRP Commencement Date</label>
@@ -20,18 +20,18 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
                       <div class="col-lg-1 p-0 col-md-1" *ngIf="headerIntrestRate" ><label>Interest Rate</label></div>
                       <div class="col-lg-1 col-md-2" *ngIf="headerIntrestRate">
-                          <input type="number" class="w-100 form-control" name="interestRate" (change)="calculateTotalClaimAmount()" [(ngModel)]="claim_form.interestRate">
+                          <input type="number" class="w-100 form-control"  (change)="calculateTotalClaimAmount()" [(ngModel)]="claim_form.interestRate">
                       </div>
                       <div class="col-md-3" *ngIf="headerIntrestRate">
                           <div class="form-check-inline">
                               <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="calculateInterestAmount" [(ngModel)]="claim_form.calculateInterestAmount">Auto Calculate Interest Amount
+                                <input type="checkbox" class="form-check-input"  [(ngModel)]="claim_form.calculateInterestAmount">Auto Calculate Interest Amount
                               </label>
                             </div>
                       </div>
 
                   </div>
-              </form>
+              </div>
               <div class="text-center mb-2"><b>Claim Details - > Principal : {{claim_form.amount}} , Interest : {{claim_form.interest}},<span *ngIf="claimModelWindow == 'CLAIM_MODEL_OPERATIONAL_CREDITOR'" >Penalty : {{claim_form.penalty}},</span> Total: {{claim_form.total}}</b></div>
               <div class="table-responsive">
                   <table class="table table-bordered table-centered mb-0">
@@ -39,9 +39,9 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                               <tr>
                                   <th >Sr</th>
                                   <th *ngFor="let emp of empFields" >{{emp.label}}</th>
-                                  <span *ngIf="empWithDetails" >
-                                    <th *ngFor="let details of claimDetaisFields">{{details.label}}</th>
-                                  </span>
+
+                                  <th [ngClass]="{'d-none': !empWithDetails}"  *ngFor="let details of claimDetaisFields">{{details.label}}</th>
+
                                   <th style="width:5%"></th>
                               </tr>
                       </thead>
@@ -61,6 +61,14 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                       </select>
 
                                     </span>
+                                    <span *ngIf="emp.type == 'number'">
+                                      <span *ngIf="emp.change">
+                                        <input  type="number"  class="form-control" [(ngModel)]="claimObj.unitDetails[emp.name]" (change)="calculateInterest(claimObj.paymentDetails[0])">
+                                      </span>
+                                      <span *ngIf="!emp.change">
+                                        <input type="number"  class="form-control" [(ngModel)]="claimObj.unitDetails[emp.name]">
+                                      </span>
+                                    </span>
                                     <span *ngIf="emp.type == 'date'">
                                       <input type="date"  class="form-control w-100" [(ngModel)]="claimObj.unitDetails[emp.name]">
                                     </span>
@@ -69,8 +77,8 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                     </span>
                                   </td>
 
-                                  <span *ngIf="empWithDetails" >
-                                    <td *ngFor="let details of claimDetaisFields" >
+
+                                    <td [ngClass]="{'d-none': !empWithDetails}" *ngFor="let details of claimDetaisFields" >
                                       <span *ngIf="details.type == 'date'" >
                                         <input type="date"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0].dueDate">
                                       </span>
@@ -82,11 +90,11 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                           <input type="number"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0].amount">
                                         </span>
                                       </span>
-                                      <span>
+                                      <span *ngIf="details.type == 'text'">
                                         <input class="form-control"  type="text" class="form-control" [(ngModel)]="claimObj.paymentDetails[0].total" [disabled]="details.disable" >
                                       </span>
                                     </td>
-                                  </span>
+
 
                                   <td >
                                       <button type="button" class="btn btn-primary" (click)="addClaimObj()">+</button>
@@ -150,11 +158,11 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                         </span>
                                         <span *ngIf="details.type == 'number'">
                                           <span *ngIf="details.change">
-                                            <span *ngIf="headerIntrestRate" >
+                                            <span *ngIf="headerIntrestRate && details.disableCheck" >
                                               <input  type="number"  class="form-control" [(ngModel)]="payments[i][details.name]" (change)="calculateInterest(payments[i])" [disabled]="claim_form.calculateInterestAmount">
                                             </span>
-                                            <span *ngIf="!headerIntrestRate" >
-                                              <input  type="number"  class="form-control" [(ngModel)]="payments[i][details.name]" (change)="calculateInterest(payments[i])">
+                                            <span *ngIf="!headerIntrestRate || !details.disableCheck" >
+                                              <input  type="number"  class="form-control" [(ngModel)]="payments[i][details.name]" (change)="calculateInterest(payments[i])" >
                                             </span>
                                           </span>
                                           <span *ngIf="!details.change">
@@ -166,6 +174,14 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                         </span>
                                         <span *ngIf="details.type == 'label'">
                                           <span *ngIf="!details.data">{{claimObj.unitDetails[details.name]}}</span><span *ngIf="details.data && details.data == 'claim'">{{payments[i][details.name]}}</span>
+                                        </span>
+                                        <span *ngIf="details.type == 'select'">
+                                          <select *ngIf="details.dataType != 'key_value'"  class="form-control" [(ngModel)]="claimObj.unitDetails[details.name]"  >
+                                            <option *ngFor="let facility of staticData[details.ddn_field]"  [value]="facility">{{facility}}</option>
+                                          </select>
+                                          <select *ngIf="details.dataType == 'key_value'" class="form-control" [(ngModel)]="claimObj.unitDetails[details.name]"  >
+                                            <option *ngFor="let facility of staticData[details.ddn_field] | keyvalue"  [value]="facility.key">{{facility.key}}</option>
+                                          </select>
                                         </span>
                                       </td>
                                       <td >

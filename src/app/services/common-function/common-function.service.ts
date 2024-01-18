@@ -270,6 +270,8 @@ getPayload(obj:any){
     if(!claim_form.claimAmountDetails) claim_form.claimAmountDetails = [];
      claimDetails = this.cloneObject(claim_form.claimAmountDetails);
      payments=[];
+     if(claimObj.paymentDetails && claimObj.paymentDetails.length == 0) claimObj.paymentDetails=[{}];
+     if(!claimObj.paymentDetails) claimObj['paymentDetails']=[{}]
      //paymentsReview = {}
      for(var i=0;i<claimDetails.length;i++){
          payments.push({});
@@ -322,7 +324,7 @@ getPayload(obj:any){
           claim_form.claimModel = "EMPLOYEE";
           break;
      }
-     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{claimModelWindow:claimModelWindow,payments:payments});
+     this.modelService.open('CLAIM_MODEL_EMPLOYEE',{claimModelWindow:claimModelWindow,payments:payments,claimObj:claimObj});
   }
   calculateTotalClaimAmount(claimDetails:any,claim_form:any){
       var total:any=0;

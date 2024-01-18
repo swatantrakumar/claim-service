@@ -21,6 +21,13 @@ export class PreviewModelComponent implements OnInit {
   @ViewChild('previewModel') public previewModel!: ModalDirective;
 
   deleteIndex:boolean=false;
+  formB:any="<h4 >SCHEDULE </h4><h4>FORM B</h4><p >  PROOF OF CLAIM BY OPERATIONAL CREDITORS EXCEPT WORKMEN AND EMPLOYEES<br><i>(Under Regulation 7 of the Insolvency and Bankruptcy Board of India (Insolvency Resolution Process for Corporate Persons) Regulations, 2016)</i></p>";
+  formC:any="<h4>FORM C </h4><h4>SUBMISSION OF CLAIM BY FINANCIAL CREDITOR</h4><p><i>(Under Regulation 8 of the Insolvency and Bankruptcy Board of India (Insolvency Resolution Process for Corporate Persons) Regulations, 2016)</i></p>";
+  formCA:any="<h4 >FORM CA </h4><h4>SUBMISSION OF CLAIM BY FINANCIAL CREDITORS IN A CLASS</h4><p ><i>(Under Regulation 8A of the Insolvency and Bankruptcy (Insolvency Resolution Process for Corporate Persons) Regulations, 2016)</i></p>";
+  formD:any="<h4>SCHEDULE </h4><h4>FORM D</h4><p><i>Proof Of Claim by a Workman or an Employee<br> (Under Regulation 9 of the Insolvency and Bankruptcy (Insolvency Resolution Process for Corporate Persons) Regulations, 2016)</i></p>";
+  formF:any='<h4 class="text-center">SCHEDULE <br>FORM F</h4><p class="text-center">PROOF OF CLAIM BY CREDITORS (OTHER THAN FINANCIAL CREDITORS AND OPERATIONAL CREDITORS) <br> [Under Regulation 9A of the Insolvency and Bankruptcy Board of India (Insolvency Resolution Process for Corporate Persons) Regulations, 2016]</p>';
+  headerContent:any="";
+  formName:string='';
 
   constructor(
     private modelService:ModelService,
@@ -46,8 +53,23 @@ export class PreviewModelComponent implements OnInit {
     this.modelService.remove(this.id);
     this.modelService.add(this);
   }
-  showModal(){
+  showModal(alert:any){
+    this.formName = alert.formName;
+    this.setPreviewHeaderContent();
     this.previewModel.show();
+  }
+  setPreviewHeaderContent(){
+    if(this.formName == 'C'){
+      this.headerContent = this.formC;
+    }else if(this.formName == 'D'){
+      this.headerContent = this.formD;
+    }else if(this.formName == 'B'){
+      this.headerContent = this.formB;
+    }else if(this.formName == 'F'){
+      this.headerContent = this.formF;
+    }else if(this.formName == 'CA'){
+      this.headerContent = this.formCA;
+    }
   }
   close(){
     this.previewModel.hide();

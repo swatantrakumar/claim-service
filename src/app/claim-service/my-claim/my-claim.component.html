@@ -10,10 +10,12 @@
   <div class="col-lg-8 row " *ngIf="CATEGORY_SELECTION">
       <label class=" mr-2 col-form-label">Category</label>
       <select class="col-3 col-lg-3 form-control"  id="{{myShortName + 'type'}}" [(ngModel)]="formSelection" (change)="findTheForm(formSelection)">
-          <option *ngFor="let list of sourceList() | keyvalue"  [value]="list.key"> {{list.value}} </option>
+        <option></option>
+        <option *ngFor="let list of sourceList() | keyvalue"  [value]="list.key"> {{list.value}} </option>
       </select>
       <label class=" mr-2 ml-2 col-form-label">Class</label>
       <select class="col-3 col-lg-3 form-control" id="{{myShortName + 'Classs'}}" [(ngModel)]='selectedForm'>
+          <option></option>
           <option *ngFor="let cs of subSourceList" [value]="cs">{{cs}}</option>
       </select>
       <button class="btn btn-primary ml-1 mr-1"  (click)="formPopUpWindow()">Go</button>
@@ -55,7 +57,9 @@
             paginationPageSize= 50
             suppressMenuHide= true
             rowSelection= 'single'
-            (rowSelected)= onRowSelected($event)
+            (gridReady)="onGridReady($event)"
+            (selectionChanged)="onSelectionChanged()"
+
 
             >
   </ag-grid-angular>

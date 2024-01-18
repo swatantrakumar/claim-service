@@ -84,12 +84,13 @@ export class ClaimEmployeComponent implements OnInit {
     if(alert && alert.claimModelWindow){
       this.claimModelWindow = alert.claimModelWindow;
       this.payments = alert.payments;
+      this.claimObj = alert.claimObj;
       switch (alert.claimModelWindow) {
         case 'CLAIM_MODEL_EMPLOYEE':
           this.empFields = [
             {"label":"Employee/Workmen ID","name":"unit","type":"text"},
             {"label":"Name","name":"name","type":"text"},
-            {"label":"Type","name":"type","type":"select","ddn":""},
+            {"label":"Type","name":"type","type":"select","change":false,"ddn_field":"unit_select","dataType":"test"},
             {"label":"Comment","name":"comment","type":"text"}
           ]
           this.claimDetaisFields = [
@@ -99,6 +100,7 @@ export class ClaimEmployeComponent implements OnInit {
             {"label":"Penalty + Charges","name":"penalty","type":"number","change":true},
             {"label":"Total","name":"total","type":"text","disable":true}
           ]
+          this.staticData['unit_select'] = this.claimTypes['EC']['EC'];
           break;
         case 'CLAIM_MODEL_OTHERS':
           this.empFields = [
@@ -116,9 +118,9 @@ export class ClaimEmployeComponent implements OnInit {
           break;
         case 'CLAIM_MODEL_OPERATIONAL_CREDITOR':
           this.empFields = [
-            {"label":"Type","name":"unit","type":"text"},
-            {"label":"Invoice Date","name":"name","type":"text"},
-            {"label":"Invoice No","name":"type","type":"select","ddn":""}
+            {"label":"Type","name":"type","type":"select","change":false,"ddn_field":"unit_select","dataType":"key_value"},
+            {"label":"Invoice Date","name":"date","type":"date"},
+            {"label":"Invoice No","name":"unit","type":"text"}
           ]
           this.claimDetaisFields = [
             {"label":"Due Date","name":"dueDate","type":"date"},
@@ -130,6 +132,7 @@ export class ClaimEmployeComponent implements OnInit {
           this.others = true;
           this.showDetails=false;
           this.empWithDetails = true;
+          this.staticData['unit_select'] = this.claimTypes[this.claim_form.category];
           break;
         case 'CLAIM_MODEL_BANK':
           this.empFields = [
@@ -156,32 +159,33 @@ export class ClaimEmployeComponent implements OnInit {
             {"label":"Unit No","name":"unit","type":"text"},
             {"label":"Area(in Sq. Feet)","name":"area","type":"text"},
             {"label":"Unit Type/Tower No","name":"type","type":"number","change":false},
-            {"label":"","name":"total","type":"label","data":'claim'}
+            {"label":"Total","name":"total","type":"label","data":'claim'}
           ]
           this.claimDetaisFields = [
             {"label":"Date","name":"paymentDate","type":"date"},
-            {"label":"Payment Mode","name":"mode","type":"select"},
+            {"label":"Payment Mode","name":"mode","type":"select","change":false,"ddn_field":"unit_select","dataType":"text"},
             {"label":"Reference","name":"reference","type":"text"},
             {"label":"Payment Amount","name":"amount","type":"number","change":true},
             {"label":"Tax(*for claim purpose Tax is excluded)","name":"tax","type":"number","change":false},
-            {"label":"Interest","name":"interest","type":"number","change":true},
-            {"label":"","name":"total","type":"label","data":'claim'}
+            {"label":"Interest","name":"interest","type":"number","change":true,"disableCheck":true},
+            {"label":"Total","name":"total","type":"label","data":'claim'}
           ]
           this.headerIntrestRate = true;
+          this.staticData['unit_select'] =["Cash","Credit Card","Debit Card","Cheque","UPI","Net Banking","CRN GST Input Credit","TDS","CRN TDS","CRN Transfer of Unit Within Project","CRN Transfer of Unit from Other Project","CRN Change in Payment Plan"]
           break
         case 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW':
           this.empFields = [
             {"label":"Unit No","name":"unit","type":"text"},
             {"label":"Area(in Sq. Feet)","name":"area","type":"text"},
             {"label":"Unit Type/Tower No","name":"type","type":"number","change":false},
-            {"label":"","name":"total","type":"label","data":'claim'}
+            {"label":"Total","name":"total","type":"label","data":'claim'}
           ]
           this.claimDetaisFields = [
             {"label":"Date","name":"paymentDate","type":"date","disable":true},
-            {"label":"Payment Mode","name":"mode","type":"select","disable":true},
+            {"label":"Payment Mode","name":"mode","type":"text","disable":true},
             {"label":"Reference","name":"reference","type":"text","disable":true},
             {"label":"Principle Amount","name":"amount","type":"number","change":true,"disable":true},
-            {"label":"Interest","name":"interest","type":"number","change":true},
+            {"label":"Interest","name":"interest","type":"number","change":true,"disableCheck":true},
             {"label":"Total","name":"total","type":"label","data":'claim'},
             {"label":"Tax","name":"tax","type":"text","disable":true},
             {"label":"Claim Amount With 8%","name":"total_amount","type":"label","data":'claim'},
@@ -208,6 +212,7 @@ export class ClaimEmployeComponent implements OnInit {
     }
   }
   close(){
+    this.claimDetails = [];
     this.claimEmployeModel.hide();
   }
   addClaimObj(){
@@ -238,7 +243,7 @@ export class ClaimEmployeComponent implements OnInit {
     }
     this.claimObj={};
     this.claimObj.unitDetails={}
-    this.claimObj.paymentDetails=[];
+    this.claimObj.paymentDetails=[{}];
   }
   activeClaim:any={};
   deleteRecord(object:any,index:number,key:any){
