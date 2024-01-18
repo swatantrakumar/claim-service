@@ -360,46 +360,38 @@ export class MyClaimComponent implements OnInit {
       if(this.activeTabName=='CLAIMSTATUS'){
         this.claim_form=this.commonFunctionService.cloneObject(form);
       }
-      if(this.selectRowData){
+      if(!form && this.selectRowData && Object.keys(this.selectRowData).length > 0){
         this.claim_form = this.commonFunctionService.cloneObject(this.selectRowData);
       }else{
         this.claim_form=this.commonFunctionService.cloneObject(form);
       }
-
+      let formName = '';
       switch(this.claim_form.catClass){
         case 'Banks':
         case 'NBFC':
         case 'Banks(Authorised Rep)':
         case 'NBFC(Authorised Rep)':
-          this.modelService.open('PREVIEW_MODEL',{});
-          // $('#previewFormC').modal('show');
-          // $scope.previewModal='#previewFormC'
+          formName = 'C';
           break;
 
         case 'Home Buyers':
         case 'Commercial Buyer':
         case 'Commercial Buyer(Authorised Rep)':
         case 'Home Buyers(Authorised Rep)':
-          // $('#previewFormCA').modal('show');
-          // $scope.previewModal='#previewFormCA'
+          formName = 'CA';
           break;
         case 'Operational Creditor':
-        // $scope.previewPopUpWindow="previewFormB";
-          // $('#previewFormB').modal('show');
-          // $scope.previewModal='#previewFormB'
+          formName = 'B';
           break;
         case 'Others':
-        //$scope.previewPopUpWindow="previewFormF";
-          // $('#previewFormF').modal('show');
-          // $scope.previewModal='#previewFormF'
+          formName = 'F';
           break;
         case 'Employee & Workmen':
-        //$scope.previewPopUpWindow="previewFormD";
-          // $('#previewFormD').modal('show');
-          // $scope.previewModal='#previewFormD'
+          formName = 'D';
           break;
 
       }
+      this.modelService.open('PREVIEW_MODEL',{'formName':formName});
    }
    viewDetail(){
     if(this.selectRowData && this.selectRowData.claimId){
@@ -415,12 +407,17 @@ export class MyClaimComponent implements OnInit {
     };
     this.apiService.getClaimStatusDetails(payload);
    }
-   onSelectionChanged(obj:any){
-    console.log(obj)
-   }
-   onRowSelected(event:any){
-    this.selectRowData = event.node.data;
-   }
+
+
+   gridApi:any;
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+  }
+
+  onSelectionChanged() {
+    const selectedRows = this.gridApi.getSelectedRows();
+    this.selectRowData = selectedRows[0];
+  }
    returnSelectedItem(){
     console.log("double click")
    }
@@ -438,7 +435,7 @@ export class MyClaimComponent implements OnInit {
           this.showForm=false;
           this.showDeclaration=false;
           this.showVerification=true;
-      }    
+      }
   }
   goPreviousPge(){
     if(this.showDeclaration==true ){

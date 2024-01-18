@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class Preview_bodyComponent implements OnInit {
 
   @Input() claim_form:any;
+  @Input() formName:any;
   @Input() downloadFile!: (doc:any) => void;
   @Input() deleteDocument!: (doc:any,index:number) => void;
   constructor() { }

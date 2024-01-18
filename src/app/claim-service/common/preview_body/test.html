@@ -1,152 +1,4 @@
-<div class="table-responsive" *ngIf="formName == 'C'" >
-  <table class="table table-bordered table-centered mb-0">
-      <thead class="thead-light text-center">
-        <tr>
-            <th colspan="3"> Relevant Particulars</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td scope="col">1</td>
-            <td  class="text-left w-25"> Name of the financial creditor</td>
-            <td scope="col" class="text-left">
-                <div *ngFor="let claimant of claim_form.creditors">
-                    {{claimant.name}}
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td class="text-left"> Identification number of the financial creditor <br>
-                (If an incorporated body, provide identification number and proof of incorporation. If a
-                partnership or
-                individual provide identification records* of all the partners or the individual)
-            </td>
-            <td>
-              <div  *ngIf="claim_form.catClass=='Banks'  || claim_form.catClass=='NBFC'">
-                <div>
-                  <app-id_details [claim_form]="claim_form" [CIN_NO]="true"></app-id_details>
-                </div>
-              </div>
-              <div  *ngIf="claim_form.catClass=='Banks(Authorised Rep)' ||  claim_form.catClass=='NBFC(Authorised Rep)'">
-                  <div >
-                    <app-id_details [claim_form]="claim_form" [CIN_NO]="true"></app-id_details>
-                  </div>
-              </div>
-            </td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td class="text-left">Address and email address of the financial creditor for
-                correspondence
-            </td>
-            <td class="text-left">
-              <div >
-                <app-address-information [claim_form]="claim_form"></app-address-information>
-              </div>
-            </td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td class="text-left">Total amount of claim
-                (including any interest as at the insolvency commencement date)
-            </td>
-            <td>
-              <!--Banks Table-->
-              <div *ngIf="claim_form.catClass=='Banks'  || claim_form.catClass=='NBFC'">
-                  <div >
-                    <app-claim_amount_with_bank_nbfc [claim_form]="claim_form"></app-claim_amount_with_bank_nbfc>
-                  </div>
-              </div>
-              <!--Banks Table-->
-              <div  *ngIf=" claim_form.catClass=='Banks(Authorised Rep)' ||  claim_form.catClass=='NBFC(Authorised Rep)'">
-                  <div >
-                    <app-claim_amount_with_bank_nbfc [claim_form]="claim_form"></app-claim_amount_with_bank_nbfc>
-                  </div>
-              </div>
-            </td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td class="text-left"> Details of documents by reference to which the debt can be
-                substantiated
-            </td>
-            <td>
-                <div class="col-md-12">
-                    <div class="col-md-12">&nbsp;</div>
-                    <div class="col-md-12">
-                        <div class="col-md-3 textAlignLeft" *ngFor="let doc of claim_form.docList;let i=index"
-                              style="position:relative;">
-                            <img class="pointer" src="/assets/img/cross.png" style="width:15px"
-                                  (click)="deleteDocument(doc,i)">
-                            <a (click)="downloadFile(doc)" class="pointer textAlignLeft"
-                                style="overflow: hidden;background: transparent;border: none;" disabled>{{doc.rollName}}</a>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td class="text-left"> Details of how and when debt incurred</td>
-            <td>{{claim_form.debtDetails}}</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td class="text-left">Details of any mutual credit, mutual debts, or other mutual
-                dealings
-                between the corporate debtor and the
-                creditor which may be set-off against the claim
-            </td>
-            <td >{{claim_form.mutualDealing}}</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td class="text-left">Details of any security held, the value of the security, and the
-                date
-                it was given
-            </td>
-            <td>
-              <div>
-                <app-securityDetails [claim_form]="claim_form"></app-securityDetails>
-              </div>
-            </td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td class="text-left"> Details of the bank account to which the amount of the claim or
-                any
-                part thereof can be transferred
-                pursuant to a resolution plan
-            </td>
-            <td>
-              <div >
-                <app-bankDetails [claim_form]="claim_form"></app-bankDetails>
-              </div>
-            </td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td class="text-left">List of documents attached to this claim in order to prove the
-                existence and non-payment of claim due to the
-                financial creditor
-            </td>
-            <td>
-                <div class="col-md-12">
-                    <div class="col-md-12">&nbsp;</div>
-                    <div class="col-md-12">
-                        <div class="col-md-3 textAlignLeft" *ngFor="let doc of claim_form.docList"  style="position:relative;">
-                            <a (click)="downloadFile(doc)" class="pointer textAlignLeft"
-                                style="overflow: hidden;background: transparent;border: none;" disabled>{{doc.rollName}}</a>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-      </tbody>
-    </table>
-</div>
-<div class="table-responsive" *ngIf="formName == 'B'">
+<div class="table-responsive" b>
   <table class="table table-bordered table-centered mb-0">
     <thead class="thead-light text-center">
       <tr>
@@ -292,7 +144,7 @@
   </table>
 </div>
 
-<div class="table-responsive" *ngIf="formName == 'CA'">
+<div class="table-responsive" ca>
   <table class="table table-bordered table-centered mb-0">
     <thead class="thead-light text-center">
       <tr>
@@ -451,7 +303,7 @@
   </table>
 </div>
 
-<div class="table-responsive" *ngIf="formName == 'D'">
+<div class="table-responsive" d>
   <table class="table table-bordered table-centered mb-0">
     <thead class="thead-light text-center">
       <tr>
@@ -584,7 +436,7 @@
     </tbody>
   </table>
 </div>
-<div class="row mt-2" *ngIf="formName == 'D'">
+<div class="row mt-2">
   <div class="col-lg-12 mb-2">
       <u><b>Other Details</b></u>
   </div>
@@ -603,7 +455,7 @@
       </div>
   </form>
 </div>
-<div class="table-responsive" *ngIf="formName == 'F'">
+<div class="table-responsive" f>
   <table class="table table-bordered table-centered mb-0">
     <thead class="thead-light text-center">
       <tr>
@@ -676,7 +528,7 @@
       <tr>
           <td>6</td>
           <td class="text-left">Details of how and when the claim arose</td>
-          <td></td>>
+          <td>{{}}</td>>
       </tr>
       <tr>
           <td>7</td>
