@@ -80,7 +80,7 @@ export class ClaimEmployeComponent implements OnInit {
     this.modelService.add(this);
   }
   showModal(alert:any){
-    if(!this.claimTypes) this.claimTypes = this.getClaimTypes();
+    if(!this.claimTypes ||(typeof this.claimTypes=='object' && Object.keys(this.claimTypes).length==0)) this.claimTypes = this.getClaimTypes();
     if(alert && alert.claimModelWindow){
       this.claimModelWindow = alert.claimModelWindow;
       this.payments = alert.payments;

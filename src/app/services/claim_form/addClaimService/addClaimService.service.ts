@@ -16,7 +16,7 @@ constructor(
   addPaymentDetails(object:any,claimModelWindow:any,payments:any,index:number,claim_form:any,claimDetails:any){
     var mandatoryFields= ['paymentDate','mode','amount']
     switch(claimModelWindow){
-      case "CLAIM_MODEL_BANK": mandatoryFields= ['date','mode','total']; break;
+      case "CLAIM_MODEL_BANK": mandatoryFields= ['paymentDate','mode','total']; break;
       case "CLAIM_MODEL_OPERATIONAL_CREDITOR": mandatoryFields= ['unit','dueDate','total']; break;
       case "CLAIM_MODEL_EMPLOYEE": mandatoryFields= ['dueDate','total']; break;
       case "CLAIM_MODEL_OTHERS": mandatoryFields= ['dueDate','total']; break;

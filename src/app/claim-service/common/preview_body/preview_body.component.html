@@ -157,8 +157,8 @@
       <tr>
           <td scope="col">1</td>
           <td class="text-left w-25">Name of operational creditor</td>
-          <td scope="col" class="text-left">{{claim_form.primaryClaimant.name}}</td>
-      </tr>
+                <td scope="col" class="text-left" *ngIf="claim_form && claim_form.primaryClaimant && claim_form.primaryClaimant.name">{{claim_form.primaryClaimant.name}}</td>
+          </tr>
       <tr>
           <td>2</td>
           <td class="text-left"> Identification number of operational creditor<br>
@@ -462,8 +462,8 @@
       <tr>
           <td scope="col">1</td>
           <td class="text-left w-25">Name of workman / employee</td>
-          <td scope="col" class="text-left">{{claim_form.primaryClaimant.name}}</td>
-      </tr>
+                <td scope="col" class="text-left" *ngIf="claim_form && claim_form.primaryClaimant && claim_form.primaryClaimant.name">{{claim_form.primaryClaimant.name}}</td>
+          </tr>
       <tr>
           <td>2</td>
           <td class="text-left ">
@@ -614,8 +614,8 @@
       <tr>
           <td scope="col">1</td>
           <td class="text-left w-25">Name of the creditor</td>
-          <td scope="col" class="text-left">{{claim_form.primaryClaimant.name}}</td>
-      </tr>
+            <td scope="col" class="text-left" *ngIf="claim_form && claim_form.primaryClaimant && claim_form.primaryClaimant.name">{{claim_form.primaryClaimant.name}}</td>
+          </tr>
       <tr>
           <td>2</td>
           <td class="text-left">Identification number of the creditor <br>

@@ -80,18 +80,18 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
                                     <td [ngClass]="{'d-none': !empWithDetails}" *ngFor="let details of claimDetaisFields" >
                                       <span *ngIf="details.type == 'date'" >
-                                        <input type="date"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0].dueDate">
+                                        <input type="date"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0][details.name]">
                                       </span>
                                       <span *ngIf="details.type == 'number'">
                                         <span *ngIf="details.change">
-                                          <input  type="number"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0].amount" (change)="calculateInterest(claimObj.paymentDetails[0])">
+                                          <input  type="number"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0][details.name]" (change)="calculateInterest(claimObj.paymentDetails[0])">
                                         </span>
                                         <span *ngIf="!details.change">
-                                          <input type="number"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0].amount">
+                                          <input type="number"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0][details.name]">
                                         </span>
                                       </span>
                                       <span *ngIf="details.type == 'text'">
-                                        <input class="form-control"  type="text" class="form-control" [(ngModel)]="claimObj.paymentDetails[0].total" [disabled]="details.disable" >
+                                        <input class="form-control"  type="text" class="form-control" [(ngModel)]="claimObj.paymentDetails[0][details.name]" [disabled]="details.disable" >
                                       </span>
                                     </td>
 
@@ -124,12 +124,12 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                     </span>
                                   </td>
 
-                                  <span *ngIf="empWithDetails" >
-                                    <td *ngFor="let details of claimDetaisFields" >
+                                
+                                    <td [ngClass]="{'d-none': !empWithDetails}" *ngFor="let details of claimDetaisFields" >
                                       <span *ngIf="details.type == 'date'" >{{claim.paymentDetails[0][details.name] | date :  "dd/MM/yy"}}</span>
                                       <span *ngIf="details.type == 'text' || details.type == 'number' || details.type == 'select'">{{claim.paymentDetails[0][details.name]}}</span>
                                     </td>
-                                  </span>
+                                 
 
                                   <td ><img src="/assets/img/cross.png" style="width:15px" (click)="deleteRecord(claim,i,'unit_details')"></td>
                               </tr>
