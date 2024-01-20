@@ -163,6 +163,17 @@ constructor(
       }
     )
   }
+  saveUser(payload:any){
+    let api = this.envService.getAuthApi('ADD_OR_UPDATE_USER');
+    this.http.post(api+"/"+payload.path,payload.data).subscribe(
+      (respData:any) =>{
+        this.dataShareService.shareUserAddOrUpdateResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occurred while saveing User");
+      }
+    )
+  }
   //End For app functions
 
 

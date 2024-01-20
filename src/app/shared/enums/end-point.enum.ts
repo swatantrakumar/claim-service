@@ -12,5 +12,6 @@ export enum EndPoint {
     FILE_UPLOAD = "vdr/crtfl/",
     DELETE_FILE = "vdr/dlfl",
     DOWNLOAD_FILE = "vdr/getfl/download",
-    GET_CLAIM_STATUS = "cas/gcfc/"
+    GET_CLAIM_STATUS = "cas/gcfc/",
+    ADD_OR_UPDATE_USER = 'user'
 }

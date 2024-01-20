@@ -11,6 +11,7 @@ import { ClientMasterComponent } from './client-master/client-master.component';
 import { DocumentComponent } from './document/document.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 import { AgGridModule } from 'ag-grid-angular';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { AgGridModule } from 'ag-grid-angular';
     ErpRoutingModule,
     CoreModule,
     ModelModule,
-    AgGridModule
+    AgGridModule,
+    FormsModule
   ],
   declarations: [
     ErpComponent,

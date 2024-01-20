@@ -6,6 +6,7 @@ import { StorageService } from 'src/app/services/storage-service/storage.service
 import { AuthDataShareService } from './../../services/data-share-service/auth-data-share/auth-data-share.service';
 import { ColDef } from 'ag-grid-community';
 import * as moment from 'moment';
+import { ModelService } from 'src/app/services/model/model.service';
 
 @Component({
   selector: 'app-user-management',
@@ -45,13 +46,18 @@ export class UserManagementComponent implements OnInit {
   };
   popupParent: HTMLElement | null = document.body;
   themeClass: string ="ag-theme-bootstrap";
+  selectRowData:any={};
+  gridApi:any;
+  userEdit:string='';
+  searchUserCase:string='';
 
   constructor(
     private apiServie:ApiService,
     private dataShareService:DataShareService,
-    private storageService:StorageService,
+    private modelService:ModelService,
     private authDataShareService:AuthDataShareService,
-    private CommonFunctionService:CommonFunctionService
+    private CommonFunctionService:CommonFunctionService,
+    private storageService:StorageService
   ) {
     this.getData();
     this.dataShareService.staticData.subscribe(data => {
@@ -65,8 +71,18 @@ export class UserManagementComponent implements OnInit {
   ngOnInit() {
   }
   setStaticData(data:any){
-    console.log(data)
     this.rowData = data
+  }
+  openPopUP(mode?:string){
+    let obj = {
+      'update':false,
+      'data' : {}
+    }
+    if(mode && mode == 'UPDATE'){
+      obj.update = true;
+      obj.data = this.selectRowData;
+    }
+    this.modelService.open('USER_CREATION',obj);
   }
   getData(page?:any){
     let pageNo = this.pageNo;
@@ -79,6 +95,40 @@ export class UserManagementComponent implements OnInit {
     }
     let payload = this.CommonFunctionService.getPayload(obj);
     this.apiServie.getStaticData(payload);
+  }
+
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    params.api.sizeColumnsToFit();
+  }
+
+  onSelectionChanged() {
+    this.userEdit = 'EDIT';
+    const selectedRows = this.gridApi.getSelectedRows();
+    this.selectRowData = selectedRows[0];
+  }
+  closeModel(){
+    this.userEdit = '';
+    this.getData();
+  }
+  returnSelectedItem(event:any){
+    var selectedItem = event.data;
+    if (selectedItem) {
+        // userManagementScope = {};
+        // userManagementScope.selectedItem = selectedItem;
+        // userManagementScope.index=$scope.indexFromParty;
+        // $scope.$emit('userSelected',userManagementScope);
+    }
+  }
+  editable(){
+    let permCategory=this.storageService.getUserPermissionCategory();
+    return  "BACKOFFICE"===permCategory || "ORG_ADMIN"===permCategory;
+  }
+  userManagementAllSearch(value:any){
+    var selectedNodes = this.gridApi.api.setQuickFilter(value);
+  }
+  escapeFromPage(){
+
   }
 
 }

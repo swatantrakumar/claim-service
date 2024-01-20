@@ -144,6 +144,7 @@ export class StorageService {
     }
     return caseObj;
   }
+
   setPermissionList(permisssionList:any){
     localStorage.setItem(this.PERMISSION_LIST,JSON.stringify(permisssionList));
   }
@@ -188,6 +189,14 @@ export class StorageService {
       return userinfo.appId;
     }
     return null;
+  }
+  getUserPermissionCategory(){
+    const userinfo:any = this.GetUserInfo();
+    if (userinfo && userinfo.permissionCategory) {
+      return userinfo.permissionCategory;
+    } else {
+      return "";
+    }
   }
   removeDataFormStorage() {
     localStorage.clear();

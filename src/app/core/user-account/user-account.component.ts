@@ -14,6 +14,7 @@ export class UserAccountComponent implements OnInit {
   user:string='';
   userEmail:string='';
   userInfo:any;
+  moduleName:any;
 
 
 
@@ -22,7 +23,7 @@ export class UserAccountComponent implements OnInit {
     private awsCognitoService:AwsCognitoService
   ) {
     this.userInfo = this.storageService.GetUserInfo();
-
+    this.moduleName = this.storageService.getProjectModule();
     this.userName = this.userInfo.first_name;
     this.user = this.userInfo.userId;
     this.userEmail = this.userInfo.email;
