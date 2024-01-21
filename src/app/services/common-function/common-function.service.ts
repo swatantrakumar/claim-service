@@ -85,9 +85,9 @@ getPayload(obj:any){
       return message ;
   }
   calculateInterest(object:any, claim_form:any){
-    if(claim_form.commencementDate && object.paymentDate && claim_form.calculateInterestAmount){
+    if(claim_form.commencementDate && (object.paymentDate || object.dueDate) && claim_form.calculateInterestAmount){
         var commencementTime:any = new Date(claim_form.commencementDate).getTime();
-        var paymentTime:any = new Date(object.paymentDate).getTime();
+        var paymentTime:any = new Date(object.dueDate?object.dueDate:object.paymentDate).getTime();
         var days = parseInt((commencementTime - paymentTime)/(1000 * 60 * 60 * 24) + '');
         if(days>0){
             var interest = parseFloat(parseFloat(object.amount)/100 * (claim_form.interestRate * days/365) + '').toFixed(2);

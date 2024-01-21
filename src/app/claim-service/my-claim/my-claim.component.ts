@@ -58,8 +58,8 @@ export class MyClaimComponent implements OnInit {
 
 
   columnDefs:ColDef[] = [
+    {headerName: "Status", field: "formStatus",  lockPosition: true, resizable: false,width: 112},
 		{headerName: "Form Id", field: "serialId", lockPosition: true,width: 173},
-        {headerName: "Claim Id", field: "claimSerialId",  lockPosition: true,width: 198},
         {headerName: "Primary Claimant", field: "primaryClaimant.name",  lockPosition: true,width: 198},
         {headerName: "Claimant Email", field: "primaryClaimant.email",  lockPosition: true,width: 198},
         {headerName: "Form Name", field: "formName",  lockPosition: true,width: 150},
@@ -70,7 +70,7 @@ export class MyClaimComponent implements OnInit {
                   return moment(params.value).format('DD/MM/YYYY');
                },  lockPosition: true,filter:false},
         {headerName: "Approved Amount", field: " ",  lockPosition: true,width: 97},
-        {headerName: "Status", field: "formStatus",  lockPosition: true, resizable: false,width: 112}
+       
 	];
 	rowData:any = [];
   defaultColDef: ColDef = {

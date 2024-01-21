@@ -20,6 +20,7 @@ constructor(
       case "CLAIM_MODEL_OPERATIONAL_CREDITOR": mandatoryFields= ['unit','dueDate','total']; break;
       case "CLAIM_MODEL_EMPLOYEE": mandatoryFields= ['dueDate','total']; break;
       case "CLAIM_MODEL_OTHERS": mandatoryFields= ['dueDate','total']; break;
+      case "CLAIM_MODEL_OTHERS": mandatoryFields= ['dueDate','total']; break;
     }
 
     for(var i=0; i<mandatoryFields.length;i++){

@@ -40,7 +40,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                   <th >Sr</th>
                                   <th *ngFor="let emp of empFields" >{{emp.label}}</th>
 
-                                  <th [ngClass]="{'d-none': !empWithDetails}"  *ngFor="let details of claimDetaisFields">{{details.label}}</th>
+                                  <th [ngClass]="{'d-none': !empWithDetails}"  *ngFor="let details of opclaimDetaisFields">{{details.label}}</th>
 
                                   <th style="width:5%"></th>
                               </tr>
@@ -78,7 +78,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                   </td>
 
 
-                                    <td [ngClass]="{'d-none': !empWithDetails}" *ngFor="let details of claimDetaisFields" >
+                                    <td [ngClass]="{'d-none': !empWithDetails}" *ngFor="let details of opclaimDetaisFields" >
                                       <span *ngIf="details.type == 'date'" >
                                         <input type="date"  class="form-control" [(ngModel)]="claimObj.paymentDetails[0][details.name]">
                                       </span>
@@ -124,8 +124,8 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                     </span>
                                   </td>
 
-                                
-                                    <td [ngClass]="{'d-none': !empWithDetails}" *ngFor="let details of claimDetaisFields" >
+                                 
+                                    <td [ngClass]="{'d-none': !empWithDetails}" *ngFor="let details of opclaimDetaisFields" >
                                       <span *ngIf="details.type == 'date'" >{{claim.paymentDetails[0][details.name] | date :  "dd/MM/yy"}}</span>
                                       <span *ngIf="details.type == 'text' || details.type == 'number' || details.type == 'select'">{{claim.paymentDetails[0][details.name]}}</span>
                                     </td>
@@ -176,10 +176,10 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                           <span *ngIf="!details.data">{{claimObj.unitDetails[details.name]}}</span><span *ngIf="details.data && details.data == 'claim'">{{payments[i][details.name]}}</span>
                                         </span>
                                         <span *ngIf="details.type == 'select'">
-                                          <select *ngIf="details.dataType != 'key_value'"  class="form-control" [(ngModel)]="claimObj.unitDetails[details.name]"  >
+                                          <select *ngIf="details.dataType != 'key_value'"  class="form-control" [(ngModel)]="payments[i][details.name]"  >
                                             <option *ngFor="let facility of staticData[details.ddn_field]"  [value]="facility">{{facility}}</option>
                                           </select>
-                                          <select *ngIf="details.dataType == 'key_value'" class="form-control" [(ngModel)]="claimObj.unitDetails[details.name]"  >
+                                          <select *ngIf="details.dataType == 'key_value'" class="form-control" [(ngModel)]="payments[i][details.name]"  >
                                             <option *ngFor="let facility of staticData[details.ddn_field] | keyvalue"  [value]="facility.key">{{facility.key}}</option>
                                           </select>
                                         </span>

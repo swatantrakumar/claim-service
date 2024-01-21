@@ -79,10 +79,10 @@ export class PreviewModelComponent implements OnInit {
         if(!this.claim_form || !this.claim_form.authorised_person){
             this.notificationService.notify("bg-danger","\"Please Add Authorised Representative\"");
         }
-        if(!this.claim_form.formAttachments || !this.claim_form.formAttachments['application_form'] || this.claim_form.formAttachments['application_form'].length <= 0){
-            this.notificationService.notify("bg-danger","\"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents\"");
-            return;
-        }
+        // if(!this.claim_form.formAttachments || !this.claim_form.formAttachments['application_form'] || this.claim_form.formAttachments['application_form'].length <= 0){
+        //     this.notificationService.notify("bg-danger","\"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents\"");
+        //     return;
+        // }
     }
     this.deleteIndex = true;
     let message = "You can not make any further change after submission. Are you sure you want to Submit the Claim ?";
