@@ -35,7 +35,8 @@ export class ClaimEmployeComponent implements OnInit {
   others:boolean=false;
   empWithDetails:boolean=false;
   headerIntrestRate:boolean=false;
-  claimDetaisFields:any = []
+  claimDetaisFields:any = [];
+  opclaimDetaisFields:any = [];
   payments_update_index:number=-1;
   claimStaticData:any;
 
@@ -122,13 +123,14 @@ export class ClaimEmployeComponent implements OnInit {
             {"label":"Invoice Date","name":"date","type":"date"},
             {"label":"Invoice No","name":"unit","type":"text"}
           ]
-          this.claimDetaisFields = [
+          this.opclaimDetaisFields = [
             {"label":"Due Date","name":"dueDate","type":"date"},
             {"label":"Amount","name":"amount","type":"number","change":true},
             {"label":"Interest Amount","name":"interest","type":"number","change":true},
             {"label":"Penalty + Charges","name":"penalty","type":"number","change":true},
             {"label":"Total","name":"total","type":"text","disable":true}
-          ]
+          ];
+          this.claimDetaisFields = [];
           this.others = true;
           this.showDetails=false;
           this.empWithDetails = true;
