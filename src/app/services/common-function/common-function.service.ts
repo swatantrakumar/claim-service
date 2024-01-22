@@ -477,5 +477,14 @@ getPayload(obj:any){
     }
     this.apiService.getClaimStaticDataFromCase(payload);
   }
+  getNewCriteriaAsString(field:any, op:any, val:any, sortBy?:any) {
+    var criteria:any = {};
+    criteria.criteria = field + ";" + op;
+    if (sortBy) {
+        criteria.criteria = criteria.criteria + ";" + sortBy
+    }
+    criteria.value = val
+    return criteria;
+  }
 
 }

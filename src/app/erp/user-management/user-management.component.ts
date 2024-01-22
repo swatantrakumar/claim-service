@@ -19,20 +19,6 @@ export class UserManagementComponent implements OnInit {
   pageSize:number=1000;
 
   columnDefs:ColDef[] = [
-		// {headerName: "Form Id", field: "serialId", lockPosition: true,width: 173},
-    // {headerName: "Claim Id", field: "claimSerialId",  lockPosition: true,width: 198},
-    // {headerName: "Primary Claimant", field: "primaryClaimant.name",  lockPosition: true,width: 198},
-    // {headerName: "Claimant Email", field: "primaryClaimant.email",  lockPosition: true,width: 198},
-    // {headerName: "Form Name", field: "formName",  lockPosition: true,width: 150},
-    // {headerName: "Category", field: "category",  lockPosition: true,filter:false,width: 94},
-    // {headerName: "Class", field: "catClass",  lockPosition: true,filter:false,width: 94},
-    // {headerName: "Total Claim", field: "total",  lockPosition: true},
-    // {headerName: "Submission Date", field: "claimDate",   valueFormatter: function (params) {
-    //           return moment(params.value).format('DD/MM/YYYY');
-    //         },  lockPosition: true,filter:false},
-    // {headerName: "Approved Amount", field: " ",  lockPosition: true,width: 97},
-    // {headerName: "Status", field: "formStatus",  lockPosition: true, resizable: false,width: 112}
-
     {headerName: "UserId", field: "userId", lockPosition: true,width: 400},
     {headerName: "Name", field: "first_name",  lockPosition: true,width: 400},
     {headerName: "Mobile", field: "mobile",  lockPosition: true,width: 400},
@@ -56,7 +42,7 @@ export class UserManagementComponent implements OnInit {
     private dataShareService:DataShareService,
     private modelService:ModelService,
     private authDataShareService:AuthDataShareService,
-    private CommonFunctionService:CommonFunctionService,
+    private commonFunctionService:CommonFunctionService,
     private storageService:StorageService
   ) {
     this.getData();
@@ -93,7 +79,7 @@ export class UserManagementComponent implements OnInit {
       pageSize:this.pageSize,
       value:"user"
     }
-    let payload = this.CommonFunctionService.getPayload(obj);
+    let payload = this.commonFunctionService.getPayload(obj);
     this.apiServie.getStaticData(payload);
   }
 
