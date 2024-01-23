@@ -1,3 +1,145 @@
-<p>
-  claim-forms works!
-</p>
+<div ng-controller="ctrl_onlineBackOffice" class="">
+  <div class="row mt-4">
+      <div class="col-12">
+          <div class="card">
+              <div class="card-body p-1">
+                  <div class="row">
+                      <div class="col-lg-2 col-4">
+                          <!-- <button type="button" *ngIf="documentMode!=='VDR'" id="{{myShortName + 'exitbutton'}}" class="btn btn-outline-primary btn-rounded btn-sm" (click)="escapeFromPage()"><i class="mdi mdi-arrow-left-bold"></i> Back</button> -->
+                      </div> <!-- end col -->
+                      <div class="col-lg-2 col-1"></div>
+                      <div class="col-lg-8 col-7 text-right" *ngIf="tabName!='DASHBOARD'">
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openClaimEntityForm('NEW')">New Claim</button> -->
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openClaimEntityForm(selectedIndex)" [disabled]="selectedRowData == ''">Modify</button> -->
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openReviewAndApproval(selectedRowData, selectedIndex)" [disabled]="selectedRowData == ''">Review & Approve</button> -->
+                          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openReviewAndApproval(selectedRowData, selectedIndex)" [disabled]="selectedRowData == ''">Review & Approve</button>
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm d-none"  (click)="onlineClaimPopUpWindow()" [disabled]="selectedRowData == ''">View Details</button>
+                          <button type="button" (click)="exportClaimToExcel(selectedRowData)" [disabled]="selectedRowData == ''" class="btn btn-outline-primary btn-rounded btn-sm d-none">Export <i class="mdi mdi-file-download-outline" ></i></button>
+                           <button type="button" [disabled]="isDownloading()" (click)="exportClaimToExcel()" class="btn btn-outline-primary btn-rounded btn-sm">
+                               <span *ngIf="isDownloading()">
+                                  <span class="spinner-border spinner-border-sm"></span>
+                                  Exporting..
+                               </span>
+                               <span *ngIf="!isDownloading()">
+                                   Export All <i class="mdi mdi-download-multiple" ></i>
+                               </span>
+                          </button>
+                          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openDeleteWindow(selectedIndex)" [disabled]="selectedRowData == ''">Delete</button> -->
+
+
+                      </div>
+                  </div>  <!-- end row -->
+                  <div class="row " *ngIf="tabName!='DASHBOARD' && false">
+                      <div class="col-lg-6 col-8 pb-1">
+                          <div class="form-group row mb-0">
+                              <div class="col-lg-5 pt-2 d-none d-md-block">
+                                  Upload From<a style="cursor: pointer;" (click)="downloadTemplate()">Template <img  style="width: 25px;height: 21px !important;" src="img/fileImages/xl.png"></a>
+                              </div>
+                              <div class="col-lg-5 col-9">
+                                  <input type="file" class="custom-file-input"  ng-model-instant
+                             id="claimFileToUpload" accept=".xls" onchange="angular.element(this).scope().clSetFiles(event)">
+                                  <label class="custom-file-label" for="claimFileToUpload">{{ getSelectedFilenameForUpload() }}</label>
+                              </div>
+                              <div class="col-lg-2 col-2">
+                                  <button type="button" (click)="uploadFromTemplate()" class="btn btn-primary"><i class="dripicons-upload"></i> </button>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="row" *ngIf="selectedRowData == ''">
+                              <div class="col-lg-4">
+                                  <p class="m-0 font-13">Claim Receipt Date:  {{selectedRowData.claimDate | date:'dd/MM/yyyy'}}</p>
+                              </div>
+                              <div class="col-lg-4">
+                                  <p class="m-0 font-13">Claimant Phone: {{selectedRowData.primaryClaimant.phone}}</p>
+                              </div>
+                              <div class="col-lg-4" *ngIf="tabName=='BANK_NBFC'">
+                                  <p class="m-0 font-13">Voting %: <br> {{selectedRowData.votingpc}}</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>  <!-- end row -->
+                  <div class="row ">
+                      <div class="col-lg-12">
+                          <ul class="nav  nav-tabs nav-justified nav-bordered ">
+                              <li class="nav-item">
+                                  <a href="javascript: void(0);" (click)="activeTab('DASHBOARD')" data-target="#documents" [ngClass]="{'active': tabName=='DASHBOARD'}" data-toggle="tab" class="nav-link rounded-0 px-1">
+                                      <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                                      <span class="d-none d-md-block">Dashboard</span>
+                                  </a>
+                              </li>
+                              <li class="nav-item" *ngFor="let item of claimModels | keyvalue:onCompare" >
+                                  <a href="javascript: void(0);" (click)="activeTab(item.key)" [ngClass]="{'active': tabName==item.key}" data-target="'#'+item.key" data-toggle="tab"  class="nav-link rounded-0 px-1">
+                                      <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                                      <span class="d-none d-md-block">{{item.value}}</span>
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
+                      <div class="tab-content col-lg-12">
+                          <div [ngClass]="{'active': tabName=='DASHBOARD'}" *ngIf="tabName==='DASHBOARD'" class="tab-pane" id="documents" >
+                              <div class="container-fluid">
+                                  <div class="row">
+                                    <ag-grid-angular
+                                              style="width: 100%; height:430px;"
+                                              [rowData]="dashRowData"
+                                              [columnDefs]="dashColumnDefs"
+                                              [defaultColDef]="defaultColDef"
+                                              [class]="themeClass"
+                                              animateRows= true
+                                              headerHeight= 50
+                                              rowHeight= 40
+                                              pagination= true
+                                              paginationPageSize= 25
+                                              suppressMenuHide= true
+                                              rowSelection= 'single'
+                                              (gridReady)="onDashbordGridReady($event)"
+                                              >
+                                    </ag-grid-angular>
+                                      <!-- <div ag-grid="dashboardGridOptions" class="ag-theme-bootstrap" style="height:440px;width:100%;"></div> -->
+                                  </div>
+                              </div>
+                          </div>
+                          <div [ngClass]="{'active': tabName!='DASHBOARD'}" *ngIf="tabName!='DASHBOARD'" class="tab-pane" id="documents" >
+                              <div class="container-fluid">
+                                  <div class="row">
+                                    <ag-grid-angular
+                                              style="width: 100%; height:430px;"
+                                              [rowData]="claimRowData"
+                                              [columnDefs]="claimColumnDefs"
+                                              [defaultColDef]="defaultColDef"
+                                              [class]="themeClass"
+                                              animateRows= true
+                                              headerHeight= 50
+                                              rowHeight= 40
+                                              pagination= true
+                                              paginationPageSize= 25
+                                              suppressMenuHide= true
+                                              rowSelection= 'single'
+                                              (gridReady)="onGridReady($event)"
+                                              (selectionChanged)="onSelectionChanged()"
+                                              >
+                                    </ag-grid-angular>
+                                      <!-- <div ag-grid="claimGridOptions" class="ag-theme-bootstrap" style="height:440px; width:100%;"></div> -->
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!--Approve & Review-->
+  <div ng-include src=" 'es/onlineBackOffice/backOffice_form_entry_popUp/htm_review_approval.html' "></div>
+  <app-claim-review-approval [id]="'REVIEW_APPROAL'" [claim_form]="selectedRowData"></app-claim-review-approval>
+  <!--Sec Details-->
+  <div ng-include src=" 'es/onlineBackOffice/backOffice_common_partial/backOffice_secDetails.html' "></div>
+  <!--Deficiency-->
+  <div ng-include src="'es/onlineBackOffice/htm_deficiencyPopUp.html'"></div>
+  <div ng-include src=" 'es/onlineBackOffice/backOffice_form_entry_popUp/claimEntityUploadSheet.html' "></div>
+  <div ng-include src=" 'es/onlineBackOffice/htm_typeSelectionPopUp.html' "></div>
+
+
+</div>

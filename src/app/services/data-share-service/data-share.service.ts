@@ -18,6 +18,9 @@ export class DataShareService {
   formExist:Subject<any> = new Subject();
   nextForm:Subject<any> = new Subject();
   claimStatus:Subject<any> = new Subject();
+  userAddResponce:Subject<any> = new Subject();
+  claimFromDetails:Subject<any> = new Subject();
+  claimFormDashbordData:Subject<any> = new Subject();
   claimStaticData:any={};
 
   constructor() { }
@@ -63,6 +66,15 @@ export class DataShareService {
   }
   shareClaimStatusResponce(responce:any){
     this.claimStatus.next(responce);
+  }
+  shareUserAddOrUpdateResponce(responce:any){
+    this.userAddResponce.next(responce);
+  }
+  shareClaimFormDetailsResponce(responce:any){
+    this.claimFromDetails.next(responce)
+  }
+  shareDashboardDataResponce(responce:any){
+    this.claimFormDashbordData.next(responce);
   }
   //End For App
 
