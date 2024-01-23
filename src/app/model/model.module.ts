@@ -13,6 +13,7 @@ import { AddBankDetailsComponent } from './add-bank-details/add-bank-details.com
 import { WaitModelComponent } from './wait-model/wait-model.component';
 import { PreviewModelComponent } from './preview-model/preview-model.component';
 import { CommonCoreModule } from '../claim-service/common/common.module';
+import { ClaimReviewApprovalComponent } from './claim-review-approval/claim-review-approval.component';
 
 let components =[
   UserCreationComponent,
@@ -23,7 +24,8 @@ let components =[
   AddSecurityDetailsComponent,
   AddBankDetailsComponent,
   WaitModelComponent,
-  PreviewModelComponent
+  PreviewModelComponent,
+  ClaimReviewApprovalComponent
 ]
 @NgModule({
   imports: [

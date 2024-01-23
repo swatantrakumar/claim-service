@@ -174,6 +174,27 @@ constructor(
       }
     )
   }
+  getClaimFormDetails(payload:any){
+    this.http.post(payload.path,payload.data).subscribe(
+      (respData:any) =>{
+        this.dataShareService.shareClaimFormDetailsResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occured while fetching claims..");
+      }
+    )
+  }
+  fetchDashBoardData(payload:any){
+    let api = this.envService.getAuthApi('GET_CLAIM_DASHBORD_DATA');
+    this.http.post(api,payload).subscribe(
+      (respData:any) =>{
+        this.dataShareService.shareDashboardDataResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occured while fetching claims..");
+      }
+    )
+  }
   //End For app functions
 
 

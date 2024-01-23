@@ -9,10 +9,11 @@
                       </div> <!-- end col -->
                       <div class="col-lg-2 col-1"></div>
                       <div class="col-lg-8 col-7 text-right" *ngIf="tabName!='DASHBOARD'">
-                          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openClaimEntityForm('NEW')">New Claim</button>
-                          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openClaimEntityForm(selectedIndex)" [disabled]="selectedRowData == ''">Modify</button>
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openClaimEntityForm('NEW')">New Claim</button> -->
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openClaimEntityForm(selectedIndex)" [disabled]="selectedRowData == ''">Modify</button> -->
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openReviewAndApproval(selectedRowData, selectedIndex)" [disabled]="selectedRowData == ''">Review & Approve</button> -->
                           <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openReviewAndApproval(selectedRowData, selectedIndex)" [disabled]="selectedRowData == ''">Review & Approve</button>
-                          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm d-none"  (click)="onlineClaimPopUpWindow()" [disabled]="selectedRowData == ''">View Details</button>
+                          <!-- <button type="button" class="btn btn-outline-primary btn-rounded btn-sm d-none"  (click)="onlineClaimPopUpWindow()" [disabled]="selectedRowData == ''">View Details</button>
                           <button type="button" (click)="exportClaimToExcel(selectedRowData)" [disabled]="selectedRowData == ''" class="btn btn-outline-primary btn-rounded btn-sm d-none">Export <i class="mdi mdi-file-download-outline" ></i></button>
                            <button type="button" [disabled]="isDownloading()" (click)="exportClaimToExcel()" class="btn btn-outline-primary btn-rounded btn-sm">
                                <span *ngIf="isDownloading()">
@@ -23,12 +24,12 @@
                                    Export All <i class="mdi mdi-download-multiple" ></i>
                                </span>
                           </button>
-                          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openDeleteWindow(selectedIndex)" [disabled]="selectedRowData == ''">Delete</button>
+                          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm"  (click)="openDeleteWindow(selectedIndex)" [disabled]="selectedRowData == ''">Delete</button> -->
 
 
                       </div>
                   </div>  <!-- end row -->
-                  <div class="row " *ngIf="tabName!='DASHBOARD'">
+                  <div class="row " *ngIf="tabName!='DASHBOARD' && false">
                       <div class="col-lg-6 col-8 pb-1">
                           <div class="form-group row mb-0">
                               <div class="col-lg-5 pt-2 d-none d-md-block">
@@ -45,7 +46,7 @@
                           </div>
                       </div>
                       <div class="col-lg-6">
-                          <div class="row" ng-hide="selectedRowData == ''">
+                          <div class="row" *ngIf="selectedRowData == ''">
                               <div class="col-lg-4">
                                   <p class="m-0 font-13">Claim Receipt Date:  {{selectedRowData.claimDate | date:'dd/MM/yyyy'}}</p>
                               </div>
@@ -67,7 +68,7 @@
                                       <span class="d-none d-md-block">Dashboard</span>
                                   </a>
                               </li>
-                              <li class="nav-item" *ngFor="let item of claimModels | keyvalue" >
+                              <li class="nav-item" *ngFor="let item of claimModels | keyvalue:onCompare" >
                                   <a href="javascript: void(0);" (click)="activeTab(item.key)" [ngClass]="{'active': tabName==item.key}" data-target="'#'+item.key" data-toggle="tab"  class="nav-link rounded-0 px-1">
                                       <i class="mdi mdi-settings-outline d-md-none d-block"></i>
                                       <span class="d-none d-md-block">{{item.value}}</span>
@@ -92,7 +93,7 @@
                                               paginationPageSize= 25
                                               suppressMenuHide= true
                                               rowSelection= 'single'
-                                              (gridReady)="onGridReady($event)"
+                                              (gridReady)="onDashbordGridReady($event)"
                                               >
                                     </ag-grid-angular>
                                       <!-- <div ag-grid="dashboardGridOptions" class="ag-theme-bootstrap" style="height:440px;width:100%;"></div> -->
@@ -132,6 +133,7 @@
 
   <!--Approve & Review-->
   <div ng-include src=" 'es/onlineBackOffice/backOffice_form_entry_popUp/htm_review_approval.html' "></div>
+  <app-claim-review-approval [id]="'REVIEW_APPROAL'" [claim_form]="selectedRowData"></app-claim-review-approval>
   <!--Sec Details-->
   <div ng-include src=" 'es/onlineBackOffice/backOffice_common_partial/backOffice_secDetails.html' "></div>
   <!--Deficiency-->

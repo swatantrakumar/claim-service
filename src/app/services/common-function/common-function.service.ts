@@ -3,6 +3,7 @@ import { StorageService } from '../storage-service/storage.service';
 import { ApiService } from '../api-service/api.service';
 import { ModelService } from '../model/model.service';
 import { NotificationService } from '../notify/notification.service';
+import { EnvService } from '../env-service/env.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ constructor(
   private storageService:StorageService,
   private apiService:ApiService,
   private modelService:ModelService,
-  private notificationService:NotificationService
+  private notificationService:NotificationService,
+  private envService:EnvService
 ) { }
 
 getPayload(obj:any){
@@ -485,6 +487,74 @@ getPayload(obj:any){
     }
     criteria.value = val
     return criteria;
+  }
+  populateSeacrchCriteriaAndSendCall(colName:any, criteria:any, onlineOffline:any, ignoreCase:any, pageNo:any, pageSize:any) {
+      let payload = {
+        path:"",
+        data : {}
+      }
+      let varUrl = this.envService.getAuthApi('GET_STATIC_DATA');
+      if (onlineOffline) {
+          varUrl = this.envService.getAuthApi('GET_STATIC_DATA_CLAIM');
+      }
+      if (colName === 'purchaseorder') {
+        varUrl = this.envService.getAuthApi('GET_PURCHAGE_ORDER');
+      }
+      var orderBy = '';
+      var kvp:any = {};
+      let activeUser = this.storageService.GetUserInfo();
+      kvp.key = activeUser.refCode;
+      if (activeUser) {
+          kvp.key2 = activeUser.appId;
+      }
+
+      kvp.value = colName;
+      kvp.key3 = this.storageService.GetActiveCaseId();;
+      kvp.crList = [];
+      if (pageNo) {
+          kvp.pageNo = pageNo;
+      }
+      if (pageSize) {
+          kvp.pageSize = pageSize;
+      }
+      this.setClientLog(kvp);
+      if (criteria && criteria.searchCriteria && criteria.searchCriteria.length > 0) {
+          for (var i = 0; i < criteria.searchCriteria.length; i++) {
+              if (!criteria.searchCriteria[i].value) criteria.searchCriteria[i].value = '';
+              var newCriteria:any = {}
+              var sField = criteria.searchCriteria[i].criteria.split(';');
+              newCriteria.fName = sField[0];
+              newCriteria.operator = sField[1];
+
+              if (sField.length >= 2) orderBy = sField[2];
+              if (newCriteria.operator === 'stw' || newCriteria.operator === 'cnts') {
+                  newCriteria.fValue = criteria.searchCriteria[i].value.replace(/[^a-z\d]+/gi, ':');
+              } else if (newCriteria.fName == 'quantity' && newCriteria.operator === 'neq') {
+                  newCriteria.fValue = 0;
+              } else {
+                  newCriteria.fValue = criteria.searchCriteria[i].value
+              }
+              if (ignoreCase) {
+                  newCriteria.fValue = newCriteria.fValue;
+              } else {
+                  if (newCriteria.fValue) {
+                      newCriteria.fValue = newCriteria.fValue.toUpperCase();
+                  }
+              }
+              kvp.crList.push(newCriteria);
+          }
+      }
+      if (criteria && criteria.searchTCriteria) {
+          for (var i = 0; i < criteria.searchTCriteria.length; i++) {
+              kvp.crList.push(criteria.searchTCriteria[i]);
+          }
+      }
+      if (orderBy !== '') {
+          varUrl = varUrl + "/" + orderBy;
+      }
+      payload.path=varUrl;
+      payload.data=kvp;
+      return payload;
   }
 
 }

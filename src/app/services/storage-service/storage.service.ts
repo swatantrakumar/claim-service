@@ -251,4 +251,12 @@ export class StorageService {
   GetStaticData() {
     return JSON.parse(<any>localStorage.getItem(this.STATIC_DATA));
   }
+  GetClaimStatus(){
+    let staticData = this.GetStaticData();
+    if(staticData && staticData.claimstatus){
+      return staticData.claimstatus;
+    }else{
+      return null;
+    }
+  }
 }

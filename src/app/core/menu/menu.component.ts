@@ -4,6 +4,7 @@ import { AuthDataShareService } from './../../services/data-share-service/auth-d
 import { StorageService } from './../../services/storage-service/storage.service';
 import { ApiService } from 'src/app/services/api-service/api.service';
 import { Router } from '@angular/router';
+import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
 
 @Component({
   selector: 'app-menu',
@@ -19,6 +20,7 @@ export class MenuComponent implements OnInit {
   constructor(
     private storageService:StorageService,
     private authDataShareService:AuthDataShareService,
+    private commounFunctionService:CommonFunctionService,
     private apiServie:ApiService,
     private router:Router
   ) {
@@ -38,6 +40,7 @@ export class MenuComponent implements OnInit {
   setCase(){
     this.storageService.SetActiveCase(this.selectedCaseId);
     this.authDataShareService.setActiveCase(this.selectedCaseId);
+    this.commounFunctionService.getClaimStaticDataForTheCase(this.selectedCaseId);
     //this.getClaimDataFormCaseId(this.selectedCaseId);
   }
   setCases(cases:any){
