@@ -64,10 +64,10 @@ export class ClaimFormsComponent implements OnInit {
     "OTHERS" : "Other"
     };
     claimModels ={
-      "NEW" : "New Forms" ,
-      "RESUBMITTED" : "RE-SUBMITTED" ,
-      "ONHOLD" : "ONHOLD" ,
-      "ACCEPTED" : "ACCEPTED"
+      "SUBMITTED" : "Submited" ,
+      "RESUBMITTED" : "Re-Submitted" ,
+      "ONHOLD" : "On Hold" ,
+      "ACCEPTED" : "Accepted"
       };
   gridApi:any;
   dashboardGridOptions:any;
