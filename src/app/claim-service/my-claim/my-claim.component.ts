@@ -11,6 +11,7 @@ import { CommonFunctionService } from 'src/app/services/common-function/common-f
 import { ModelService } from 'src/app/services/model/model.service';
 import { FileHandlerService } from 'src/app/services/file-handler/fileHandler.service';
 import { KeyValue } from '@angular/common';
+import { FileTypeCellRendrerFrameworkComponent } from '../common/file-type-cell-rendrer-framework/file-type-cell-rendrer-framework.component';
 @Component({
   selector: 'lib-my-claim',
   templateUrl: './my-claim.component.html',
@@ -60,6 +61,7 @@ export class MyClaimComponent implements OnInit {
   columnDefs:ColDef[] = [
     {headerName: "Status", field: "formStatus",  lockPosition: true, resizable: false,width: 112},
 		{headerName: "Form Id", field: "serialId", lockPosition: true,width: 173},
+    {headerName: "Signed Doc's", field: "signedForm",  cellRendererFramework: FileTypeCellRendrerFrameworkComponent, lockPosition: true},
         {headerName: "Primary Claimant", field: "primaryClaimant.name",  lockPosition: true,width: 198},
         {headerName: "Claimant Email", field: "primaryClaimant.email",  lockPosition: true,width: 198},
         {headerName: "Form Name", field: "formName",  lockPosition: true,width: 150},
@@ -70,7 +72,7 @@ export class MyClaimComponent implements OnInit {
                   return moment(params.value).format('DD/MM/YYYY');
                },  lockPosition: true,filter:false},
         {headerName: "Approved Amount", field: " ",  lockPosition: true,width: 97},
-       
+
 	];
 	rowData:any = [];
   defaultColDef: ColDef = {
@@ -120,6 +122,7 @@ export class MyClaimComponent implements OnInit {
       if(res.type && res.type == "SUBMIT"){
         this.showMyClaimForms()
         this.notificationService.notify('bg-success',"Claim Form Submitted Successfully!!!");
+        this.modelService.close("SUBMITE_MODEL");
       }
     })
     this.dataShareService.fileDownloadResponce.subscribe(data =>{
@@ -143,6 +146,17 @@ export class MyClaimComponent implements OnInit {
     this.dataShareService.fileRemoveResponce.subscribe(data =>{
       if(data){
         this.notificationService.notify("bg-success","Document has been removed successfully !!!");
+        if(this.activekey == "signedForm"){
+          if(this.activekey && this.claim_form[this.activekey] && this.claim_form[this.activekey].length>0){
+            this.claim_form[this.activekey].splice(this.activeIndex,1);
+          }
+        }else{
+          if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
+            this.claim_form.formAttachments[this.activekey].splice(this.activeIndex,1);
+          }else{
+            this.claim_form.docList.splice(this.activeIndex,1);
+          }
+        }
         this.commonFunctionService.saveClaimForm(this.claim_form);
       }else{
         this.notificationService.notify("bg-error","Error occured while removing document, Please contact admin !!!");
@@ -159,14 +173,22 @@ export class MyClaimComponent implements OnInit {
                 notification = notification + key + " : " + value + "; "
             }
             if(this.attachment_key && key==='uploadedFiles'){
+              if(this.attachment_key == "signedForm"){
+                if(!this.claim_form[this.attachment_key]){
+                  this.claim_form[this.attachment_key]=[]
+                }
+                for(var i=0; i<value.length;i++){
+                    this.claim_form[this.attachment_key].push(value[i])
+                }
+              }else{
                 if(!this.claim_form.formAttachments[this.attachment_key]){
                     this.claim_form.formAttachments[this.attachment_key]=[]
                 }
                 for(var i=0; i<value.length;i++){
                     this.claim_form.formAttachments[this.attachment_key].push(value[i])
                 }
-                // $scope.claim_form.formAttachments[attachment_key] =value;
-                this.commonFunctionService.saveClaimForm(this.claim_form);
+              }
+              this.commonFunctionService.saveClaimForm(this.claim_form);
             }
         })
       }
@@ -340,22 +362,30 @@ export class MyClaimComponent implements OnInit {
     this.claim_form.category=this.formSelection;
     this.claim_form.formName=this.popUpWindow;
   }
-   editClaimForm(){
-      this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
-      if(!this.claim_form.formDate) this.claim_form.formDate = new Date();
-      this.formSelection=this.claim_form.category;
-      this.selectedForm=this.claim_form.catClass;
-      this.popUpWindow=this.claim_form.formName;
-      this.commonFunctionService.reformatDates("claims", this.claim_form)
-      this.activeSection();
-      this.formPopUpWindow(true);
+  editClaimForm(){
+    this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
+    if(!this.claim_form.formDate) this.claim_form.formDate = new Date();
+    this.formSelection=this.claim_form.category;
+    this.selectedForm=this.claim_form.catClass;
+    this.popUpWindow=this.claim_form.formName;
+    this.commonFunctionService.reformatDates("claims", this.claim_form)
+    this.activeSection();
+    this.formPopUpWindow(true);
 
-      if(!this.claim_form.primaryClaimant){
-        this.creditDetails=false;
-      }else{
-        this.creditDetails=true;
-      }
-   };
+    if(!this.claim_form.primaryClaimant){
+      this.creditDetails=false;
+    }else{
+      this.creditDetails=true;
+    }
+  };
+  submitClaimForm(){
+    let object = {
+      type : "SUBMITE",
+      fieldName : "signedForm"
+    }
+    this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
+    this.modelService.open('SUBMITE_MODEL',object);
+  };
    previewFormWindow(form?:any){
       if(this.activeTabName=='CLAIMSTATUS'){
         this.claim_form=this.commonFunctionService.cloneObject(form);
@@ -391,6 +421,7 @@ export class MyClaimComponent implements OnInit {
           break;
 
       }
+      this.apiService.getPreviewModalHtml(this.claim_form._id);
       this.modelService.open('PREVIEW_MODEL',{'formName':formName});
    }
    viewDetail(){
@@ -417,6 +448,10 @@ export class MyClaimComponent implements OnInit {
   onSelectionChanged() {
     const selectedRows = this.gridApi.getSelectedRows();
     this.selectRowData = selectedRows[0];
+  }
+  onCellClicked(event:any) {
+    const selectedRows = this.gridApi.getSelectedRows();
+    this.claim_form = this.commonFunctionService.cloneObject(selectedRows[0]);
   }
    returnSelectedItem(){
     console.log("double click")
@@ -470,12 +505,20 @@ export class MyClaimComponent implements OnInit {
   deleteDoc(check:boolean){
     if(check){
       let activeDocumentArray:any = [] ;
-      if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
-          activeDocumentArray = this.claim_form.formAttachments[this.activekey];
+      if(this.activekey == "signedForm"){
+        if(this.claim_form[this.activekey] && this.claim_form[this.activekey].length>0){
+          activeDocumentArray = this.claim_form[this.activekey];
+        }
       }else{
-          activeDocumentArray=this.claim_form.docList;
+        if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
+            activeDocumentArray = this.claim_form.formAttachments[this.activekey];
+        }else{
+            activeDocumentArray=this.claim_form.docList;
+        }
       }
-      this.apiService.removeDocument(activeDocumentArray[this.activeIndex]);
+      if(activeDocumentArray && activeDocumentArray.length > 0 && this.activeIndex != -1){
+        this.apiService.removeDocument(activeDocumentArray[this.activeIndex]);
+      }
     }
   }
 
@@ -580,6 +623,7 @@ export class MyClaimComponent implements OnInit {
   onlineBankAccount(){
     this.modelService.open('addBankDetailsModel',{})
   }
+
 
 
 }

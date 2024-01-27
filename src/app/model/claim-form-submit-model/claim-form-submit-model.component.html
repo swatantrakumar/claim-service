@@ -1,0 +1,58 @@
+<div  mdbModal #claimSubmiteModel="mdbModal" class="modal fade top"  tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',keyboard: false}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="employee">{{pageTitle}}</h4>
+              <button type="button" class="close py-2" data-dismiss="modal" aria-label="Close" (click)="close()">
+                <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <div class="input-group">
+                      <div class="custom-file col-lg-10">
+                          <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04"
+                          onclick="this.value = null" (change)="setFiles($event,'docs')">
+                          <label class="custom-file-label" for="inputGroupFile04">{{getSelectedFilenameForUpload()}}</label>
+                      </div>
+                      <div class="col-lg-2 col-2">
+                          <button type="button" (click)="uploadFile('docs',fieldName)" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-lg-12" *ngIf="claim_form && claim_form[fieldName] && claim_form[fieldName].length > 0" >
+                  <table class="table table-bordered table-centered mb-0">
+                    <thead class="thead-light text-center">
+                      <th>Sr No.</th>
+                      <th>File Name</th>
+                      <th>Action</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let doc of claim_form[fieldName];let i=index">
+                        <td>{{i + 1}}</td>
+                        <td>{{doc.rollName}}</td>
+                        <td>
+                          <span class="col text-center"><img class="pointer" src="/assets/img/cross.png" style="width:15px" (click)="deleteDocument(doc,i,fieldName)"></span><span class="col text-center"><img class="pointer" src="/assets/img/download.png" style="width:15px" (click)="downloadFile(doc)"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button [disabled]="in_progess_for_claimform_submit || checkFileUpload()" type="button" class="btn btn-primary" *ngIf="claim_form.formStatus!=='SUBMITTED' && claimSubmit" (click)="finalSubmissionAlert()">
+                <span *ngIf="!in_progess_for_claimform_submit">Submit</span>
+                <span *ngIf="in_progess_for_claimform_submit">
+                    <span class="spinner-border spinner-border-sm"></span>Submit
+                </span>
+            </button>
+            <!-- <button type="button" class="btn btn-primary" (click)="close()">Ok</button> -->
+          </div>
+      </div>
+    </div>
+</div>

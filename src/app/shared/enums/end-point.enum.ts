@@ -16,5 +16,8 @@ export enum EndPoint {
     DELETE_FILE = "vdr/dlfl",
     DOWNLOAD_FILE = "vdr/getfl/download",
     GET_CLAIM_STATUS = "cas/gcfc/",
-    ADD_OR_UPDATE_USER = 'user'
+    ADD_OR_UPDATE_USER = 'user',
+    GET_HTML_FOR_PREVIEW_MODAL = "utils/html"
 }
+
+// http://localhost:8198/rest/utils/html/{_id}

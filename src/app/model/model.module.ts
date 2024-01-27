@@ -14,6 +14,7 @@ import { WaitModelComponent } from './wait-model/wait-model.component';
 import { PreviewModelComponent } from './preview-model/preview-model.component';
 import { CommonCoreModule } from '../claim-service/common/common.module';
 import { ClaimReviewApprovalComponent } from './claim-review-approval/claim-review-approval.component';
+import { ClaimFormSubmitModelComponent } from './claim-form-submit-model/claim-form-submit-model.component';
 
 let components =[
   UserCreationComponent,
@@ -25,7 +26,8 @@ let components =[
   AddBankDetailsComponent,
   WaitModelComponent,
   PreviewModelComponent,
-  ClaimReviewApprovalComponent
+  ClaimReviewApprovalComponent,
+  ClaimFormSubmitModelComponent
 ]
 @NgModule({
   imports: [

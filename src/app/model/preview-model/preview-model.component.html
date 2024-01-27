@@ -17,26 +17,16 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                               </div>
                               <div class="col-lg-6 col-md-6 text-right">
 
-                                  <button type="button" class="btn btn-primary btn-rounded" *ngIf="claim_form.formStatus!=='SUBMITTED'"
+                                  <button type="button" class="btn btn-primary btn-rounded"
                                           (click)="close()">Go Back
-                                  </button>
-                                  <button type="button" class="btn btn-primary btn-rounded" *ngIf="claim_form.formStatus==='SUBMITTED'"
-                                          (click)="close()">Go Back
-                                  </button>
-                                  <button [disabled]="in_progess_for_claimform_submit" type="button" class="btn btn-primary btn-rounded" *ngIf="claim_form.formStatus!=='SUBMITTED'"
-                                          (click)="finalSubmissionAlert()">
-                                          <span *ngIf="!in_progess_for_claimform_submit">Submit</span>
-                                              <span *ngIf="in_progess_for_claimform_submit">
-                                                  <span class="spinner-border spinner-border-sm"></span>Submit
-                                              </span>
                                   </button>
                                   <button type="button" class="btn btn-primary btn-rounded" (click)="printData('previewFormC')">print
                                   </button>
 
                               </div>
                           </div>
-                          <div class="row">
-                              <div class="col-lg-12 col-md-12 border" id="previewFormC">
+                          <div [innerHTML]="previewData">
+                              <!-- <div class="col-lg-12 col-md-12 border" id="previewFormC">
                                   <div class="list-group text-center" [innerHTML]="headerContent"></div>
                                   <div>
                                     <app-preview_header [claim_form]="claim_form"></app-preview_header>
@@ -60,7 +50,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
                                   </div>
 
-                              </div>
+                              </div> -->
                           </div>
                       </div>
                   </div>

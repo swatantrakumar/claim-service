@@ -1,13 +1,13 @@
 <div class="row">
-  <div class="row col-lg-12 col-7" *ngIf="hideDropDown">
+  <div class=" col-7" [ngClass]="CATEGORY_SELECTION ? 'col-lg-3':'col-lg-10'"  *ngIf="hideDropDown">
       <button id="{{myShortName+'submitClaim'}}"
               (click)="activeSection()"
               class="btn btn-outline-primary btn-rounded"> Submit New
           Claim
       </button>
    <!-- end col -->
-
-  <div class="ml-5 col-lg-7 row" *ngIf="CATEGORY_SELECTION">
+  </div>
+  <div class="col-lg-7 row" *ngIf="CATEGORY_SELECTION">
       <label class=" mr-2 col-form-label">Category</label>
       <select class="col-3 col-lg-3 form-control"  id="{{myShortName + 'type'}}" [(ngModel)]="formSelection" (change)="findTheForm(formSelection)">
         <option></option>
@@ -22,11 +22,14 @@
       <button class="btn btn-primary" (click)="showMyClaimForms()">Back</button>
   </div>
 
-  <div class="row col-lg-10 text-right" *ngIf="OnlineFormGrid">
-      <div class="col-lg-5">&nbsp;</div>
+  <div class="col-lg-2 text-right" *ngIf="OnlineFormGrid">
       <button type="button" *ngIf="selectRowData && selectRowData.formStatus == 'SAVED'"
               class="btn btn-primary btn-rounded"
               (click)="editClaimForm()">Edit
+      </button>
+      <button type="button" *ngIf="selectRowData && selectRowData.formStatus == 'SAVED'"
+              class="btn btn-primary btn-rounded"
+              (click)="submitClaimForm()">Submit
       </button>
       <button type="button" *ngIf="selectRowData && selectRowData.formStatus == 'SUBMITTED'"
               class="btn btn-primary btn-rounded" (click)="viewDetail()">
@@ -36,9 +39,8 @@
               class="btn btn-primary btn-rounded"
               (click)="previewFormWindow()">preview
       </button>
-
   </div>
-</div>
+
 </div>
 <div class="row">
   <div class="col-lg-12 pt-3" *ngIf="OnlineFormGrid">
@@ -57,7 +59,7 @@
             rowSelection= 'single'
             (gridReady)="onGridReady($event)"
             (selectionChanged)="onSelectionChanged()"
-
+            (cellClicked)="onCellClicked($event)"
 
             >
   </ag-grid-angular>
@@ -87,9 +89,10 @@
   </div>
 
 </div>
-<app-preview-model [id]="'PREVIEW_MODEL'" [claim_form]="claim_form" [deleteDocument]="deleteDocument.bind(this)" [downloadFile]="downloadFile.bind(this)" [in_progess_for_claimform_submit]="in_progess_for_claimform_submit"></app-preview-model>
+<app-preview-model [id]="'PREVIEW_MODEL'" [claim_form]="claim_form" [deleteDocument]="deleteDocument.bind(this)" [downloadFile]="downloadFile.bind(this)"></app-preview-model>
 <app-add-security-details [id]="'securityDetailsModel'"  [claim_form]="claim_form" ></app-add-security-details>
 <app-id-details [claim_form]="claim_form" [id]="'ID_DETAILS_WINDOW'" [CIN_NO]="CIN_NO" [fcIdentificationDetails]="fcIdentificationDetails"></app-id-details>
 <app-claim-employe [claim_form]="claim_form" [id]="'CLAIM_MODEL_EMPLOYEE'" [claimObj]="claimObj" [claimDetails]="claimDetails"></app-claim-employe>
 <app-creditor-details [id]="'creditModel'" [selectedForm]="selectedForm" [claim_form]="claim_form" (creditorDetails)="creditorDetails($event)"></app-creditor-details>
 <app-add-bank-details [id]="'addBankDetailsModel'"  [claim_form]="claim_form" ></app-add-bank-details>
+<app-claim-form-submit-model [id]="'SUBMITE_MODEL'" [claim_form]="claim_form" [deleteDocument]="deleteDocument.bind(this)" [downloadFile]="downloadFile.bind(this)" [in_progess_for_claimform_submit]="in_progess_for_claimform_submit" [uploadFile]="uploadFile.bind(this)"  [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)"></app-claim-form-submit-model>

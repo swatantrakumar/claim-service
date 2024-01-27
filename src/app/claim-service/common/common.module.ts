@@ -18,6 +18,7 @@ import { Preview_headerComponent } from './preview_header/preview_header.compone
 import { Preview_verificationComponent } from './preview_verification/preview_verification.component';
 import { ClaimAmountWithEmployeeComponent } from './claim-amount-with-employee/claim-amount-with-employee.component';
 import { ClaimAmountWithOperationalComponent } from './claim-amount-with-operational/claim-amount-with-operational.component';
+import { FileTypeCellRendrerFrameworkComponent } from './file-type-cell-rendrer-framework/file-type-cell-rendrer-framework.component';
 
 
 const components = [
@@ -36,7 +37,8 @@ const components = [
   Preview_verificationComponent,
   ClaimAmountWithEmployeeComponent,
   ClaimAmountWithOperationalComponent,
-  ClaimAmountWithOthersComponent
+  ClaimAmountWithOthersComponent,
+  FileTypeCellRendrerFrameworkComponent
 ]
 
 @NgModule({
