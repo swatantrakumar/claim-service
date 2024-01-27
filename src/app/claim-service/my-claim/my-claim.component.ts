@@ -404,6 +404,7 @@ export class MyClaimComponent implements OnInit {
           break;
 
       }
+      this.apiService.getPreviewModalHtml(this.claim_form._id);
       this.modelService.open('PREVIEW_MODEL',{'formName':formName});
    }
    viewDetail(){

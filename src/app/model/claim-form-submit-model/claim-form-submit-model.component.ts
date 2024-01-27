@@ -75,5 +75,12 @@ export class ClaimFormSubmitModelComponent implements OnInit {
     }
     this.modelService.open('confirmation_modal',obj);
   }
+  checkFileUpload(){
+    let check = true;
+    // if(this.claim_form){
+    //   check = false;
+    // }
+    return check;
+  }
 
 }

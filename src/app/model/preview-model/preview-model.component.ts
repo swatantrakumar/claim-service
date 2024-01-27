@@ -49,7 +49,13 @@ export class PreviewModelComponent implements OnInit {
   showModal(alert:any){
     this.formName = alert.formName;
     this.setPreviewHeaderContent();
+    this.subscribePreviewHtml();
     this.previewModel.show();
+  }
+  subscribePreviewHtml(){
+    this.dataShareService.previewModelHtml.subscribe(data =>{
+      console.log(data);
+    })
   }
   setPreviewHeaderContent(){
     if(this.formName == 'C'){

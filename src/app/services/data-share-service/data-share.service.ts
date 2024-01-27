@@ -21,6 +21,7 @@ export class DataShareService {
   userAddResponce:Subject<any> = new Subject();
   claimFromDetails:Subject<any> = new Subject();
   claimFormDashbordData:Subject<any> = new Subject();
+  previewModelHtml:Subject<any> = new Subject();
   claimStaticData:any={};
 
   constructor() { }
@@ -75,6 +76,9 @@ export class DataShareService {
   }
   shareDashboardDataResponce(responce:any){
     this.claimFormDashbordData.next(responce);
+  }
+  sharePreviewModelHtmlResponce(responce:any){
+    this.previewModelHtml.next(responce);
   }
   //End For App
 

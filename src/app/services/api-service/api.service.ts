@@ -195,6 +195,17 @@ constructor(
       }
     )
   }
+  getPreviewModalHtml(payload:any){
+    let api = this.envService.getAuthApi('GET_HTML_FOR_PREVIEW_MODAL');
+    this.http.get(api+"/"+payload).subscribe(
+      (respData:any) =>{
+        this.dataShareService.sharePreviewModelHtmlResponce(respData);
+      },
+      (error)=>{
+        this.notificationService.notify("bg-danger","Error occured while fetching claims..");
+      }
+    )
+  }
   //End For app functions
 
 
