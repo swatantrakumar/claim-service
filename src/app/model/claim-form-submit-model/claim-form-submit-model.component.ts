@@ -4,6 +4,7 @@ import { DataShareService } from 'src/app/services/data-share-service/data-share
 import { ModelService } from 'src/app/services/model/model.service';
 import { NotificationService } from 'src/app/services/notify/notification.service';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-claim-form-submit-model',
@@ -28,6 +29,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
 
   claimSubmit:boolean=false;
   pageTitle:string="";
+  fieldName="";
 
   constructor(
     private modelService:ModelService,
@@ -57,6 +59,12 @@ export class ClaimFormSubmitModelComponent implements OnInit {
       this.claimSubmit = true;
       this.pageTitle = "Claim Submit";
     }
+    if(alert.title){
+      this.pageTitle = alert.title;
+    }
+    if(alert.fieldName){
+      this.fieldName = alert.fieldName;
+    }
     this.claimSubmiteModel.show();
   }
   close(){
@@ -77,9 +85,9 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   }
   checkFileUpload(){
     let check = true;
-    // if(this.claim_form){
-    //   check = false;
-    // }
+    if(this.claim_form && this.claim_form[this.fieldName] && this.claim_form[this.fieldName].length > 0){
+      check = false;
+    }
     return check;
   }
 

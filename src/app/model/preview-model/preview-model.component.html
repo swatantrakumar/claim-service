@@ -25,8 +25,8 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
                               </div>
                           </div>
-                          <div class="row">
-                              <div class="col-lg-12 col-md-12 border" id="previewFormC">
+                          <div [innerHTML]="previewData">
+                              <!-- <div class="col-lg-12 col-md-12 border" id="previewFormC">
                                   <div class="list-group text-center" [innerHTML]="headerContent"></div>
                                   <div>
                                     <app-preview_header [claim_form]="claim_form"></app-preview_header>
@@ -50,7 +50,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
                                   </div>
 
-                              </div>
+                              </div> -->
                           </div>
                       </div>
                   </div>

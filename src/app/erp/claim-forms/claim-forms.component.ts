@@ -214,7 +214,7 @@ export class ClaimFormsComponent implements OnInit {
     }
   }
   ageCellRendererFunc(params:any) {
-    // params.this.openClaimFormFolder = this.openClaimFormFolder;
+    params.openClaimFormFolder = this.openClaimFormFolder;
     return '<div class="text-center"><img ng-click="openClaimFormFolder(data)" style="width: 20px;height: 20px !important;" src="./assets/img/folder.png"></div>';
   }
   openClaimFormFolder(form:any,type:any){

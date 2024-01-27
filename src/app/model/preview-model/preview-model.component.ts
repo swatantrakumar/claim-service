@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, SecurityContext, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { DataShareService } from 'src/app/services/data-share-service/data-share.service';
 import { ModelService } from 'src/app/services/model/model.service';
 import { NotificationService } from 'src/app/services/notify/notification.service';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-preview-model',
@@ -27,12 +28,14 @@ export class PreviewModelComponent implements OnInit {
   formF:any='<h4 class="text-center">SCHEDULE <br>FORM F</h4><p class="text-center">PROOF OF CLAIM BY CREDITORS (OTHER THAN FINANCIAL CREDITORS AND OPERATIONAL CREDITORS) <br> [Under Regulation 9A of the Insolvency and Bankruptcy Board of India (Insolvency Resolution Process for Corporate Persons) Regulations, 2016]</p>';
   headerContent:any="";
   formName:string='';
+  previewData:any="";
 
   constructor(
     private modelService:ModelService,
     private notificationService:NotificationService,
     private dataShareService:DataShareService,
-    private commonFunctionService:CommonFunctionService
+    private commonFunctionService:CommonFunctionService,
+    private sanitizer: DomSanitizer
   ) {
 
   }
@@ -54,7 +57,9 @@ export class PreviewModelComponent implements OnInit {
   }
   subscribePreviewHtml(){
     this.dataShareService.previewModelHtml.subscribe(data =>{
-      console.log(data);
+      if(data && data.success && data.success != ""){
+        this.previewData = this.sanitizer.bypassSecurityTrustHtml(data.success);
+      }
     })
   }
   setPreviewHeaderContent(){
@@ -75,9 +80,9 @@ export class PreviewModelComponent implements OnInit {
   }
 
   printData(value:any){
-    var divToPrint:any = document.getElementById(value);
+    //var divToPrint:any = document.getElementById(value);
     var newWin:any = window.open("");
-    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write(this.previewData);
     newWin.print();
     newWin.close();
   }
