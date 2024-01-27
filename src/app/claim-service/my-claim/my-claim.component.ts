@@ -70,7 +70,7 @@ export class MyClaimComponent implements OnInit {
                   return moment(params.value).format('DD/MM/YYYY');
                },  lockPosition: true,filter:false},
         {headerName: "Approved Amount", field: " ",  lockPosition: true,width: 97},
-       
+
 	];
 	rowData:any = [];
   defaultColDef: ColDef = {
@@ -120,6 +120,7 @@ export class MyClaimComponent implements OnInit {
       if(res.type && res.type == "SUBMIT"){
         this.showMyClaimForms()
         this.notificationService.notify('bg-success',"Claim Form Submitted Successfully!!!");
+        this.modelService.close("SUBMITE_MODEL");
       }
     })
     this.dataShareService.fileDownloadResponce.subscribe(data =>{
@@ -143,6 +144,11 @@ export class MyClaimComponent implements OnInit {
     this.dataShareService.fileRemoveResponce.subscribe(data =>{
       if(data){
         this.notificationService.notify("bg-success","Document has been removed successfully !!!");
+        if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
+          this.claim_form.formAttachments[this.activekey].splice(this.activeIndex,1);
+        }else{
+          this.claim_form.docList.splice(this.activeIndex,1);
+        }
         this.commonFunctionService.saveClaimForm(this.claim_form);
       }else{
         this.notificationService.notify("bg-error","Error occured while removing document, Please contact admin !!!");
@@ -340,22 +346,29 @@ export class MyClaimComponent implements OnInit {
     this.claim_form.category=this.formSelection;
     this.claim_form.formName=this.popUpWindow;
   }
-   editClaimForm(){
-      this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
-      if(!this.claim_form.formDate) this.claim_form.formDate = new Date();
-      this.formSelection=this.claim_form.category;
-      this.selectedForm=this.claim_form.catClass;
-      this.popUpWindow=this.claim_form.formName;
-      this.commonFunctionService.reformatDates("claims", this.claim_form)
-      this.activeSection();
-      this.formPopUpWindow(true);
+  editClaimForm(){
+    this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
+    if(!this.claim_form.formDate) this.claim_form.formDate = new Date();
+    this.formSelection=this.claim_form.category;
+    this.selectedForm=this.claim_form.catClass;
+    this.popUpWindow=this.claim_form.formName;
+    this.commonFunctionService.reformatDates("claims", this.claim_form)
+    this.activeSection();
+    this.formPopUpWindow(true);
 
-      if(!this.claim_form.primaryClaimant){
-        this.creditDetails=false;
-      }else{
-        this.creditDetails=true;
-      }
-   };
+    if(!this.claim_form.primaryClaimant){
+      this.creditDetails=false;
+    }else{
+      this.creditDetails=true;
+    }
+  };
+  submitClaimForm(){
+    let object = {
+      type : "SUBMITE"
+    }
+    this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
+    this.modelService.open('SUBMITE_MODEL',object);
+  };
    previewFormWindow(form?:any){
       if(this.activeTabName=='CLAIMSTATUS'){
         this.claim_form=this.commonFunctionService.cloneObject(form);
