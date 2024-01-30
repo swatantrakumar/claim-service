@@ -5,6 +5,7 @@ import { ModelService } from 'src/app/services/model/model.service';
 import { NotificationService } from 'src/app/services/notify/notification.service';
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
 import { SlicePipe } from '@angular/common';
+import { StorageService } from 'src/app/services/storage-service/storage.service';
 
 @Component({
   selector: 'app-claim-form-submit-model',
@@ -35,7 +36,8 @@ export class ClaimFormSubmitModelComponent implements OnInit {
     private modelService:ModelService,
     private notificationService:NotificationService,
     private dataShareService:DataShareService,
-    private commonFunctionService:CommonFunctionService
+    private commonFunctionService:CommonFunctionService,
+    private storageService:StorageService
   ) {
     this.dataShareService.confirmationResponce.subscribe(check =>{
       if(check && this.deleteIndex){
@@ -69,6 +71,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   }
   close(){
     this.claimSubmiteModel.hide();
+    this.commonFunctionService.getClaimDataFormCaseId(this.storageService.GetActiveCaseId());
   }
   finalSubmissionAlert() {
     if(this.claim_form.catClass == "Home Buyers"){

@@ -16,6 +16,7 @@ export class FileTypeCellRendrerFrameworkComponent  implements ICellRendererAngu
   }
   value: any;
   data:any;
+  fieldName:String | undefined;
 
   agInit(params: any): void {
     if(params && params.value && params.value.length > 0){
@@ -24,12 +25,13 @@ export class FileTypeCellRendrerFrameworkComponent  implements ICellRendererAngu
     }else{
       this.value = "--";
     }
+    this.fieldName = params.colDef.field;
   }
 
   handleClick() {
     let object = {
       type : "",
-      fieldName : "signedForm"
+      fieldName : this.fieldName
     }
     this.modelService.open('SUBMITE_MODEL',object);
   }
