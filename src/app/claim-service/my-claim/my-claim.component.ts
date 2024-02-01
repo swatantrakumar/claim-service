@@ -123,7 +123,6 @@ export class MyClaimComponent implements OnInit {
       if(res.type && res.type == "SUBMIT"){
         this.showMyClaimForms()
         this.notificationService.notify('bg-success',"Claim Form Submitted Successfully!!!");
-        this.selectRowData = {};
         this.modelService.close("SUBMITE_MODEL");
       }
     })
@@ -208,6 +207,7 @@ export class MyClaimComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.showMyClaimForms();
   }
   showMyClaimForms(){
     this.commonFunctionService.getClaimDataFormCaseId(this.storageService.GetActiveCaseId());
@@ -228,6 +228,7 @@ export class MyClaimComponent implements OnInit {
     this.showVerification=false;
     this.showForm=false;
     this.creditDetails=false;
+    this.selectRowData='';
   }
   activeSection(){
     if(this.OnlineFormGrid==true){
@@ -427,9 +428,11 @@ export class MyClaimComponent implements OnInit {
       this.modelService.open('PREVIEW_MODEL',{'formName':formName});
    }
    viewDetail(){
-    if(this.selectRowData && this.selectRowData.claimId){
-        this.getClaimStatusDetails(this.selectRowData.claimId);
-    }
+    // if(this.selectRowData && this.selectRowData.claimId){
+    //     this.getClaimStatusDetails(this.selectRowData.claimId);
+    // }
+    let object = {}
+    this.modelService.open('COMMENT_MODEL',object);
    }
    getClaimStatusDetails(claimId:string){
     if(!claimId) claimId="n";
@@ -624,6 +627,22 @@ export class MyClaimComponent implements OnInit {
   }
   onlineBankAccount(){
     this.modelService.open('addBankDetailsModel',{})
+  }
+  commetModelResponce(respone:any){
+    if(respone == 'upload'){
+      let object = {
+        type : "",
+        fieldName : 'docList',
+        title:'Documents'
+      }
+      this.modelService.open('SUBMITE_MODEL',object);
+    }
+  }
+  previewModelResponce(respone:any){
+    this.selectRowData = '';
+  }
+  submitModelResponce(respone:any){
+    this.selectRowData = '';
   }
 
 

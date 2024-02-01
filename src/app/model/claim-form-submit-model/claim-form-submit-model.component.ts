@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { DataShareService } from 'src/app/services/data-share-service/data-share.service';
 import { ModelService } from 'src/app/services/model/model.service';
@@ -23,6 +23,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   @Input() getSelectedFilenameForUpload!:() => void;
   @Input() saveClaimForm!: (doc:any) => void;
   @Input() in_progess_for_claimform_submit:boolean=false;
+  @Output() submitModelResponce = new EventEmitter();
 
   @ViewChild('claimSubmiteModel') public claimSubmiteModel!: ModalDirective;
 
@@ -55,6 +56,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
     this.modelService.remove(this.id);
     this.modelService.add(this);
   }
+  hint:string='';
   showModal(alert:any){
     this.claimSubmit = false;
     if(alert.type == "SUBMITE"){
@@ -67,10 +69,14 @@ export class ClaimFormSubmitModelComponent implements OnInit {
     if(alert.fieldName){
       this.fieldName = alert.fieldName;
     }
+    if(alert.hint){
+      this.hint = alert.hint;
+    }
     this.claimSubmiteModel.show();
   }
   close(){
     this.claimSubmiteModel.hide();
+    this.submitModelResponce.emit('');
     this.commonFunctionService.getClaimDataFormCaseId(this.storageService.GetActiveCaseId());
   }
   finalSubmissionAlert() {
