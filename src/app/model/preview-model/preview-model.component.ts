@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SecurityContext, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SecurityContext, ViewChild } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
 import { DataShareService } from 'src/app/services/data-share-service/data-share.service';
 import { ModelService } from 'src/app/services/model/model.service';
@@ -17,6 +17,7 @@ export class PreviewModelComponent implements OnInit {
   @Input() id: string ='';
   @Input() downloadFile!: (doc:any) => void;
   @Input() deleteDocument!:(doc:any,index:number,key?:any) => void;
+  @Output() previewModelResponce = new EventEmitter();
 
   @ViewChild('previewModel') public previewModel!: ModalDirective;
 
@@ -76,6 +77,7 @@ export class PreviewModelComponent implements OnInit {
     }
   }
   close(){
+    this.previewModelResponce.emit('');
     this.previewModel.hide();
   }
 
@@ -86,5 +88,13 @@ export class PreviewModelComponent implements OnInit {
     newWin.print();
     newWin.close();
   }
+  submitClaimForm(){
+    let object = {
+      type : "SUBMITE",
+      fieldName : "signedForm",
+      hint:"*Upload signed form for submit,if this time not upload no issue also submited from dashboard."
+    }
+    this.modelService.open('SUBMITE_MODEL',object);
+  };
 
 }

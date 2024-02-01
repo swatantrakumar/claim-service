@@ -1,3 +1,4 @@
+import { ViewCommentsComponent } from './view-comments/view-comments.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserCreationComponent } from './user-creation/user-creation.component';
@@ -27,7 +28,8 @@ let components =[
   WaitModelComponent,
   PreviewModelComponent,
   ClaimReviewApprovalComponent,
-  ClaimFormSubmitModelComponent
+  ClaimFormSubmitModelComponent,
+  ViewCommentsComponent
 ]
 @NgModule({
   imports: [

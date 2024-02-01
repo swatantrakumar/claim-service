@@ -31,7 +31,8 @@ export class FileTypeCellRendrerFrameworkComponent  implements ICellRendererAngu
   handleClick() {
     let object = {
       type : "",
-      fieldName : this.fieldName
+      fieldName : this.fieldName,
+      title:'Documents'
     }
     this.modelService.open('SUBMITE_MODEL',object);
   }

@@ -22,6 +22,8 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                   </button>
                                   <button type="button" class="btn btn-primary btn-rounded" (click)="printData('previewFormC')">print
                                   </button>
+                                  <button type="button"  *ngIf="claim_form && (claim_form.formStatus != 'SUBMITTED' && claim_form.formStatus != 'RE-SUBMITTED')" class="btn btn-primary btn-rounded" (click)="submitClaimForm()">Submit
+                                  </button>
 
                               </div>
                           </div>
