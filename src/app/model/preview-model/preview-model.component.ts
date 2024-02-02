@@ -97,5 +97,9 @@ export class PreviewModelComponent implements OnInit {
     }
     this.modelService.open('SUBMITE_MODEL',object);
   };
+  goToDashboard(){
+    this.close();
+    this.showMyClaimForms();
+  }
 
 }
