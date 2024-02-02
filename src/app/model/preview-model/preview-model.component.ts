@@ -56,9 +56,11 @@ export class PreviewModelComponent implements OnInit {
     this.subscribePreviewHtml();
     this.previewModel.show();
   }
+  data:any='';
   subscribePreviewHtml(){
     this.dataShareService.previewModelHtml.subscribe(data =>{
       if(data && data.success && data.success != ""){
+        this.data = data.success;
         this.previewData = this.sanitizer.bypassSecurityTrustHtml(data.success);
       }
     })
@@ -82,9 +84,8 @@ export class PreviewModelComponent implements OnInit {
   }
 
   printData(value:any){
-    //var divToPrint:any = document.getElementById(value);
     var newWin:any = window.open("");
-    newWin.document.write(this.previewData);
+    newWin.document.write(this.data);
     newWin.print();
     newWin.close();
   }
