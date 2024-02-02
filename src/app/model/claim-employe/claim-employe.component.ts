@@ -170,7 +170,7 @@ export class ClaimEmployeComponent implements OnInit {
             {"label":"Payment Amount","name":"amount","type":"number","change":true},
             {"label":"Tax(*for claim purpose Tax is excluded)","name":"tax","type":"number","change":false},
             {"label":"Interest","name":"interest","type":"number","change":true,"disableCheck":true},
-            {"label":"Total","name":"total","type":"label","data":'claim'}
+            {"label":"Total","name":"total","type":"number","data":'claim'}
           ]
           this.headerIntrestRate = true;
           this.staticData['unit_select'] =["Cash","Credit Card","Debit Card","Cheque","UPI","Net Banking","CRN GST Input Credit","TDS","CRN TDS","CRN Transfer of Unit Within Project","CRN Transfer of Unit from Other Project","CRN Change in Payment Plan"]
