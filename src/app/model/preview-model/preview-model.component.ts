@@ -18,7 +18,7 @@ export class PreviewModelComponent implements OnInit {
   @Input() downloadFile!: (doc:any) => void;
   @Input() deleteDocument!:(doc:any,index:number,key?:any) => void;
   @Output() previewModelResponce = new EventEmitter();
-
+  @Input() showMyClaimForms!:()=>void;
   @ViewChild('previewModel') public previewModel!: ModalDirective;
 
 
