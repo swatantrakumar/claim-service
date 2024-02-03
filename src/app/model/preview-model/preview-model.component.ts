@@ -93,7 +93,7 @@ export class PreviewModelComponent implements OnInit {
     let object = {
       type : "SUBMITE",
       fieldName : "signedForm",
-      hint:"*Upload signed form for submit,if this time not upload no issue also submited from dashboard."
+      hint:"*Upload signed form for final submition of claim. You can upload the same from 'My Claim' dashboard."
     }
     this.modelService.open('SUBMITE_MODEL',object);
   };
