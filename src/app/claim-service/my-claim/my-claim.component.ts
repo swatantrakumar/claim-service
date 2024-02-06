@@ -146,19 +146,19 @@ export class MyClaimComponent implements OnInit {
 
     this.dataShareService.fileRemoveResponce.subscribe(data =>{
       if(data){
-        this.notificationService.notify("bg-success","Document has been removed successfully !!!");
         if(this.activekey == "signedForm"){
           if(this.activekey && this.claim_form[this.activekey] && this.claim_form[this.activekey].length>0){
             this.claim_form[this.activekey].splice(this.activeIndex,1);
           }
         }else{
-          if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
+          if(this.activekey && this.claim_form && this.claim_form.formAttachments && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
             this.claim_form.formAttachments[this.activekey].splice(this.activeIndex,1);
           }else{
             this.claim_form.docList.splice(this.activeIndex,1);
           }
         }
-        this.commonFunctionService.saveClaimForm(this.claim_form);
+        //this.commonFunctionService.saveClaimForm(this.claim_form);
+        this.notificationService.notify("bg-success","Document has been removed successfully !!!");
       }else{
         this.notificationService.notify("bg-error","Error occured while removing document, Please contact admin !!!");
       }
