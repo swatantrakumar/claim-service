@@ -50,10 +50,17 @@ export class AddBankDetailsComponent implements OnInit {
 
   closeBankAccount(){
     this.bankDetailsModel.hide();
+    this.accountDetails={};
+ 
   }
 
   showModal(){
     this.bankDetailsModel.show();
+    if(this.claim_form && this.claim_form.bankAccount){
+      this.accountDetails = (this.commonFunctionService.cloneObject(this.claim_form.bankAccount));
+    }else{
+      this.accountDetails={};
+    }
   }
 
   deleteCreditorDetails(i:number){

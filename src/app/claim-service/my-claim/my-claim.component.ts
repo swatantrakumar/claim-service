@@ -510,17 +510,17 @@ export class MyClaimComponent implements OnInit {
   deleteDoc(check:boolean){
     if(check){
       let activeDocumentArray:any = [] ;
-      if(this.activekey == "signedForm"){
-        if(this.claim_form[this.activekey] && this.claim_form[this.activekey].length>0){
+      //if(this.activekey == "signedForm"){
+        if(this.activekey && this.claim_form[this.activekey] && this.claim_form[this.activekey].length>0){
           activeDocumentArray = this.claim_form[this.activekey];
         }
-      }else{
-        if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
-            activeDocumentArray = this.claim_form.formAttachments[this.activekey];
-        }else{
-            activeDocumentArray=this.claim_form.docList;
-        }
-      }
+      // }else{
+      //   if(this.activekey && this.claim_form.formAttachments[this.activekey] && this.claim_form.formAttachments[this.activekey].length>0){
+      //       activeDocumentArray = this.claim_form.formAttachments[this.activekey];
+      //   }else{
+      //       activeDocumentArray=this.claim_form.docList;
+      //   }
+      // }
       if(activeDocumentArray && activeDocumentArray.length > 0 && this.activeIndex != -1){
         this.apiService.removeDocument(activeDocumentArray[this.activeIndex]);
       }

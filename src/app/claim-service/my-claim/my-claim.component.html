@@ -67,7 +67,8 @@
 </div>
 <div class="row" *ngIf="!CATEGORY_SELECTION && selectedForm !='Banks'">
   <div class="col-lg-10 text-center pl-5">
-      <div class="form-group row">
+    <i class="fa fa-home" (click)="showMyClaimForms()"></i>
+        <div class="form-group row">
           <label class="col-5 modal-title text-right mt-1">Authorised Representative</label>
           <div class="col-5">
               <select [(ngModel)]="claim_form.authorised_person" class="form-control">

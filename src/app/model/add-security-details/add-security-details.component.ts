@@ -54,9 +54,15 @@ export class AddSecurityDetailsComponent implements OnInit {
 
   closeModal(){
     this.securityDetailsModel.hide();
+    this.secDetails=[];
   }
 
   showModal(){
+    if(this.claim_form && this.claim_form.secDetails){
+      this.secDetails=this.commonFunctionService.cloneObject(this.claim_form.secDetails);
+    }else{
+      this.secDetails=[];
+    }
     this.securityDetailsModel.show();
   }
   deleteSecurityDetails(i:number){

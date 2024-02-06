@@ -298,6 +298,9 @@ export class ClaimEmployeComponent implements OnInit {
   }
   closeClaimModel(){
     this.close();
+    this.claimObj={};
+    this.claimObj.unitDetails={}
+    this.claimObj.paymentDetails=[{}];
   }
 
 }
