@@ -14,7 +14,7 @@ import { StorageService } from 'src/app/services/storage-service/storage.service
 })
 export class ClaimFormSubmitModelComponent implements OnInit {
 
-  @Input() claim_form:any;
+  @Input() claim_form:any={};
   @Input() id: string ='';
   @Input() downloadFile!: (doc:any) => void;
   @Input() deleteDocument!:(doc:any,index:number,key?:any) => void;

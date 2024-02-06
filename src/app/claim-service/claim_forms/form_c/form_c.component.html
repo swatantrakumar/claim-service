@@ -2,6 +2,9 @@
   <div class="col-md-12 border" id="formC">
       <div class="col-md-12" *ngIf="showForm" >
            <div class="list-group text-center" [innerHTML]="headerContent"></div>
+           <span  style="position: absolute;
+           right: 0;
+           top: 10px;"><button type="button" class="btn btn-outline-primary btn-rounded" (click)="showMyClaimForms()">Exit</button></span>
 
           <div>
             <app-form_header [claim_form]="claim_form" [selectedForm]="selectedForm" [creditDetails]="creditDetails"></app-form_header>
