@@ -62,12 +62,48 @@ export class CreditorDetailsComponent implements OnInit {
 
   closeModal(){
     this.creditorModel.hide();
+    this.CreditorDetails=[];
   }
 
   showModal(){
     this.finCreditor={};
-    this.creditorModel.show();
+    if(this.claim_form && this.claim_form.creditors){
+      this.CreditorDetails = this.claim_form['creditors'];
+    }
+      this.creditorModel.show();
   }
+  isValidName(field_name:any){
+    if(!this.commonFunctionService.isValidName(this.finCreditor[field_name])){
+      this.notificationService.notify('bg-danger',"Please enter valid "+field_name );
+      return;
+  }
+  return;
+}
+ isValidPhone(){
+    if(!this.commonFunctionService.isValidPhone(this.finCreditor.phone)){
+      this.notificationService.notify('bg-danger',"Please enter valid Phone..");
+      return;
+  }
+  return;
+ }
+ isValidEmail(){
+  if(!this.commonFunctionService.isValidEmail(this.finCreditor.email)){
+    this.notificationService.notify('bg-danger',"Please enter valid email..");
+        //$.notify("Please enter valid email..", "error");
+        //$scope.focusOnId("#" + this.myShortName +"finc_email");
+        return;
+}
+return;
+}
+isValidZip(){
+  if(!this.commonFunctionService.isValidZipCode(this.finCreditor.pinCode)){
+    this.notificationService.notify('bg-danger',"Please enter valid Pin Code..");
+    return;
+}
+return;
+}
+
+
   addCreditorDetails(){
     if(this.selectedForm!=='Home Buyers' &&  this.selectedForm!=='Home Buyers(Authorised Rep)' && this.selectedForm!=='Commercial Buyer' && this.selectedForm!=='Commercial Buyer(Authorised Rep)'){
       this.finCreditor.ownership=100;
@@ -88,6 +124,11 @@ export class CreditorDetailsComponent implements OnInit {
         //$scope.focusOnId("#" + this.myShortName +"finc_email");
         return;
     }
+    if(!this.commonFunctionService.isValidPhone(this.finCreditor.phone)){
+      this.notificationService.notify('bg-danger',"Please enter valid Phone..");
+      return;
+  }
+  
     if(!this.commonFunctionService.isValidZipCode(this.finCreditor.pinCode)){
         this.notificationService.notify('bg-danger',"Please enter valid Zip Code..");
         //$.notify("Please enter valid Zip Code..", "error");
@@ -181,6 +222,7 @@ export class CreditorDetailsComponent implements OnInit {
     this.closeModal();
   }
   isEmailExistedInDb(email:string){
+    this.isValidEmail();
     this.commonFunctionService.checkEmailExistedOrNot(email);
   }
 

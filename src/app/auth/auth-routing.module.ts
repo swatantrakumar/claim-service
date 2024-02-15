@@ -11,7 +11,7 @@ const authRoutes : Routes = [
     { path : 'signin', component:SigninComponent},
     { path : 'signup', component:SignupComponent},
     { path : 'rest-pass', component:RestPassComponent},
-    { path : 'new-pass', component:NewPassComponent}
+    { path : 'new-pass/:key1/:key2/:key3', component:NewPassComponent}
   ]}
 ];
 

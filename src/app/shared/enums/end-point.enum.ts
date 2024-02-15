@@ -17,7 +17,12 @@ export enum EndPoint {
     DOWNLOAD_FILE = "vdr/getfl/download",
     GET_CLAIM_STATUS = "cas/gcfc/",
     ADD_OR_UPDATE_USER = 'user',
-    GET_HTML_FOR_PREVIEW_MODAL = "utils/html"
+    GET_HTML_FOR_PREVIEW_MODAL = "cas/claim_preview",
+    USER_SIGNUP="user/signup",
+    USER_SIGNIN="user/signin",
+    FORGET_PASSWORD="user/forget",
+    UPDATE_PASSWORD="user/reset",
+    VERIFY_RESET_LINK="user/verifyResetCode",
 }
 
 // http://localhost:8198/rest/utils/html/{_id}

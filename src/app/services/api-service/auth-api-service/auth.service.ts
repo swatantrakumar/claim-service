@@ -53,7 +53,6 @@ export class AuthService implements OnInit{
     this.storageService.removeDataFormStorage();
   }
   logOutRedirection(){
-
     this.redirectToSignPage();
   }
   gotToSigninPage(){

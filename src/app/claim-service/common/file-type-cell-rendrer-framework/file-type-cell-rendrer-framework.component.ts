@@ -34,7 +34,9 @@ export class FileTypeCellRendrerFrameworkComponent  implements ICellRendererAngu
       fieldName : this.fieldName,
       title:'Documents'
     }
-    this.modelService.open('SUBMITE_MODEL',object);
+    if(this.value != "--"){
+     this.modelService.open('SUBMITE_MODEL',object);
+    }
   }
 
   refresh(): boolean {

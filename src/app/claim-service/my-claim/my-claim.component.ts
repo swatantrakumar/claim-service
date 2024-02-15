@@ -237,6 +237,13 @@ export class MyClaimComponent implements OnInit {
       this.CATEGORY_SELECTION=true;
     }
   }
+  isCaseClosed(){
+    let activecase = this.storageService.GetActiveCase();
+    if(activecase && activecase.lastSubmissionDate){
+      return activecase.lastSubmissionDate < new Date().getTime();
+    }
+    return false;
+  }
   setClaimData(data:any){
     this.rowData = data;
   }
@@ -387,6 +394,9 @@ export class MyClaimComponent implements OnInit {
       fieldName : "signedForm"
     }
     this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
+      if(this.claim_form.resubmissionRequired){
+        this.claim_form.signedForm=[];        
+      }
     this.modelService.open('SUBMITE_MODEL',object);
   };
    previewFormWindow(form?:any){
@@ -457,6 +467,7 @@ export class MyClaimComponent implements OnInit {
   onCellClicked(event:any) {
     const selectedRows = this.gridApi.getSelectedRows();
     this.claim_form = this.commonFunctionService.cloneObject(selectedRows[0]);
+    
   }
    returnSelectedItem(){
     console.log("double click")

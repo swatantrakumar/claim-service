@@ -40,8 +40,7 @@
      <div>5.</div>
      <table>
              <tr>
-                 <td><input [(ngModel)]="claim_form.relatedParty" type="radio" (change)="changeinrelatedParty(true)" value=true
-                            style="height: 16px;width: 18px;"></td>
+                 <td><input [(ngModel)]="claim_form.relatedParty" type="checkbox" (change)="changeinrelatedParty(true)"                             style="height: 16px;width: 18px;"></td>
                  <td style="text-align: left;padding-top: 5px;">I am a related party of the corporate
                      debtor, as defined under section 5 (24) of
                      the
@@ -49,8 +48,7 @@
                  </td>
              </tr>
              <tr>
-                 <td><input [(ngModel)]="claim_form.relatedParty" type="radio" (change)="changeinrelatedParty(false)" value=false
-                            style="height: 16px;width: 18px;"></td>
+                 <td><input [(ngModel)]="claim_form.notRelatedParty" type="checkbox" (change)="changeinrelatedParty(false)"                             style="height: 16px;width: 18px;"></td>
                  <td style="text-align: left;padding-top: 5px;">I am not a related party of the
                      corporate debtor, as defined under section 5 (24) of
                      the
