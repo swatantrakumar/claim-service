@@ -70,7 +70,9 @@ export class MyClaimComponent implements OnInit {
     {headerName: "Class", field: "catClass",  lockPosition: true,filter:false,width: 94},
     {headerName: "Total Claim", field: "total",  lockPosition: true},
     {headerName: "Submission Date", field: "claimDate",   valueFormatter: function (params) {
-              return moment(params.value).format('DD/MM/YYYY');
+              let val=moment(params.value).format('DD/MM/YYYY');
+              if(val=='Invalid date') return "Pending";
+              return val;
             },  lockPosition: true,filter:false},
     {headerName: "Approved Amount", field: " ",  lockPosition: true,width: 97}
 
@@ -157,7 +159,7 @@ export class MyClaimComponent implements OnInit {
             this.claim_form.docList.splice(this.activeIndex,1);
           }
         }
-        //this.commonFunctionService.saveClaimForm(this.claim_form);
+        this.commonFunctionService.saveClaimForm(this.claim_form);
         this.notificationService.notify("bg-success","Document has been removed successfully !!!");
       }else{
         this.notificationService.notify("bg-error","Error occured while removing document, Please contact admin !!!");
@@ -278,13 +280,14 @@ export class MyClaimComponent implements OnInit {
 
    formPopUpWindow(editClaim?:any){
       //this.stepsModel ={};
+      let categorySelected=false;
       if( this.formSelection=='FC' && this.selectedForm=='Home Buyers' && this.activeTabName != 'REVIEWAPPROVAL'){
           this.popUpWindow="CA";
           this.showIdDetails=true;
           this.showCinDetails=false;
           this.claimModeByBank=false;
           this.claimModeByClass=true;
-
+          categorySelected=true;
     }
     else if(this.formSelection=='FC' && this.selectedForm=='Home Buyers' && this.activeTabName == 'REVIEWAPPROVAL'){
         this.popUpWindow="CA_APPROVAL";
@@ -292,6 +295,8 @@ export class MyClaimComponent implements OnInit {
         this.showCinDetails=false;
         this.claimModeByBank=false;
         this.claimModeByClass=true;
+        
+        categorySelected=true;
     }
     else if(this.formSelection=='FC' && this.selectedForm=='Commercial Buyer'){
           this.popUpWindow="CA";
@@ -299,15 +304,18 @@ export class MyClaimComponent implements OnInit {
           this.claimModeByClass=true;
           this.showIdDetails=true;
           this.showCinDetails=false;
+          categorySelected=true;
           // this.finCreditor.ownership=100;
     }else if( this.formSelection=='FC' && this.selectedForm=='Home Buyers(Authorised Rep)'){
           this.popUpWindow="CA";
           this.showIdDetails=true;
           this.showCinDetails=false;
+          categorySelected=true;
     }else if(this.formSelection=='FC' && this.selectedForm=='Commercial Buyer(Authorised Rep)'){
           this.popUpWindow="CA";
           this.showIdDetails=true;
           this.showCinDetails=false;
+          categorySelected=true;
           // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='Banks'){
           this.popUpWindow="C";
@@ -315,6 +323,7 @@ export class MyClaimComponent implements OnInit {
           this.showCinDetails=true;
               this.claimModeByBank=true;
               this.claimModeByClass=false;
+              categorySelected=true;
             //   this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='NBFC'){
           this.popUpWindow="C";
@@ -322,32 +331,40 @@ export class MyClaimComponent implements OnInit {
           this.showCinDetails=true;
             this.claimModeByBank=true;
             this.claimModeByClass=false;
+            categorySelected=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='Banks(Authorised Rep)'){
           this.popUpWindow="C";
           this.showIdDetails=false;
           this.showCinDetails=true;
+          categorySelected=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='NBFC(Authorised Rep)'){
           this.popUpWindow="C";
           this.showIdDetails=false;
           this.showCinDetails=true;
+          categorySelected=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='OC' && this.selectedForm=='Operational Creditor'){
           this.popUpWindow="B";
+          categorySelected=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='OC' && this.selectedForm=='Others'){
           this.popUpWindow="F";
           this.claimModeByOther=true;
+          categorySelected=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='EC' && this.selectedForm=='Employee & Workmen'){
             this.popUpWindow="D";
             this.claimModeByEmployee=true;
+            categorySelected=true;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='EC' && this.selectedForm=='Employee & Workmen(Authorised Rep)'){
             this.popUpWindow="E";
+            categorySelected=true;
             // this.finCreditor.ownership=100;
     }
+    if(categorySelected){
     if(!editClaim){
         this.getNewBlankForm();
       }
@@ -358,6 +375,7 @@ export class MyClaimComponent implements OnInit {
       this.showVerification=false;
       this.hideDropDown=false;
       this.CATEGORY_SELECTION=false;
+    }
   }
   getNewBlankForm(){
     let payload = {
@@ -509,7 +527,7 @@ export class MyClaimComponent implements OnInit {
     }else{
       if(doc){
           this.activeIndex = index;
-          this.activekey = key;
+          this.activekey = "docList";
           let message = "Are you sure you want to delete "+ doc.rollName + " ? ";
           let obj ={
             msg : message
@@ -597,6 +615,7 @@ export class MyClaimComponent implements OnInit {
     }
     this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
   }
+  
 
   imageIsLoaded= (e:any) => {
     var rxFile = this.rxFiles[0];
@@ -620,6 +639,7 @@ export class MyClaimComponent implements OnInit {
     this.attachment_key = key;
     this.fileType = type;
     this.fileHandlerService.uploadFile(this.claim_form,this.uploadData);
+    this.saveClaimForm();
   }
 
   getSelectedFilenameForUpload(){
@@ -655,7 +675,22 @@ export class MyClaimComponent implements OnInit {
   submitModelResponce(respone:any){
     this.selectRowData = '';
   }
-
-
+  validateKeyDates(keyDate:string){
+ 
+    if(this.claim_form.promotionDate && this.claim_form.joiningDate &&  new Date(this.claim_form.promotionDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
+      this.notificationService.notify('bg-danger',"Joing date should be earlier than promotion date !!!");  
+      return false;
+    }
+    if(this.claim_form.resignationDate && this.claim_form.joiningDate &&  new Date(this.claim_form.resignationDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
+      this.notificationService.notify('bg-danger',"Joing date should be earlier than resignation date !!!");  
+      return false;
+    }
+    if(this.claim_form.resignationDate && this.claim_form.promotionDate && new Date(this.claim_form.promotionDate).getTime()<new Date(this.claim_form.resignationDate).getTime()){
+      this.notificationService.notify('bg-danger',"Promotion date should be earlier than resignation date !!!");  
+      return false;
+    }
+         
+    return true;
+    }
 
 }

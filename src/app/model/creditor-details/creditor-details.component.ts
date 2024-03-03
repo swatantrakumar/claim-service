@@ -25,6 +25,8 @@ export class CreditorDetailsComponent implements OnInit {
   activeIndex:number=-1;
   isEmailExisted:boolean=false;
   creditDetails:boolean=false;
+  editMode:boolean=false;
+  editIndex:number=-1;
 
   constructor(
     private modelService:ModelService,
@@ -32,8 +34,10 @@ export class CreditorDetailsComponent implements OnInit {
     private notificationService:NotificationService,
     private dataShareService:DataShareService,
     private storageService:StorageService,
-    private apiService:ApiService
+    private apiService:ApiService,
   ) {
+    this.editIndex=-1;
+    this.editMode=false;
     this.dataShareService.confirmationResponce.subscribe(check =>{
       if(this.activeIndex > -1){
         this.deleteCreaditor(check);
@@ -63,6 +67,8 @@ export class CreditorDetailsComponent implements OnInit {
   closeModal(){
     this.creditorModel.hide();
     this.CreditorDetails=[];
+    this.editIndex=-1;
+    this.editMode=false;
   }
 
   showModal(){
@@ -135,11 +141,21 @@ return;
         //$scope.focusOnId("#" + this.myShortName +"finc_pinCode");
         return;
     }
+    if(this.finCreditor.ownership<=0){
+      this.notificationService.notify('bg-danger',"Ownership can not be 0/less than 0");
+      return;
+    }
+    if(this.finCreditor.ownership>100){
+      this.notificationService.notify('bg-danger',"Ownership can not more than 100");
+      return;
+    }
 
     if(!this.CreditorDetails) this.CreditorDetails = [];
     let totalOwnerShip:any=parseFloat(this.finCreditor.ownership);
-    this.CreditorDetails.forEach((cred:any) => {
-      totalOwnerShip = parseFloat(totalOwnerShip) + parseFloat(cred.ownership);
+    this.CreditorDetails.forEach((cred:any,index:number) => {
+      if(this.editIndex!=index){
+        totalOwnerShip = parseFloat(totalOwnerShip) + parseFloat(cred.ownership);
+       }
     });
 
     if(totalOwnerShip>100){
@@ -159,7 +175,13 @@ return;
     newCredDetails.address.country = this.finCreditor.country
     newCredDetails.address.pinCode = this.finCreditor.pinCode
     newCredDetails.ownership =  this.finCreditor.ownership
-    this.CreditorDetails.push(this.commonFunctionService.cloneObject(newCredDetails));
+    if(this.editMode){
+      this.CreditorDetails[this.editIndex]=(this.commonFunctionService.cloneObject(newCredDetails));
+    }else{
+      this.CreditorDetails.push(this.commonFunctionService.cloneObject(newCredDetails));
+    }
+    this.editIndex=-1;
+    this.editMode=false;
     this.finCreditor={};
   }
   editDetails(type:string,i:number){
@@ -176,7 +198,9 @@ return;
           this.finCreditor.country = creditor.address.country
           this.finCreditor.pinCode = creditor.address.pinCode
           this.finCreditor.ownership = creditor.ownership
-          this.CreditorDetails.splice(i,1);
+          this.editIndex=i;
+          this.editMode=true;
+         // this.CreditorDetails.splice(i,1);
           break;
       }
 
@@ -219,6 +243,7 @@ return;
     this.commonFunctionService.saveClaimForm(this.claim_form);
     this.creditDetails=true;
     this.creditorDetails.emit(this.creditDetails);
+
     this.closeModal();
   }
   isEmailExistedInDb(email:string){

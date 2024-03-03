@@ -160,7 +160,7 @@ export class ClaimEmployeComponent implements OnInit {
           this.empFields = [
             {"label":"Unit No","name":"unit","type":"text"},
             {"label":"Area(in Sq. Feet)","name":"area","type":"text"},
-            {"label":"Unit Type/Tower No","name":"type","type":"number","change":false},
+            {"label":"Unit Type/Tower No","name":"type","type":"text","change":false},
             {"label":"Total","name":"total","type":"label","data":'claim'}
           ]
           this.claimDetaisFields = [
@@ -215,6 +215,9 @@ export class ClaimEmployeComponent implements OnInit {
   }
   close(){
     this.claimDetails = [];
+    this.claimObj={};
+    this.claimObj.unitDetails={}
+    this.claimObj.paymentDetails=[{}];
     this.claimEmployeModel.hide();
   }
   addClaimObj(){

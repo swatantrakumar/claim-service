@@ -48,8 +48,8 @@ getPayload(obj:any){
     isValidPhone(inputValue:any){
         var pattern =/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
         return (pattern.test(inputValue) ? true : false);
-       
-    }
+        
+}
 
   cloneObject(obj:any) {
     if (null == obj || "object" != typeof obj) return obj;

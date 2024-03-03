@@ -21,7 +21,9 @@ export class FormBBodyComponent implements OnInit {
   @Input() saveClaimForm!:()=>void;
   @Input() onlineClaimFormPopUp!:(type:any) => void;
   @Input() onlineBankAccount!:() => void;
+  @Input() validateKeyDates!:(keyDate:string) => void;
 
+  
   activecase:any;
 
 

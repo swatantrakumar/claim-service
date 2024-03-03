@@ -69,7 +69,7 @@
 <div class="row" *ngIf="!OnlineFormGrid && !CATEGORY_SELECTION && selectedForm !='Banks'">
   <div class="col-lg-10 text-center pl-5">
     <i class="fa fa-home" (click)="showMyClaimForms()"></i>
-        <div class="form-group row">
+        <div  *ngIf="claim_form.claimModel=='HOME_BUYER'"  class="form-group row">
           <label class="col-5 modal-title text-right mt-1">Authorised Representative</label>
           <div class="col-5">
               <select [(ngModel)]="claim_form.authorised_person" class="form-control">
@@ -79,11 +79,14 @@
               <p class="text-left" style="color: red;">*mandatory</p>
           </div>
       </div>
+      <div  *ngIf="claim_form.claimModel !='HOME_BUYER'"  class="form-group row">
+        <div class="col-10 text-right mt-1">&nbsp;</div>
+    </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12 " *ngIf="popUpWindow == 'B' || popUpWindow == 'C' || popUpWindow == 'D' || popUpWindow == 'CA' || popUpWindow == 'F'">
-    <app-form_c [popUpWindow]="popUpWindow" [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [claimModeByEmployee]="claimModeByEmployee" [claimModeByOther]="claimModeByOther" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [creditDetails]="creditDetails" [showForm]="showForm" [downloadFile]="downloadFile.bind(this)" [goNextPage]="goNextPage.bind(this)" [goPreviousPge]="goPreviousPge.bind(this)" [showMyClaimForms]="showMyClaimForms.bind(this)" [previewFormWindow]="previewFormWindow.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form_c>
+    <app-form_c [popUpWindow]="popUpWindow" [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [claimModeByEmployee]="claimModeByEmployee" [claimModeByOther]="claimModeByOther" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [creditDetails]="creditDetails" [showForm]="showForm" [downloadFile]="downloadFile.bind(this)" [goNextPage]="goNextPage.bind(this)" [goPreviousPge]="goPreviousPge.bind(this)" [showMyClaimForms]="showMyClaimForms.bind(this)" [previewFormWindow]="previewFormWindow.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)" [validateKeyDates]="validateKeyDates.bind(this)" ></app-form_c>
   </div>
 
   <div class="col-md-12 " *ngIf="popUpWindow==='E' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_e.html' ">
