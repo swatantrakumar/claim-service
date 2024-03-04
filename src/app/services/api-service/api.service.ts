@@ -197,7 +197,7 @@ constructor(
   }
   getPreviewModalHtml(payload:any){
     let api = this.envService.getAuthApi('GET_HTML_FOR_PREVIEW_MODAL');
-    this.http.get(api+"/"+payload).subscribe(
+    this.http.post(api+"/"+payload,payload).subscribe(
       (respData:any) =>{
         this.dataShareService.sharePreviewModelHtmlResponce(respData);
       },

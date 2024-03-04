@@ -146,15 +146,15 @@ export class ClaimFormsComponent implements OnInit {
     const selectedRows = this.gridApi.getSelectedRows();
     this.selectedRowData = selectedRows[0];
     var selectedNodes = this.gridApi.getSelectedNodes();
-    if(this.selectedRowData.joiningDate){
-      this.selectedRowData.joiningDate=new Date(this.selectedRowData.joiningDate)
-    }
-    if(this.selectedRowData.resignationDate){
-      this.selectedRowData.resignationDate=new Date(this.selectedRowData.resignationDate)
-    }
-    if(this.selectedRowData.promotionDate){
-      this.selectedRowData.promotionDate=new Date(this.selectedRowData.promotionDate)
-    }
+    // if(this.selectedRowData.joiningDate){
+    //   this.selectedRowData.joiningDate=new Date(this.selectedRowData.joiningDate)
+    // }
+    // if(this.selectedRowData.resignationDate){
+    //   this.selectedRowData.resignationDate=new Date(this.selectedRowData.resignationDate)
+    // }
+    // if(this.selectedRowData.promotionDate){
+    //   this.selectedRowData.promotionDate=new Date(this.selectedRowData.promotionDate)
+    // }
     this.selectedIndex = selectedNodes[0].id;
 
   }

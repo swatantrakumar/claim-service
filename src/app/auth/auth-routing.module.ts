@@ -7,11 +7,11 @@ import { RestPassComponent } from './rest-pass/rest-pass.component';
 import { NewPassComponent } from './new-pass/new-pass.component';
 
 const authRoutes : Routes = [
-  {path: '', component: AuthComponent, children:[
+    {path: '', component: AuthComponent, children:[
     { path : 'signin', component:SigninComponent},
     { path : 'signup', component:SignupComponent},
     { path : 'rest-pass', component:RestPassComponent},
-    { path : 'new-pass', component:NewPassComponent}
+    { path : 'new-pass/:key1/:key2/:key3', component:NewPassComponent}
   ]}
 ];
 

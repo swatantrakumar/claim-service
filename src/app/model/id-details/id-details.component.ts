@@ -101,6 +101,7 @@ export class IdDetailsComponent implements OnInit {
     this.finCreditor.name='';
     this.finCreditor.cinNumber='';
     this.claim_form.ids=this.commonFunctionService.cloneObject (this.fcIdentificationDetails);
+    this.commonFunctionService.saveClaimForm(this.claim_form);
   }
   deleteIdDetails(check:boolean){
     if(check){

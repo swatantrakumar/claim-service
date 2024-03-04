@@ -25,6 +25,8 @@ export class CreditorDetailsComponent implements OnInit {
   activeIndex:number=-1;
   isEmailExisted:boolean=false;
   creditDetails:boolean=false;
+  editMode:boolean=false;
+  editIndex:number=-1;
 
   constructor(
     private modelService:ModelService,
@@ -32,8 +34,10 @@ export class CreditorDetailsComponent implements OnInit {
     private notificationService:NotificationService,
     private dataShareService:DataShareService,
     private storageService:StorageService,
-    private apiService:ApiService
+    private apiService:ApiService,
   ) {
+    this.editIndex=-1;
+    this.editMode=false;
     this.dataShareService.confirmationResponce.subscribe(check =>{
       if(this.activeIndex > -1){
         this.deleteCreaditor(check);
@@ -62,12 +66,50 @@ export class CreditorDetailsComponent implements OnInit {
 
   closeModal(){
     this.creditorModel.hide();
+    this.CreditorDetails=[];
+    this.editIndex=-1;
+    this.editMode=false;
   }
 
   showModal(){
     this.finCreditor={};
-    this.creditorModel.show();
+    if(this.claim_form && this.claim_form.creditors){
+      this.CreditorDetails = this.claim_form['creditors'];
+    }
+      this.creditorModel.show();
   }
+  isValidName(field_name:any){
+    if(!this.commonFunctionService.isValidName(this.finCreditor[field_name])){
+      this.notificationService.notify('bg-danger',"Please enter valid "+field_name );
+      return;
+  }
+  return;
+}
+ isValidPhone(){
+    if(!this.commonFunctionService.isValidPhone(this.finCreditor.phone)){
+      this.notificationService.notify('bg-danger',"Please enter valid Phone..");
+      return;
+  }
+  return;
+ }
+ isValidEmail(){
+  if(!this.commonFunctionService.isValidEmail(this.finCreditor.email)){
+    this.notificationService.notify('bg-danger',"Please enter valid email..");
+        //$.notify("Please enter valid email..", "error");
+        //$scope.focusOnId("#" + this.myShortName +"finc_email");
+        return;
+}
+return;
+}
+isValidZip(){
+  if(!this.commonFunctionService.isValidZipCode(this.finCreditor.pinCode)){
+    this.notificationService.notify('bg-danger',"Please enter valid Pin Code..");
+    return;
+}
+return;
+}
+
+
   addCreditorDetails(){
     if(this.selectedForm!=='Home Buyers' &&  this.selectedForm!=='Home Buyers(Authorised Rep)' && this.selectedForm!=='Commercial Buyer' && this.selectedForm!=='Commercial Buyer(Authorised Rep)'){
       this.finCreditor.ownership=100;
@@ -88,17 +130,32 @@ export class CreditorDetailsComponent implements OnInit {
         //$scope.focusOnId("#" + this.myShortName +"finc_email");
         return;
     }
+    if(!this.commonFunctionService.isValidPhone(this.finCreditor.phone)){
+      this.notificationService.notify('bg-danger',"Please enter valid Phone..");
+      return;
+  }
+  
     if(!this.commonFunctionService.isValidZipCode(this.finCreditor.pinCode)){
         this.notificationService.notify('bg-danger',"Please enter valid Zip Code..");
         //$.notify("Please enter valid Zip Code..", "error");
         //$scope.focusOnId("#" + this.myShortName +"finc_pinCode");
         return;
     }
+    if(this.finCreditor.ownership<=0){
+      this.notificationService.notify('bg-danger',"Ownership can not be 0/less than 0");
+      return;
+    }
+    if(this.finCreditor.ownership>100){
+      this.notificationService.notify('bg-danger',"Ownership can not more than 100");
+      return;
+    }
 
     if(!this.CreditorDetails) this.CreditorDetails = [];
     let totalOwnerShip:any=parseFloat(this.finCreditor.ownership);
-    this.CreditorDetails.forEach((cred:any) => {
-      totalOwnerShip = parseFloat(totalOwnerShip) + parseFloat(cred.ownership);
+    this.CreditorDetails.forEach((cred:any,index:number) => {
+      if(this.editIndex!=index){
+        totalOwnerShip = parseFloat(totalOwnerShip) + parseFloat(cred.ownership);
+       }
     });
 
     if(totalOwnerShip>100){
@@ -118,7 +175,13 @@ export class CreditorDetailsComponent implements OnInit {
     newCredDetails.address.country = this.finCreditor.country
     newCredDetails.address.pinCode = this.finCreditor.pinCode
     newCredDetails.ownership =  this.finCreditor.ownership
-    this.CreditorDetails.push(this.commonFunctionService.cloneObject(newCredDetails));
+    if(this.editMode){
+      this.CreditorDetails[this.editIndex]=(this.commonFunctionService.cloneObject(newCredDetails));
+    }else{
+      this.CreditorDetails.push(this.commonFunctionService.cloneObject(newCredDetails));
+    }
+    this.editIndex=-1;
+    this.editMode=false;
     this.finCreditor={};
   }
   editDetails(type:string,i:number){
@@ -135,7 +198,9 @@ export class CreditorDetailsComponent implements OnInit {
           this.finCreditor.country = creditor.address.country
           this.finCreditor.pinCode = creditor.address.pinCode
           this.finCreditor.ownership = creditor.ownership
-          this.CreditorDetails.splice(i,1);
+          this.editIndex=i;
+          this.editMode=true;
+         // this.CreditorDetails.splice(i,1);
           break;
       }
 
@@ -178,9 +243,11 @@ export class CreditorDetailsComponent implements OnInit {
     this.commonFunctionService.saveClaimForm(this.claim_form);
     this.creditDetails=true;
     this.creditorDetails.emit(this.creditDetails);
+
     this.closeModal();
   }
   isEmailExistedInDb(email:string){
+    this.isValidEmail();
     this.commonFunctionService.checkEmailExistedOrNot(email);
   }
 

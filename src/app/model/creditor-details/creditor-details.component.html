@@ -27,17 +27,17 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                 </thead>
                 <tbody>
                 <tr>
-                    <td><input type="text" class="w-100 form-control" id="{{myShortName}}finc_name" [(ngModel)]="finCreditor.name"></td>
+                    <td><input type="text" class="w-100 form-control" id="{{myShortName}}finc_name" (blur)="isValidName('name')" [(ngModel)]="finCreditor.name"></td>
                     <td><input type="text" id="{{myShortName}}finc_email" (blur)="isEmailExistedInDb(finCreditor.email)" [(ngModel)]="finCreditor.email" class="w-100 form-control"></td>
-                    <td><input type="text" id="{{myShortName}}finc_phone" [(ngModel)]="finCreditor.phone" class="w-100 form-control">
+                    <td><input type="text" id="{{myShortName}}finc_phone" (blur)="isValidPhone()" [(ngModel)]="finCreditor.phone" class="w-100 form-control">
                     </td>
                     <td><input type="text" id="{{myShortName}}finc_address" [(ngModel)]="finCreditor.address" class="w-100 form-control"></td>
-                    <td><input type="text" id="{{myShortName}}finc_city" [(ngModel)]="finCreditor.city" class="w-100 form-control"></td>
-                    <td><input type="text" id="{{myShortName}}finc_state" [(ngModel)]="finCreditor.state" class="w-100 form-control"></td>
-                    <td><input type="text" id="{{myShortName}}finc_country" [(ngModel)]="finCreditor.country" class="w-100 form-control"></td>
-                    <td><input type="text" id="{{myShortName}}finc_pinCode" [(ngModel)]="finCreditor.pinCode" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_city" (blur)="isValidName('city')" [(ngModel)]="finCreditor.city" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_state" (blur)="isValidName('state')" [(ngModel)]="finCreditor.state" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_country" (blur)="isValidName('country')" [(ngModel)]="finCreditor.country" class="w-100 form-control"></td>
+                    <td><input type="text" id="{{myShortName}}finc_pinCode" (blur)="isValidZip()" [(ngModel)]="finCreditor.pinCode" class="w-100 form-control"></td>
                     <td *ngIf="selectedForm=='Home Buyers' || selectedForm=='Home Buyers(Authorised Rep)'
-                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' "><input type="text" id="{{myShortName}}finc_ownership" [(ngModel)]="finCreditor.ownership"
+                      || selectedForm=='Commercial Buyer' || selectedForm=='Commercial Buyer(Authorised Rep)' "><input type="number" id="{{myShortName}}finc_ownership" [(ngModel)]="finCreditor.ownership"
                         class="w-100 form-control"></td>
                     <td class="text-center">
                         <button  type="button" class="btn btn-primary" (click)="addCreditorDetails()">
@@ -60,7 +60,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                     <td >
                             <div class="btn-group mr-2" role="group" aria-label="First group">
                                     <button type="button" class="btn btn-primary" (click)="editDetails('creditor',i)"><img src="/assets/img/edit.png" style="width:15px"></button>
-                                    <button type="button" class="btn btn-primary" (click)="deleteCreditorDetails(i)"><img src="/assets/img/cross.png" style="width:15px"></button>
+                                    <button *ngIf="!editMode" type="button" class="btn btn-primary" (click)="deleteCreditorDetails(i)"><img src="/assets/img/cross.png" style="width:15px"></button>
 
                             </div>
 

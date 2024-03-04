@@ -33,6 +33,10 @@ getPayload(obj:any){
   }
   return payload;
 }
+  isValidName(inputValue:any){
+    var pattern = /(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/;
+    return (pattern.test(inputValue) ? true : false);
+  }  
   isValidEmail(inputValue:any) {
     var pattern = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
     return (pattern.test(inputValue) ? true : false);
@@ -41,6 +45,12 @@ getPayload(obj:any){
     var pattern = /^[0-9]{1}[0-9]{5}$/;
     return (pattern.test(inputValue) ? true : false);
   }
+    isValidPhone(inputValue:any){
+        var pattern =/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
+        return (pattern.test(inputValue) ? true : false);
+        
+}
+
   cloneObject(obj:any) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();

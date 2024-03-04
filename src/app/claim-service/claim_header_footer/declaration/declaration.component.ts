@@ -23,6 +23,11 @@ export class DeclarationComponent implements OnInit {
   changeinrelatedParty(check:boolean){
     if(check){
       this.claim_form.cocEligible=false;
+      this.claim_form.notRelatedParty=false;
+      this.claim_form.relatedParty=true;
+    }else{
+      this.claim_form.notRelatedParty=true;
+      this.claim_form.relatedParty=false;
     }
   }
   // showMyClaimForms(){

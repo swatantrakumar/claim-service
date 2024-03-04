@@ -2,10 +2,11 @@
   <div class=" col-7" [ngClass]="CATEGORY_SELECTION ? 'col-lg-3':'col-lg-3'"  *ngIf="hideDropDown">
       <button id="{{myShortName+'submitClaim'}}"
               (click)="activeSection()"
-              class="btn btn-outline-primary btn-rounded"> Submit New Claim
+              class="btn btn-outline-primary btn-rounded" [disabled]=isCaseClosed()> Submit New Claim
       </button>
    <!-- end col -->
   </div>
+  <div class="col-7 bg-danger text-white text-center" *ngIf="isCaseClosed()"><span>Online submission for this case is closed.</span></div>
   <div class="col-lg-7 row" *ngIf="CATEGORY_SELECTION">
       <label class=" mr-2 col-form-label">Category</label>
       <select class="col-3 col-lg-3 form-control"  id="{{myShortName + 'type'}}" [(ngModel)]="formSelection" (change)="findTheForm(formSelection)">
@@ -20,18 +21,18 @@
       <button class="btn btn-primary ml-1 mr-1"  (click)="formPopUpWindow()">Go</button>
       <button class="btn btn-primary" (click)="showMyClaimForms()">Back</button>
   </div>
-  <div class="col-lg-6 row" *ngIf="OnlineFormGrid"><p *ngIf="selectRowData && (selectRowData.formStatus == 'SAVED')" class="col-lg-12 bg-danger text-white text-cener">Note: Please <b> Print </b> the filled up form <b> Sign it </b> and <b> upload </b> from "Submit" button on the right &#8658;</p>
+  <div class="col-lg-6 row" *ngIf="OnlineFormGrid"><p *ngIf="selectRowData && (selectRowData.formStatus == 'SAVED')" class="col-lg-12 bg-danger text-white text-center">Note: Please <b> Print </b> the filled up form <b> Sign it </b> and <b> upload </b> from "Submit" button on the right &#8658;</p>
   </div>
   <div class="col-lg-3 text-right" *ngIf="OnlineFormGrid">
-    <button type="button" *ngIf="selectRowData && (selectRowData.formStatus != 'SUBMITTED' && selectRowData.formStatus != 'RE-SUBMITTED')"
+    <button type="button" *ngIf="selectRowData && (selectRowData.resubmissionRequired || selectRowData.formStatus == 'SAVED')"
             class="btn btn-primary btn-rounded"
             (click)="editClaimForm()">Edit
     </button>
-    <button type="button" *ngIf="selectRowData && (selectRowData.formStatus != 'SUBMITTED' && selectRowData.formStatus != 'RE-SUBMITTED')"
+    <button type="button" *ngIf="selectRowData && (selectRowData.formStatus != 'SUBMITTED' && selectRowData.formStatus != 'RE-SUBMITTED' && selectRowData.formStatus != 'REJECTED')"
             class="btn btn-primary btn-rounded"
             (click)="submitClaimForm()">Submit
     </button>
-    <button type="button" *ngIf="selectRowData && (selectRowData.formStatus != 'SUBMITTED' && selectRowData.formStatus != 'RE-SUBMITTED')"
+    <button type="button" *ngIf="selectRowData && (selectRowData.formStatus != 'SAVED')"
             class="btn btn-primary btn-rounded" (click)="viewDetail()">
         View Details
     </button>
@@ -65,10 +66,10 @@
   </ag-grid-angular>
   </div>
 </div>
-<div class="row" *ngIf="!CATEGORY_SELECTION && selectedForm !='Banks'">
+<div class="row" *ngIf="!OnlineFormGrid && !CATEGORY_SELECTION && selectedForm !='Banks'">
   <div class="col-lg-10 text-center pl-5">
     <i class="fa fa-home" (click)="showMyClaimForms()"></i>
-        <div class="form-group row">
+        <div  *ngIf="claim_form.claimModel=='HOME_BUYER'"  class="form-group row">
           <label class="col-5 modal-title text-right mt-1">Authorised Representative</label>
           <div class="col-5">
               <select [(ngModel)]="claim_form.authorised_person" class="form-control">
@@ -78,11 +79,14 @@
               <p class="text-left" style="color: red;">*mandatory</p>
           </div>
       </div>
+      <div  *ngIf="claim_form.claimModel !='HOME_BUYER'"  class="form-group row">
+        <div class="col-10 text-right mt-1">&nbsp;</div>
+    </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12 " *ngIf="popUpWindow == 'B' || popUpWindow == 'C' || popUpWindow == 'D' || popUpWindow == 'CA' || popUpWindow == 'F'">
-    <app-form_c [popUpWindow]="popUpWindow" [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [claimModeByEmployee]="claimModeByEmployee" [claimModeByOther]="claimModeByOther" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [creditDetails]="creditDetails" [showForm]="showForm" [downloadFile]="downloadFile.bind(this)" [goNextPage]="goNextPage.bind(this)" [goPreviousPge]="goPreviousPge.bind(this)" [showMyClaimForms]="showMyClaimForms.bind(this)" [previewFormWindow]="previewFormWindow.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)"></app-form_c>
+    <app-form_c [popUpWindow]="popUpWindow" [claim_form]="claim_form" [showIdDetails]="showIdDetails" [showCinDetails]="showCinDetails" [claimModeByClass]="claimModeByClass" [claimModeByBank]="claimModeByBank" [claimModeByEmployee]="claimModeByEmployee" [claimModeByOther]="claimModeByOther" [showDeclaration]="showDeclaration" [showVerification]="showVerification" [selectedForm]="selectedForm" [activeTabName]="activeTabName" [claimObj]="claimObj" [creditDetails]="creditDetails" [showForm]="showForm" [downloadFile]="downloadFile.bind(this)" [goNextPage]="goNextPage.bind(this)" [goPreviousPge]="goPreviousPge.bind(this)" [showMyClaimForms]="showMyClaimForms.bind(this)" [previewFormWindow]="previewFormWindow.bind(this)" [deleteDocument]="deleteDocument.bind(this)" [idVerificationWindow]="idVerificationWindow.bind(this)" [claimModelPopUp]="claimModelPopUp.bind(this)" [getSelectedFilenameForUpload]="getSelectedFilenameForUpload.bind(this)" [uploadFile]="uploadFile.bind(this)" [getSelectedFilenameForUploadcustom]="getSelectedFilenameForUploadcustom.bind(this)" [setFiles]="setFiles.bind(this)" [saveClaimForm]="saveClaimForm.bind(this)" [onlineClaimFormPopUp]="onlineClaimFormPopUp.bind(this)" [onlineBankAccount]="onlineBankAccount.bind(this)" [validateKeyDates]="validateKeyDates.bind(this)" ></app-form_c>
   </div>
 
   <div class="col-md-12 " *ngIf="popUpWindow==='E' " ng-include src=" 'es/onlineClaimsForm/claimForms/htm_form_e.html' ">
