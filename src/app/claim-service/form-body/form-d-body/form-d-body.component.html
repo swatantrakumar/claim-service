@@ -171,15 +171,18 @@
   <div class="row col-lg-12">
       <div class="col-lg-4 form-group">
           <label >Date Of Joining</label>
-          <input class="form-control" type="date"  (blur)="validateKeyDates('joiningDate')" [(ngModel)]="claim_form.joiningDate" >
+          <input class="form-control" type="date"   [ngModel]="millisecondsToDate(claim_form.joiningDate)"
+          (input)="onDateInput($event.target,'joiningDate')" >
       </div>
       <div class="col-lg-4 form-group">
           <label >Date Of Resignation</label>
-          <input class="form-control" type="date"  (blur)="validateKeyDates('resignationDate')" [(ngModel)]="claim_form.resignationDate">
+          <input class="form-control" type="date" [ngModel]="millisecondsToDate(claim_form.resignationDate)"
+          (input)="onDateInput($event.target,'resignationDate')">
       </div>
       <div class="col-lg-4 form-group">
           <label >Date Of Promotion</label>
-          <input class="form-control" type="date"  (blur)="validateKeyDates('promotionDate')" [(ngModel)]="claim_form.promotionDate">
+          <input class="form-control" type="date" [ngModel]="millisecondsToDate(claim_form.promotionDate)"
+          (input)="onDateInput($event.target,'promotionDate')">
       </div>
   </div>
 </div>
