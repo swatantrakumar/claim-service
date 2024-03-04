@@ -40,5 +40,15 @@ export class FormDBodyComponent implements OnInit {
   ngOnInit() {
   }
 
+  millisecondsToDate(milliseconds: number): string {
+    const date = new Date(milliseconds);
+    return date.toISOString().slice(0, 10); // Assuming you want yyyy-MM-dd format
+  }
+  onDateInput(selectedDate: any,fieldName:string) {
+    // Check if the selected date is the same as the current date in the model
+    const selectedMilliseconds = new Date(selectedDate.value).getTime();
+    this.claim_form[fieldName] = selectedMilliseconds;
+  }
+
 
 }
