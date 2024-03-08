@@ -10,31 +10,31 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                             <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="{{myShortName + 'accountHolder'}}" class="col-form-label">Account Holder</label>
-                                        <input type="text" class="form-control w-100" id="{{myShortName + 'accountHolder'}}" [(ngModel)]="accountDetails.partyName" name="partyName">
+                                        <input type="text" class="form-control w-100" (blur)="isValidName('partyName','Account Holder')" id="{{myShortName + 'accountHolder'}}" [(ngModel)]="accountDetails.partyName" name="partyName">
                                     </div>
                             </div>
                             <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="{{myShortName + 'bankName'}}" class="col-form-label">Bank Name</label>
-                                        <input type="text" class="form-control w-100" id="{{myShortName + 'bankName'}}" [(ngModel)]="accountDetails.bankName" name="bankName">
+                                        <input type="text" class="form-control w-100" id="{{myShortName + 'bankName'}}"  (blur)="isValidName('bankName','Bank Name')" [(ngModel)]="accountDetails.bankName" name="bankName">
                                     </div>
                             </div>
                             <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="{{myShortName + 'branch'}}" class="col-form-label">Branch</label>
-                                        <input type="text" class="form-control w-100" id="{{myShortName + 'branch'}}" [(ngModel)]="accountDetails.branch" name="branch">
+                                        <input type="text" class="form-control w-100" id="{{myShortName + 'branch'}}" (blur)="isValidAlphaNumeric('branch','Branch')"  [(ngModel)]="accountDetails.branch" name="branch">
                                     </div>
                             </div>
                             <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="{{myShortName + 'acNo'}}" class="col-form-label">Bank A/c No</label>
-                                        <input type="text" class="form-control w-100" id="{{myShortName + 'acNo'}}" [(ngModel)]="accountDetails.accountNumber" name="accountNumber">
+                                        <input type="text" class="form-control w-100" id="{{myShortName + 'acNo'}}" (blur)="isValidNumber('accountNumber','Account Number')"  [(ngModel)]="accountDetails.accountNumber" name="accountNumber">
                                     </div>
                             </div>
                             <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="{{myShortName + 'ifsc'}}" class="col-form-label">IFSC Code</label>
-                                        <input type="text" class="form-control w-100" id="{{myShortName + 'ifsc'}}" [(ngModel)]="accountDetails.ifscCode" name="ifscCode">
+                                        <input type="text" class="form-control w-100" id="{{myShortName + 'ifsc'}}"  (blur)="isValidAlphaNumeric('ifscCode','IFSC Code')"  [(ngModel)]="accountDetails.ifscCode" name="ifscCode">
                                     </div>
                             </div>
 

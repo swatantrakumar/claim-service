@@ -33,6 +33,12 @@ getPayload(obj:any){
   }
   return payload;
 }
+
+  isValidAlphaNumeric(inputValue:any){
+    var pattern = /^[a-z0-9]+$/i;
+    return (pattern.test(inputValue) ? true : false);
+   
+  }  
   isValidName(inputValue:any){
     var pattern = /(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/;
     return (pattern.test(inputValue) ? true : false);

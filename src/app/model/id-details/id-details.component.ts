@@ -81,9 +81,8 @@ export class IdDetailsComponent implements OnInit {
 
           return;
      }
-     if (!this.finCreditor.idNumber) {
+     if (!this.finCreditor.idNumber || !this.isValidAlphaNumeric('idNumber', "ID Number")) {
           this.notificationService.notify('bg-danger',"Please enter a valid ID Number");
-
           return;
      }
      if(this.claim_form.ids && this.claim_form.ids.length>0){
@@ -102,6 +101,20 @@ export class IdDetailsComponent implements OnInit {
     this.finCreditor.cinNumber='';
     this.claim_form.ids=this.commonFunctionService.cloneObject (this.fcIdentificationDetails);
     this.commonFunctionService.saveClaimForm(this.claim_form);
+  }
+  isValidAlphaNumeric(field_name:any,label:any){
+    if(!this.commonFunctionService.isValidAlphaNumeric(this.finCreditor[field_name])){
+      this.notificationService.notify('bg-danger',"Please enter valid " +label);
+      return false;
+    }
+    return true;
+  }
+  isValidName(field_name:any,label:any){
+    if(!this.commonFunctionService.isValidName(this.finCreditor[field_name])){
+      this.notificationService.notify('bg-danger',"Please enter valid " +label);
+      return false;
+    }
+    return true;
   }
   deleteIdDetails(check:boolean){
     if(check){
