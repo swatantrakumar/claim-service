@@ -136,7 +136,7 @@ return;
   }
   
     if(!this.commonFunctionService.isValidZipCode(this.finCreditor.pinCode)){
-        this.notificationService.notify('bg-danger',"Please enter valid Zip Code..");
+        this.notificationService.notify('bg-danger',"Please enter valid Pin Code..");
         //$.notify("Please enter valid Zip Code..", "error");
         //$scope.focusOnId("#" + this.myShortName +"finc_pinCode");
         return;

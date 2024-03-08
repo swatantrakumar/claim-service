@@ -40,11 +40,11 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
                         </select>
                     </td>
-                    <td ><input type="text" class="form-control" [(ngModel)]="finCreditor.nameOnId">
+                    <td ><input type="text" class="form-control" (blur)="isValidName('nameOnId','Name on Id')" [(ngModel)]="finCreditor.nameOnId">
                     </td>
-                    <td ><input type="text" class="form-control" [(ngModel)]="finCreditor.idNumber">
+                    <td ><input type="text" class="form-control"  (blur)="isValidAlphaNumeric('idNumber','ID Number')" [(ngModel)]="finCreditor.idNumber">
                     </td>
-                    <td *ngIf="CIN_NO" ><input type="text" class="form-control" [(ngModel)]="finCreditor.cinNumber"></td>
+                    <td *ngIf="CIN_NO" ><input type="text" class="form-control" (blur)="isValidAlphaNumeric('cinNumber','CIN Number')" [(ngModel)]="finCreditor.cinNumber"></td>
                     <td >
                         <button type="button" class="btn btn-primary"  (click)="identificationDetails()">+
                         </button>

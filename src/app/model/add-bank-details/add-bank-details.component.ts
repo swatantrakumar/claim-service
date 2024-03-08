@@ -73,6 +73,28 @@ export class AddBankDetailsComponent implements OnInit {
       this.modelService.open('confirmation_modal',obj)
     }
   }
+  isValidName(field_name:any,label:any){
+    if(!this.commonFunctionService.isValidName(this.accountDetails[field_name])){
+      this.notificationService.notify('bg-danger',"Please enter valid " +label);
+      return false;
+    }
+    return true;
+  }
+  isValidAlphaNumeric(field_name:any,label:any){
+    if(!this.commonFunctionService.isValidAlphaNumeric(this.accountDetails[field_name])){
+      this.notificationService.notify('bg-danger',"Please enter valid " +label);
+      return false;
+    }
+    return true;
+  }
+
+  isValidNumber(field_name:any,label:any){
+    if(!this.commonFunctionService.validateNumber(this.accountDetails[field_name],'positivedec')){
+      this.notificationService.notify('bg-danger',"Please enter valid " +label);
+      return false;
+    }
+    return true;
+  }
   deleteCreaditor(check:boolean){
     if(check){
       this.CreditorDetails.splice(this.activeIndex,1);
@@ -80,15 +102,15 @@ export class AddBankDetailsComponent implements OnInit {
     }
   }
   saveBankDetails(){
-    if (!this.accountDetails.bankName) {
+    if (!this.accountDetails.bankName || !this.isValidName("bankName","Bank Name")) {
       this.notificationService.notify('bg-danger',"Please enter a valid Bank Name");
         return;
     }
-    if (!this.accountDetails.branch) {
+    if (!this.accountDetails.branch || !this.isValidName("branch","Branch")) {
         this.notificationService.notify('bg-danger',"Please enter a valid Branch Name");
             return;
     }
-    if (!this.accountDetails.accountNumber) {
+    if (!this.accountDetails.accountNumber || !this.isValidNumber('accountNumber',"Account Number")) {
         this.notificationService.notify('bg-danger',"Please enter a valid Account Number");
             return;
     }

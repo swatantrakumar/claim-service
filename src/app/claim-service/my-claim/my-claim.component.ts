@@ -311,11 +311,15 @@ export class MyClaimComponent implements OnInit {
           this.showIdDetails=true;
           this.showCinDetails=false;
           categorySelected=true;
+          this.claimModeByBank=false;
+          this.claimModeByClass=true;
     }else if(this.formSelection=='FC' && this.selectedForm=='Commercial Buyer(Authorised Rep)'){
           this.popUpWindow="CA";
           this.showIdDetails=true;
           this.showCinDetails=false;
           categorySelected=true;
+          this.claimModeByBank=false;
+          this.claimModeByClass=true;
           // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='Banks'){
           this.popUpWindow="C";
@@ -338,12 +342,16 @@ export class MyClaimComponent implements OnInit {
           this.showIdDetails=false;
           this.showCinDetails=true;
           categorySelected=true;
+          this.claimModeByBank=true;
+          this.claimModeByClass=false;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='FC' && this.selectedForm=='NBFC(Authorised Rep)'){
           this.popUpWindow="C";
           this.showIdDetails=false;
           this.showCinDetails=true;
-          categorySelected=true;
+          categorySelected=true;          
+          this.claimModeByBank=true;
+          this.claimModeByClass=false;
             // this.finCreditor.ownership=100;
     }else if(this.formSelection=='OC' && this.selectedForm=='Operational Creditor'){
           this.popUpWindow="B";
