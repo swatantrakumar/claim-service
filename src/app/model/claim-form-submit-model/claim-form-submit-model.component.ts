@@ -19,7 +19,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   @Input() downloadFile!: (doc:any) => void;
   @Input() deleteDocument!:(doc:any,index:number,key?:any) => void;
   @Input() uploadFile!: (type:any,key?:any)  => void;
-  @Input() setFiles!: (event:any, fileType:string) => void;
+  @Input() setFiles!: (event:any, fileType:string,key?:any) => void;
   @Input() getSelectedFilenameForUpload!:() => void;
   @Input() saveClaimForm!: (doc:any) => void;
   @Input() in_progess_for_claimform_submit:boolean=false;
@@ -42,6 +42,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   ) {
     this.dataShareService.confirmationResponce.subscribe(check =>{
       if(check && this.deleteIndex){
+        this.deleteIndex = false;
         this.in_progess_for_claimform_submit = true;
         this.commonFunctionService.saveClaimForm(this.claim_form,'SUBMIT');
       }

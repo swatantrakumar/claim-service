@@ -191,8 +191,8 @@ export class MyClaimComponent implements OnInit {
                     this.claim_form.formAttachments[this.attachment_key].push(value[i])
                 }
               }
-              this.commonFunctionService.saveClaimForm(this.claim_form);
             }
+            this.commonFunctionService.saveClaimForm(this.claim_form);
         })
       }
      // getAllFiles();
@@ -295,7 +295,7 @@ export class MyClaimComponent implements OnInit {
         this.showCinDetails=false;
         this.claimModeByBank=false;
         this.claimModeByClass=true;
-        
+
         categorySelected=true;
     }
     else if(this.formSelection=='FC' && this.selectedForm=='Commercial Buyer'){
@@ -349,7 +349,7 @@ export class MyClaimComponent implements OnInit {
           this.popUpWindow="C";
           this.showIdDetails=false;
           this.showCinDetails=true;
-          categorySelected=true;          
+          categorySelected=true;
           this.claimModeByBank=true;
           this.claimModeByClass=false;
             // this.finCreditor.ownership=100;
@@ -421,7 +421,7 @@ export class MyClaimComponent implements OnInit {
     }
     this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
       if(this.claim_form.resubmissionRequired){
-        this.claim_form.signedForm=[];        
+        this.claim_form.signedForm=[];
       }
     this.modelService.open('SUBMITE_MODEL',object);
   };
@@ -493,7 +493,7 @@ export class MyClaimComponent implements OnInit {
   onCellClicked(event:any) {
     const selectedRows = this.gridApi.getSelectedRows();
     this.claim_form = this.commonFunctionService.cloneObject(selectedRows[0]);
-    
+
   }
    returnSelectedItem(){
     console.log("double click")
@@ -535,7 +535,11 @@ export class MyClaimComponent implements OnInit {
     }else{
       if(doc){
           this.activeIndex = index;
-          this.activekey = "docList";
+          if(key && key != ''){
+            this.activekey = key;
+          }else{
+            this.activekey = "docList";
+          }
           let message = "Are you sure you want to delete "+ doc.rollName + " ? ";
           let obj ={
             msg : message
@@ -602,52 +606,103 @@ export class MyClaimComponent implements OnInit {
   fileTypes:any={}
   rxFiles:any = [];
   rxid:string='';
-  rx:any = {};
+  //rx:any = {};
   activeNode:any='';
   fileName:string='';
   attachment_key:string="";
   fileType:string='';
-  setFiles(event:any, fileType:string) {
+  setFiles(event:any, fileType:string,key?:any) {
     this.activeNode = this.claim_form.myPath;
     this.fileTypes[fileType] = [];
     this.uploadData=[];
     this.rxid = event.target.id;
     var files = event.target.files;
     this.fileName = files[0].name;
-    for (var i = 0; i < files.length; i++) {
+    // for (var i = 0; i < files.length; i++) {
+    //     var file = files[i];
+    //     this.rxFiles.push(file);
+    //     var reader = new FileReader();
+    //     reader.onload = this.imageIsLoaded;
+    //     reader.readAsDataURL(file);
+    // }
+    if (files && files.length > 0) {
+      const promises: Promise<{ fileName: string,fileExtn: string, innerBucketPath: string, id:string, fileData: string,size:any }>[] = [];
+
+      for (let i = 0; i < files.length; i++) {
         var file = files[i];
         this.rxFiles.push(file);
-        var reader = new FileReader();
-        reader.onload = this.imageIsLoaded;
-        reader.readAsDataURL(file);
+        promises.push(this.readNoticeFile(files[i]));
+      }
+      Promise.all(promises)
+        .then((results) => {
+          // All files have been processed
+          if(results && results.length > 0 && this.uploadData) {
+            results.forEach(element => {
+              this.uploadData.push(element);
+            })
+            if(this.uploadData && this.uploadData.length > 0){
+              // console.log(this.uploadData);
+              this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
+              this.uploadFile(fileType,key);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error reading files:', error);
+        });
     }
-    this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
-  }
-  
 
-  imageIsLoaded= (e:any) => {
-    var rxFile = this.rxFiles[0];
-    this.rxFiles.splice(0, 1);
-    this.rx = {};
-    this.rx.fileData = e.target.result;
-    this.rx.fileData = this.rx.fileData.split(',')[1];
-    if (rxFile.name && rxFile.name != '') {
-        this.rx.fileName = rxFile.name;
-        this.rx.id = this.rxid;
-        var splits = this.rx.fileName.split('.');
-        this.rx.fileExtn = splits[splits.length-1];
-        this.rx.innerBucketPath = this.activeNode.key+ "/"+this.rx.fileName;
-    } else {
-        this.rx.fileName = rxFile.webkitRelativePath;
-    }
-    this.rx.size = rxFile.size;
-    this.uploadData.push(this.rx);
   }
+  readNoticeFile(file: File): Promise<{ fileName: string,fileExtn: string, innerBucketPath: string, fileData: string,id:string,size:any }> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event: any) => {
+        const dataURL = event.target.result;
+        const splits = file.name.split('.');
+        const fileExtn = splits[splits.length-1];
+        resolve({
+          fileData: dataURL.split(',')[1],
+          fileName: file.name,
+          id : this.rxid,
+          fileExtn:  fileExtn,
+          innerBucketPath: this.activeNode.key+ "/"+file.name,
+          size : file.size
+        });
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+
+  // imageIsLoaded= (e:any) => {
+  //   var rxFile = this.rxFiles[0];
+  //   this.rxFiles.splice(0, 1);
+  //   this.rx = {};
+  //   this.rx.fileData = e.target.result;
+  //   this.rx.fileData = this.rx.fileData.split(',')[1];
+  //   if (rxFile.name && rxFile.name != '') {
+  //       this.rx.fileName = rxFile.name;
+  //       this.rx.id = this.rxid;
+  //       var splits = this.rx.fileName.split('.');
+  //       this.rx.fileExtn = splits[splits.length-1];
+  //       this.rx.innerBucketPath = this.activeNode.key+ "/"+this.rx.fileName;
+  //   } else {
+  //       this.rx.fileName = rxFile.webkitRelativePath;
+  //   }
+  //   this.rx.size = rxFile.size;
+  //   this.uploadData.push(this.rx);
+  // }
   uploadFile(type:any,key?:any){
     this.attachment_key = key;
     this.fileType = type;
     this.fileHandlerService.uploadFile(this.claim_form,this.uploadData);
-    this.saveClaimForm();
+    // this.saveClaimForm();
   }
 
   getSelectedFilenameForUpload(){
@@ -684,20 +739,20 @@ export class MyClaimComponent implements OnInit {
     this.selectRowData = '';
   }
   validateKeyDates(keyDate:string){
- 
+
     if(this.claim_form.promotionDate && this.claim_form.joiningDate &&  new Date(this.claim_form.promotionDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
-      this.notificationService.notify('bg-danger',"Joing date should be earlier than promotion date !!!");  
+      this.notificationService.notify('bg-danger',"Joing date should be earlier than promotion date !!!");
       return false;
     }
     if(this.claim_form.resignationDate && this.claim_form.joiningDate &&  new Date(this.claim_form.resignationDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
-      this.notificationService.notify('bg-danger',"Joing date should be earlier than resignation date !!!");  
+      this.notificationService.notify('bg-danger',"Joing date should be earlier than resignation date !!!");
       return false;
     }
     if(this.claim_form.resignationDate && this.claim_form.promotionDate && new Date(this.claim_form.promotionDate).getTime()<new Date(this.claim_form.resignationDate).getTime()){
-      this.notificationService.notify('bg-danger',"Promotion date should be earlier than resignation date !!!");  
+      this.notificationService.notify('bg-danger',"Promotion date should be earlier than resignation date !!!");
       return false;
     }
-         
+
     return true;
     }
 
