@@ -406,8 +406,9 @@ getPayload(obj:any){
     }
     if(submit && submit==='SUBMIT'){
       if(claim_form.catClass == 'HOME_BUYER'){
-        if(!claim_form || !claim_form.authorised_person){
+        if(!claim_form || !claim_form.authorised_person || claim_form.authorised_person.trim().length == 0){
           this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
+          return;
         }
         if(!claim_form.formAttachments || !claim_form.formAttachments['application_form'] || claim_form.formAttachments['application_form'].length <= 0){
             this.notificationService.notify('bg-danger',"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents");

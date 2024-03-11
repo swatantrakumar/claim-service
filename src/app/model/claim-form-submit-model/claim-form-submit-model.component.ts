@@ -82,8 +82,9 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   }
   finalSubmissionAlert() {
     if(this.claim_form.catClass == "Home Buyers"){
-      if(!this.claim_form || !this.claim_form.authorised_person){
+      if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
           this.notificationService.notify("bg-danger","\"Please Add Authorised Representative\"");
+          return;
       }
     }
     this.deleteIndex = true;
