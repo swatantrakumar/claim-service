@@ -262,6 +262,7 @@ export class ClaimEmployeComponent implements OnInit {
       switch (this.confirmationType) {
         case 'unit_details':
           this.claimDetails.splice(this.activeIndex,1);
+          this.claimObj={};
           break;
         case 'payment_details':
           this.activeClaim.paymentDetails.splice(this.activeIndex,1);

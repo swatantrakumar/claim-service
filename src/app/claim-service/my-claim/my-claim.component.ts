@@ -503,6 +503,7 @@ export class MyClaimComponent implements OnInit {
    }
    goNextPage(){
     let activecase = this.storageService.GetActiveCase();
+    if(this.validateKeyDates("dummy")){
       this.commonFunctionService.saveClaimForm(this.claim_form);
       if(this.showForm==true){
           this.showForm=false;
@@ -513,6 +514,7 @@ export class MyClaimComponent implements OnInit {
           this.showDeclaration=false;
           this.showVerification=true;
       }
+    }
   }
   goPreviousPge(){
     if(this.showDeclaration==true ){
@@ -594,6 +596,17 @@ export class MyClaimComponent implements OnInit {
 
   }
   claimModelPopUp(){
+    this.claimObj={};
+    this.claimObj.amountAttribute = [{
+      type: '',
+      claimAmount: '',
+      approvedAmount: '',
+      incInVoting: false,
+      comment: ['']
+  }];
+  this.claimObj.document = [];
+  this.claimObj.unitDetails={}
+  this.claimObj.paymentDetails=[];
     this.commonFunctionService.claimModelPopUp(this.claim_form,this.claimDetails,this.payments,this.activeTabName,this.claimModelWindow,this.claimObj);
     //$scope.payments_update_index = -1;
   }
@@ -740,15 +753,15 @@ export class MyClaimComponent implements OnInit {
   }
   validateKeyDates(keyDate:string){
 
-    if(this.claim_form.promotionDate && this.claim_form.joiningDate &&  new Date(this.claim_form.promotionDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
+    if(this.claim_form.promotionDate && this.claim_form.joiningDate &&  this.claim_form.promotionDate<=this.claim_form.joiningDate){
       this.notificationService.notify('bg-danger',"Joing date should be earlier than promotion date !!!");
       return false;
     }
-    if(this.claim_form.resignationDate && this.claim_form.joiningDate &&  new Date(this.claim_form.resignationDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
+    if(this.claim_form.resignationDate && this.claim_form.joiningDate && this.claim_form.resignationDate<=this.claim_form.joiningDate){
       this.notificationService.notify('bg-danger',"Joing date should be earlier than resignation date !!!");
       return false;
     }
-    if(this.claim_form.resignationDate && this.claim_form.promotionDate && new Date(this.claim_form.promotionDate).getTime()<new Date(this.claim_form.resignationDate).getTime()){
+    if(this.claim_form.resignationDate && this.claim_form.promotionDate && this.claim_form.resignationDate < this.claim_form.promotionDate){
       this.notificationService.notify('bg-danger',"Promotion date should be earlier than resignation date !!!");
       return false;
     }

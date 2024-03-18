@@ -48,6 +48,7 @@ export class FormDBodyComponent implements OnInit {
     // Check if the selected date is the same as the current date in the model
     const selectedMilliseconds = new Date(selectedDate.value).getTime();
     this.claim_form[fieldName] = selectedMilliseconds;
+    this.validateKeyDates(selectedDate);
   }
 
 
