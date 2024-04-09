@@ -74,7 +74,7 @@ export class MyClaimComponent implements OnInit {
               if(val=='Invalid date') return "Pending";
               return val;
             },  lockPosition: true,filter:false},
-    {headerName: "Approved Amount", field: " ",  lockPosition: true,width: 97}
+    {headerName: "Approved Amount", field: "approvedTotal",  lockPosition: true,width: 97}
 
 	];
 	rowData:any = [];
@@ -768,5 +768,12 @@ export class MyClaimComponent implements OnInit {
 
     return true;
     }
+
+   activateEditButton(){
+      return (this.selectRowData && (this.selectRowData.resubmissionRequired || this.selectRowData.formStatus == 'SAVED' || this.selectRowData.formStatus == 'ON_HOLD'))
+   }
+   activateSubmitButton(){
+    return (this.selectRowData && (this.selectRowData.resubmissionRequired || this.selectRowData.formStatus == 'SAVED' || this.selectRowData.formStatus == 'ON_HOLD'))
+ }
 
 }

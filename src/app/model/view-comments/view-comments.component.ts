@@ -11,6 +11,7 @@ export class ViewCommentsComponent implements OnInit {
 
   @Input() claim_form:any;
   @Input() id: string ='';
+  @Input() downloadFile!:(doc:any)=>void;
   @Output() commetModelResponce = new EventEmitter();
 
 
