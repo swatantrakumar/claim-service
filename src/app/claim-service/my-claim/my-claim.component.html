@@ -31,7 +31,7 @@
     <button type="button" *ngIf="activateSubmitButton()" class="btn btn-primary btn-rounded" (click)="submitClaimForm()">Submit
     </button>
     <button type="button" *ngIf="selectRowData" class="btn btn-primary btn-rounded" (click)="viewDetail()"> View Details </button>
-    <button type="button" *ngIf="selectRowData" class="btn btn-primary btn-rounded" (click)="previewFormWindow()">preview</button>
+    <button type="button" *ngIf="selectRowData && selectRowData.formStatus != 'SAVED'" class="btn btn-primary btn-rounded" (click)="previewFormWindow()">preview</button>
   </div>
 </div>
 </div>
@@ -58,11 +58,10 @@
   </ag-grid-angular>
   </div>
 </div>
-<div >test Segment</div>
 <div class="row" *ngIf="!OnlineFormGrid && !CATEGORY_SELECTION && selectedForm !='Banks'">
   <div class="col-lg-10 text-center pl-5">
     <i class="fa fa-home" (click)="showMyClaimForms()"></i>
-        <div  *ngIf="claim_form.claimModel=='HOME_BUYER'"  class="form-group row">
+        <div  *ngIf="enableAuthorisedRep()"  class="form-group row">
           <label class="col-5 modal-title text-right mt-1">Authorised Representative</label>
           <div class="col-5">
               <select [(ngModel)]="claim_form.authorised_person" class="form-control">
@@ -72,8 +71,8 @@
               <p class="text-left" style="color: red;">*mandatory</p>
           </div>
       </div>
-      <div  *ngIf="claim_form.claimModel !='HOME_BUYER'"  class="form-group row">
-        <div class="col-10 text-right mt-1">TEST SEGMENT 2</div>
+      <div  *ngIf="!enableAuthorisedRep()" class="form-group row">
+        <div class="col-10 text-right mt-1">&nbsp;</div>
     </div>
   </div>
 </div>

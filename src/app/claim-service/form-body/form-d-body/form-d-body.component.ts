@@ -41,8 +41,11 @@ export class FormDBodyComponent implements OnInit {
   }
 
   millisecondsToDate(milliseconds: number): string {
-    const date = new Date(milliseconds);
-    return date.toISOString().slice(0, 10); // Assuming you want yyyy-MM-dd format
+      if(milliseconds>0){
+      const date = new Date(milliseconds);
+      return date.toISOString().slice(0, 10); // Assuming you want yyyy-MM-dd format
+    }
+    return "";
   }
   onDateInput(selectedDate: any,fieldName:string) {
     // Check if the selected date is the same as the current date in the model

@@ -775,5 +775,8 @@ export class MyClaimComponent implements OnInit {
    activateSubmitButton(){
     return (this.selectRowData && (this.selectRowData.resubmissionRequired || this.selectRowData.formStatus == 'SAVED' || this.selectRowData.formStatus == 'ON_HOLD'))
  }
+ enableAuthorisedRep(){
+  return this.commonFunctionService.isHomeBuyer(this.claim_form);
+}
 
 }
