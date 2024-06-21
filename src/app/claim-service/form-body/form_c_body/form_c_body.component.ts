@@ -23,7 +23,7 @@ export class Form_c_bodyComponent implements OnInit {
   @Input() getSelectedFilenameForUpload!:() => void;
   @Input() uploadFile!:(type:any,key?:any) => void;
   @Input() getSelectedFilenameForUploadcustom!:(index:any) => void;
-  @Input() setFiles!:(event:any, fileType:string) => void;
+  @Input() setFiles!:(event:any, fileType:string,key?:any) => void;
   @Input() saveClaimForm!:()=>void;
   @Input() onlineClaimFormPopUp!:(type:any) => void;
   @Input() onlineBankAccount!:() => void;

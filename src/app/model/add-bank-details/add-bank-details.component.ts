@@ -51,7 +51,7 @@ export class AddBankDetailsComponent implements OnInit {
   closeBankAccount(){
     this.bankDetailsModel.hide();
     this.accountDetails={};
- 
+
   }
 
   showModal(){
