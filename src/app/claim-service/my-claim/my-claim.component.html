@@ -30,8 +30,8 @@
     </button>
     <button type="button" *ngIf="activateSubmitButton()" class="btn btn-primary btn-rounded" (click)="submitClaimForm()">Submit
     </button>
-    <button type="button" *ngIf="selectRowData" class="btn btn-primary btn-rounded" (click)="viewDetail()"> View Details </button>
-    <button type="button" *ngIf="selectRowData && selectRowData.formStatus != 'SAVED'" class="btn btn-primary btn-rounded" (click)="previewFormWindow()">preview</button>
+    <button type="button" *ngIf="selectRowData && selectRowData.formStatus != 'SAVED'" class="btn btn-primary btn-rounded" (click)="viewDetail()"> View Details </button>
+    <button type="button" *ngIf="selectRowData" class="btn btn-primary btn-rounded" (click)="previewFormWindow()">preview</button>
   </div>
 </div>
 </div>
