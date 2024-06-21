@@ -607,7 +607,7 @@ export class MyClaimComponent implements OnInit {
   fileName:string='';
   attachment_key:string="";
   fileType:string='';
-  setFiles(event:any, fileType:string) {
+  setFiles(event:any, fileType:string,keyName?:string) {
     this.activeNode = this.claim_form.myPath;
     this.fileTypes[fileType] = [];
     this.uploadData=[];
@@ -618,14 +618,14 @@ export class MyClaimComponent implements OnInit {
         var file = files[i];
         this.rxFiles.push(file);
         var reader = new FileReader();
-        reader.onload = this.imageIsLoaded;
+        reader.onload = (e) => this.imageIsLoaded(e,keyName); 
         reader.readAsDataURL(file);
     }
     this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
   }
   
 
-  imageIsLoaded= (e:any) => {
+  imageIsLoaded= (e:any,keyName?:string) => {
     var rxFile = this.rxFiles[0];
     this.rxFiles.splice(0, 1);
     this.rx = {};
@@ -637,6 +637,7 @@ export class MyClaimComponent implements OnInit {
         var splits = this.rx.fileName.split('.');
         this.rx.fileExtn = splits[splits.length-1];
         this.rx.innerBucketPath = this.activeNode.key+ "/"+this.rx.fileName;
+        this.rx.keyName=keyName;
     } else {
         this.rx.fileName = rxFile.webkitRelativePath;
     }

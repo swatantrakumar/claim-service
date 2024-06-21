@@ -13,6 +13,8 @@ export class Form_footerComponent implements OnInit {
 
   @Input() goNextPage!:()=>void;
   @Input() showMyClaimForms!:()=>void;
+  @Input() uploadFile!:(type:any,key?:any) => void;
+  @Input() setFiles!:(event:any, fileType:string,keyNames?:string) => void;
 
   constructor(
     private commonFunctionService:CommonFunctionService,

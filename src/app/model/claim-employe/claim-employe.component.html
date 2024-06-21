@@ -22,13 +22,6 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                       <div class="col-lg-1 col-md-2" *ngIf="headerIntrestRate">
                           <input type="number" class="w-100 form-control"  (change)="calculateTotalClaimAmount()" [(ngModel)]="claim_form.interestRate">
                       </div>
-                      <div class="col-md-3" *ngIf="headerIntrestRate">
-                          <div class="form-check-inline">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input"  [(ngModel)]="claim_form.calculateInterestAmount">Auto Calculate Interest Amount
-                              </label>
-                            </div>
-                      </div>
 
                   </div>
               </div>
@@ -46,12 +39,12 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                               </tr>
                       </thead>
                       <tbody>
-                              <tr>
-                                  <td></td>
+                             <tr *ngIf="!isClaimObjAdded">
+                                  <td></td>          
                                   <td *ngFor="let emp of empFields" >
                                     <span *ngIf="emp.type == 'text'" >
-                                      <input type="text"  class="form-control" [(ngModel)]="claimObj.unitDetails[emp.name]">
-                                    </span>
+                                       <input type="text"  class="form-control" [(ngModel)]="claimObj.unitDetails[emp.name]">                                    
+                                      </span>
                                     <span *ngIf="emp.type == 'select'">
                                       <select *ngIf="emp.dataType != 'key_value'"  class="form-control" [(ngModel)]="claimObj.unitDetails[emp.name]" (change)="selectChange(emp)" >
                                         <option *ngFor="let facility of staticData[emp.ddn_field]"  [value]="facility">{{facility}}</option>
@@ -97,7 +90,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
 
                                   <td >
-                                      <button type="button" class="btn btn-primary" (click)="addClaimObj()">+</button>
+                                      <button type="button" class="btn btn-primary" (click)="addClaimObj()">save</button>
                                   </td>
                               </tr>
                               <span *ngIf="others" >
@@ -185,7 +178,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                         </span>
                                       </td>
                                       <td >
-                                          <button type="button" class="btn btn-primary" (click)="addPaymentDetails(claim, i)">+</button>
+                                          <button type="button" class="btn btn-primary" (click)="addPaymentDetails(claim, i)">Save</button>
                                       </td>
                                   </tr>
                                   <tr *ngIf="claimModelWindow == 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW' && payments_update_index != -1">
@@ -215,7 +208,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                                       </span>
                                     </td>
                                     <td style="width:5%" class="px-0">
-                                      <button type="button" class="btn btn-primary px-1 py-0 ml-1" (click)="addPaymentDetailsReview(claim, i)">+</button>
+                                      <button type="button" class="btn btn-primary px-1 py-0 ml-1" (click)="addPaymentDetailsReview(claim, i)">Save</button>
                                       <button  type="button" class="btn btn-danger px-1 py-0" (click)="cancilUpdatePayment()">X</button>
                                   </td>
                                 </tr>
