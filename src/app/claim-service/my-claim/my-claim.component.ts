@@ -121,6 +121,7 @@ export class MyClaimComponent implements OnInit {
     })
     this.dataShareService.saveClaimResponce.subscribe(res =>{
       this.in_progess_for_claimform_submit = false;
+      this.in_progess_for_claimform_submit =false;
       this.claim_form = res.success;
       if(res.type && res.type == "SUBMIT"){
         this.showMyClaimForms()
@@ -505,6 +506,12 @@ export class MyClaimComponent implements OnInit {
     let activecase = this.storageService.GetActiveCase();
     if(this.validateKeyDates("dummy")){
       this.commonFunctionService.saveClaimForm(this.claim_form);
+      if(this.commonFunctionService.isHomeBuyer(this.claim_form)){
+        if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
+          this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
+          return;
+        }
+      } 
       if(this.showForm==true){
           this.showForm=false;
           this.showDeclaration=true;

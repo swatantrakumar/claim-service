@@ -428,7 +428,6 @@ getPayload(obj:any){
       type : submit
     }
     this.apiService.saveNewClaim(payload);
-
   }
   getProjectMode() {
     var mode = "c";
