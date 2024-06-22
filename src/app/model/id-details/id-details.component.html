@@ -46,7 +46,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                     </td>
                     <td *ngIf="CIN_NO" ><input type="text" class="form-control" (blur)="isValidAlphaNumeric('cinNumber','CIN Number')" [(ngModel)]="finCreditor.cinNumber"></td>
                     <td >
-                        <button type="button" class="btn btn-primary"  (click)="identificationDetails()">+
+                        <button type="button" class="btn btn-primary"  (click)="identificationDetails()">Save
                         </button>
                     </td>
                   </tr>

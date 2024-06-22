@@ -392,6 +392,7 @@ getPayload(obj:any){
     if(this.removeSpecialCharacters(claim_form.formType) ===""){
       claim_form.formType = "USER_CLAIM";
     }
+    claim_form.verifiedLocation=claim_form.place; 
     var x = claim_form.primaryClaimant;
     claim_form['userId'] = this.storageService.getUserId();
     if(claim_form.claimAmountDetails){

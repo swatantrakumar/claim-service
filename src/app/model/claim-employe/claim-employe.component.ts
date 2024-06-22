@@ -29,8 +29,10 @@ export class ClaimEmployeComponent implements OnInit {
   claimTypes:any=[];
   activeIndex:number=-1;
   confirmationType:any='';
-
+  isClaimObjAdded:boolean=false;
+  caseStaticData:any={};
   empFields:any = []
+  ProjectNames:any=[];
   showDetails:boolean=true;
   others:boolean=false;
   empWithDetails:boolean=false;
@@ -77,8 +79,11 @@ export class ClaimEmployeComponent implements OnInit {
         console.error('modal must have an id');
         return;
     }
+    this.claim_form.calculateInterestAmount=true;
     this.modelService.remove(this.id);
     this.modelService.add(this);
+    this.caseStaticData=this.storageService.GetStaticData()
+    this.ProjectNames=this.storageService.GetActiveCase().project_names   
   }
   showModal(alert:any){
     if(!this.claimTypes ||(typeof this.claimTypes=='object' && Object.keys(this.claimTypes).length==0)) this.claimTypes = this.getClaimTypes();
@@ -158,22 +163,26 @@ export class ClaimEmployeComponent implements OnInit {
           break;
         case 'CLAIM_MODEL_HOME_BUYER':
           this.empFields = [
+            {"label":"Project Name ","name":"project_names","type":"select","ddn_field":"project_names"},
+            {"label":"Allotment Type","name":"allotment_type","type":"select","ddn_field":"allotment_type"},
+            {"label":"Unit Status ","name":"unit_status","type":"select","ddn_field":"unit_status"},
             {"label":"Unit No","name":"unit","type":"text"},
-            {"label":"Area(in Sq. Feet)","name":"area","type":"text"},
+            {"label":"Super Area(in Sq. Feet)","name":"area","type":"text"},
             {"label":"Unit Type/Tower No","name":"type","type":"text","change":false},
-            {"label":"Total","name":"total","type":"label","data":'claim'}
           ]
           this.claimDetaisFields = [
             {"label":"Date","name":"paymentDate","type":"date"},
             {"label":"Payment Mode","name":"mode","type":"select","change":false,"ddn_field":"unit_select","dataType":"text"},
             {"label":"Reference","name":"reference","type":"text"},
             {"label":"Payment Amount","name":"amount","type":"number","change":true},
-            {"label":"Tax(*for claim purpose Tax is excluded)","name":"tax","type":"number","change":false},
             {"label":"Interest","name":"interest","type":"number","change":true,"disableCheck":true},
             {"label":"Total","name":"total","type":"number","data":'claim'}
           ]
           this.headerIntrestRate = true;
           this.staticData['unit_select'] =["Cash","Credit Card","Debit Card","Cheque","UPI","Net Banking","CRN GST Input Credit","TDS","CRN TDS","CRN Transfer of Unit Within Project","CRN Transfer of Unit from Other Project","CRN Change in Payment Plan"]
+          this.staticData['allotment_type'] = this.caseStaticData.unitAllotmentList
+          this.staticData['unit_status'] = this.caseStaticData.unitStatusList
+          this.staticData['project_names'] = this.ProjectNames
           break
         case 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW':
           this.empFields = [
@@ -221,7 +230,7 @@ export class ClaimEmployeComponent implements OnInit {
     this.claimEmployeModel.hide();
   }
   addClaimObj(){
-    if(!this.claimObj || !this.claimObj.unitDetails || !this.claimObj.unitDetails.unit){
+    if(!this.claimObj || !this.claimObj.unitDetails || !this.claimObj.unitDetails.unit || !this.claimObj.unitDetails.project_names){
       this.notificationService.notify('bg-danger',"Please fill in all the details.. ");
       return
     }
@@ -249,6 +258,7 @@ export class ClaimEmployeComponent implements OnInit {
     this.claimObj={};
     this.claimObj.unitDetails={}
     this.claimObj.paymentDetails=[{}];
+    this.isClaimObjAdded=true;
   }
   activeClaim:any={};
   deleteRecord(object:any,index:number,key:any){

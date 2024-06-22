@@ -67,42 +67,7 @@
       <tr>
           <td>5</td>
           <td class="text-left"> Details of documents by reference to which the debt can be substantiated</td>
-          <td *ngIf="activecase.caseType == null">
-              <div>
-
-                  <div class="form-group row">
-                      <div class="col-lg-3 " *ngFor="let doc of claim_form.docList;let i=index">
-                          <img class="pointer" src="/assets/img/cross.png" style="width:15px" (click)="deleteDocument(doc,i)">
-                          <a (click)="downloadFile(doc)" class="pointer textAlignLeft" disabled>{{doc.rollName}}</a>
-                          <!--<button style="background: transparent;position: absolute;right: 2px;top: 0px;height: 17px;width: 4px;font-size: x-small;border: none;" ng-click="removeDoc(doc,index)">x</button>-->
-                      </div>
-                  </div>
-                  <!-- <div class="col-md-12" style="padding-top: 30px;margin-left: -3px;">
-                      <input class="col-md-10" type="file" multiple="multiple"
-                             onchange="angular.element(this).scope().setFiles(event,'docs')">
-                      <button class="col-md-2 btn-fun" ng-click="uploadFile('docs')">
-                          <img style="width: 20px !important;height: 20px !important;"
-                               src="img/upload.png">
-                      </button>
-                  </div> -->
-                  <div class="form-group">
-
-                      <div class="input-group">
-                          <div class="custom-file col-lg-10">
-                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04"
-                              onclick="this.value = null" (change)="setFiles($event,'docs','docList')">
-                              <label class="custom-file-label" for="inputGroupFile04">{{getSelectedFilenameForUpload()}}</label>
-                          </div>
-                          <div class="col-lg-2 col-2">
-                              <!-- <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button> -->
-                          </div>
-                      </div>
-
-                  </div>
-                  <!-- <div ng-show="wait" class="col-md-10" id="print" ng-include align="center" src="'es/popUp/waitPopUp.html'" style="position: absolute !important; z-index: 999"></div> -->
-
-              </div>
-          </td>
+          <td><textarea class="form-control w-100" [(ngModel)]="claim_form.fileNames" (blur)="saveClaimForm()"></textarea>
       </tr>
 
 
@@ -122,7 +87,7 @@
                   <div class="form-group">
                       <div class="input-group">
                           <div class="custom-file col-lg-10">
-                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04_{{i}}" onclick="this.value = null" (change)="setFiles($event,'docs', item.key)">
+                              <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04_{{i}}" onclick="this.value = null" (change)="setFiles($event,'docs')">
                               <label class="custom-file-label" for="inputGroupFile04_{{i}}">{{getSelectedFilenameForUploadcustom(i)}}</label>
                           </div>
                           <div class="col-lg-2 col-2">

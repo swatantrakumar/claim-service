@@ -16,13 +16,13 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                             <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="{{myShortName + 'bankName'}}" class="col-form-label">Bank Name</label>
-                                        <input type="text" class="form-control w-100" id="{{myShortName + 'bankName'}}"  (blur)="isValidName('bankName','Bank Name')" [(ngModel)]="accountDetails.bankName" name="bankName">
+                                        <input type="text" class="form-control w-100" id="{{myShortName + 'bankName'}}"  [(ngModel)]="accountDetails.bankName" name="bankName">
                                     </div>
                             </div>
                             <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="{{myShortName + 'branch'}}" class="col-form-label">Branch</label>
-                                        <input type="text" class="form-control w-100" id="{{myShortName + 'branch'}}" (blur)="isValidAlphaNumeric('branch','Branch')"  [(ngModel)]="accountDetails.branch" name="branch">
+                                        <input type="text" class="form-control w-100" id="{{myShortName + 'branch'}}"   [(ngModel)]="accountDetails.branch" name="branch">
                                     </div>
                             </div>
                             <div class="form-row">

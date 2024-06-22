@@ -511,7 +511,7 @@ export class MyClaimComponent implements OnInit {
           this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
           return;
         }
-      } 
+      }
       if(this.showForm==true){
           this.showForm=false;
           this.showDeclaration=true;
@@ -631,98 +631,48 @@ export class MyClaimComponent implements OnInit {
   fileName:string='';
   attachment_key:string="";
   fileType:string='';
-  setFiles(event:any, fileType:string,key?:any) {
+  setFiles(event:any, fileType:string,keyName?:string) {
     this.activeNode = this.claim_form.myPath;
     this.fileTypes[fileType] = [];
     this.uploadData=[];
     this.rxid = event.target.id;
     var files = event.target.files;
     this.fileName = files[0].name;
-    // for (var i = 0; i < files.length; i++) {
-    //     var file = files[i];
-    //     this.rxFiles.push(file);
-    //     var reader = new FileReader();
-    //     reader.onload = this.imageIsLoaded;
-    //     reader.readAsDataURL(file);
-    // }
-    if (files && files.length > 0) {
-      const promises: Promise<{ fileName: string,fileExtn: string, innerBucketPath: string, id:string, fileData: string,size:any }>[] = [];
-
-      for (let i = 0; i < files.length; i++) {
+    for (var i = 0; i < files.length; i++) {
         var file = files[i];
         this.rxFiles.push(file);
-        promises.push(this.readNoticeFile(files[i]));
-      }
-      Promise.all(promises)
-        .then((results) => {
-          // All files have been processed
-          if(results && results.length > 0 && this.uploadData) {
-            results.forEach(element => {
-              this.uploadData.push(element);
-            })
-            if(this.uploadData && this.uploadData.length > 0){
-              // console.log(this.uploadData);
-              this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
-              this.uploadFile(fileType,key);
-            }
-          }
-        })
-        .catch((error) => {
-          console.error('Error reading files:', error);
-        });
+        var reader = new FileReader();
+        reader.onload = (e) => this.imageIsLoaded(e,keyName);
+        reader.readAsDataURL(file);
     }
-
-  }
-  readNoticeFile(file: File): Promise<{ fileName: string,fileExtn: string, innerBucketPath: string, fileData: string,id:string,size:any }> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (event: any) => {
-        const dataURL = event.target.result;
-        const splits = file.name.split('.');
-        const fileExtn = splits[splits.length-1];
-        resolve({
-          fileData: dataURL.split(',')[1],
-          fileName: file.name,
-          id : this.rxid,
-          fileExtn:  fileExtn,
-          innerBucketPath: this.activeNode.key+ "/"+file.name,
-          size : file.size
-        });
-      };
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-
-      reader.readAsDataURL(file);
-    });
+    this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
   }
 
 
-  // imageIsLoaded= (e:any) => {
-  //   var rxFile = this.rxFiles[0];
-  //   this.rxFiles.splice(0, 1);
-  //   this.rx = {};
-  //   this.rx.fileData = e.target.result;
-  //   this.rx.fileData = this.rx.fileData.split(',')[1];
-  //   if (rxFile.name && rxFile.name != '') {
-  //       this.rx.fileName = rxFile.name;
-  //       this.rx.id = this.rxid;
-  //       var splits = this.rx.fileName.split('.');
-  //       this.rx.fileExtn = splits[splits.length-1];
-  //       this.rx.innerBucketPath = this.activeNode.key+ "/"+this.rx.fileName;
-  //   } else {
-  //       this.rx.fileName = rxFile.webkitRelativePath;
-  //   }
-  //   this.rx.size = rxFile.size;
-  //   this.uploadData.push(this.rx);
-  // }
+  imageIsLoaded= (e:any,keyName?:string) => {
+    var rxFile = this.rxFiles[0];
+    this.rxFiles.splice(0, 1);
+    this.rx = {};
+    this.rx.fileData = e.target.result;
+    this.rx.fileData = this.rx.fileData.split(',')[1];
+    if (rxFile.name && rxFile.name != '') {
+        this.rx.fileName = rxFile.name;
+        this.rx.id = this.rxid;
+        var splits = this.rx.fileName.split('.');
+        this.rx.fileExtn = splits[splits.length-1];
+        this.rx.innerBucketPath = this.activeNode.key+ "/"+this.rx.fileName;
+        this.rx.keyName=keyName;
+    } else {
+        this.rx.fileName = rxFile.webkitRelativePath;
+    }
+    this.rx.size = rxFile.size;
+    this.uploadData.push(this.rx);
+  }
   uploadFile(type:any,key?:any){
     this.attachment_key = key;
     this.fileType = type;
     this.fileHandlerService.uploadFile(this.claim_form,this.uploadData);
-    // this.saveClaimForm();
+    this.saveClaimForm();
   }
 
   getSelectedFilenameForUpload(){
@@ -760,7 +710,7 @@ export class MyClaimComponent implements OnInit {
   }
   validateKeyDates(keyDate:string){
 
-    if(this.claim_form.promotionDate && this.claim_form.joiningDate &&  this.claim_form.promotionDate<=this.claim_form.joiningDate){
+    if(this.claim_form.promotionDate && this.claim_form.joiningDate &&  new Date(this.claim_form.promotionDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
       this.notificationService.notify('bg-danger',"Joing date should be earlier than promotion date !!!");
       return false;
     }
