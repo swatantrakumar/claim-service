@@ -19,7 +19,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   @Input() downloadFile!: (doc:any) => void;
   @Input() deleteDocument!:(doc:any,index:number,key?:any) => void;
   @Input() uploadFile!: (type:any,key?:any)  => void;
-  @Input() setFiles!: (event:any, fileType:string) => void;
+  @Input() setFiles!: (event:any, fileType:string,key?:any) => void;
   @Input() getSelectedFilenameForUpload!:() => void;
   @Input() saveClaimForm!: (doc:any) => void;
   @Input() in_progess_for_claimform_submit:boolean=false;
@@ -42,6 +42,13 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   ) {
     this.dataShareService.confirmationResponce.subscribe(check =>{
       if(check && this.deleteIndex){
+        this.deleteIndex = false;
+          if(commonFunctionService.isHomeBuyer(this.claim_form)){
+            if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
+              this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
+              return;
+            }
+          }        
         this.in_progess_for_claimform_submit = true;
         this.commonFunctionService.saveClaimForm(this.claim_form,'SUBMIT');
       }
@@ -59,6 +66,7 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   hint:string='';
   showModal(alert:any){
     this.claimSubmit = false;
+    this.in_progess_for_claimform_submit=false;
     if(alert.type == "SUBMITE"){
       this.claimSubmit = true;
       this.pageTitle = "Claim Submit";
@@ -77,12 +85,14 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   close(){
     this.claimSubmiteModel.hide();
     this.submitModelResponce.emit('');
+    this.in_progess_for_claimform_submit=false;
     this.commonFunctionService.getClaimDataFormCaseId(this.storageService.GetActiveCaseId());
   }
   finalSubmissionAlert() {
     if(this.claim_form.catClass == "Home Buyers"){
-      if(!this.claim_form || !this.claim_form.authorised_person){
+      if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
           this.notificationService.notify("bg-danger","\"Please Add Authorised Representative\"");
+          return;
       }
     }
     this.deleteIndex = true;

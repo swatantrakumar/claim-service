@@ -31,10 +31,103 @@
   </tr>
 
 </table>
+<span>Document Upload (Upto 100 MB per category) </span><br>
+   <span> In case of multiple files, they should be ziped.</span>
+   
+<div  *ngIf="claim_form.formName==='CA'"style="border: 2px solid #c0b8b8;padding: 10px">
+<table>
+  <tbody>
+      <tr>
+          <th>Document</th>
+          <th>Upload PDF File</th>
+      </tr>
+
+      <tr>
+          <td><label for="pan">PAN/Aadhaar/Passport:</label><span class="required">*</span></td>
+          <td>
+              <div class="file-input-container">
+                  <div id="inputGroupFile04" class="loaderForm" style="display: none;">Please Wait...</div>
+                  <input type="file" id="01" name="PAN" (change)="setFiles($event,'docs','PAP')" accept="application/pdf,application/zip" required class="">
+                     <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+              </div>
+          </td>
+      </tr>
+
+      <tr>
+          <td><label for="bba">Builder Buyer Agreement (BBA):</label></td>
+          <td>
+              <div class="file-input-container">
+                  <div id="loader-02" class="loaderForm" style="display: none;">Please Wait...</div>
+                  <input type="file" id="02" name="BBA" (change)="setFiles($event,'docs','BBA')" accept="application/pdf,application/zip" class="">
+                  <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+              </div>
+          </td>
+      </tr>
+
+      <tr>
+          <td><label for="al">Allotment Letter:</label></td>
+          <td>
+              <div class="file-input-container">
+                  <div id="loader-03" class="loaderForm" style="display: none;">Please Wait...</div>
+                  <input type="file" id="03" name="AL" (change)="setFiles($event,'docs','AL')" accept="application/pdf,application/zip" class="">
+                  <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+              </div>
+          </td>
+      </tr>
+
+      <tr>
+          <td><label for="proof">Proof of Payments/Payment Receipts:</label></td>
+          <td>
+              <div class="file-input-container">
+                  <div id="loader-07" class="loaderForm" style="display: none;">Please Wait...</div>
+                  <input type="file" id="07" name="PP" (change)="setFiles($event,'docs','PPR')" accept="application/pdf,application/zip" class="">
+                  <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+              </div>
+          </td>
+      </tr>
+
+      <tr>
+          <td><label for="statement">Statement of Accounts:</label></td>
+          <td>
+              <div class="file-input-container">
+                  <div id="loader-08" class="loaderForm" style="display: none;">Please Wait...</div>
+                  <input type="file" id="08" name="statement" (change)="setFiles($event,'docs','SOA')" accept="application/pdf,application/zip" class="">
+                  <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+              </div>
+          </td>
+      </tr>
+
+      <tr>
+          <td><label for="cancelCheque">Cancelled Cheque/Front Page of Passbook or Bank Statement:</label><span class="required">*</span></td>
+          <td>
+              <div class="file-input-container">
+                  <div id="loader-06" class="loaderForm" style="display: none;">Please Wait...</div>
+                  <input type="file" id="06" name="cancelCheque" (change)="setFiles($event,'docs','CC')" accept="application/pdf,application/zip" accept="application/pdf,application/zip" required class="">
+                  <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+              </div>
+          </td>
+      </tr>
+
+      <tr>
+          <td>Other Documents:</td>
+          <td>
+              <div class="file-input-container">
+                  <div id="loader-05" class="loaderForm" style="display: none;">Please Wait...</div>
+                  <input type="file" id="05" name="OtherDocs" (change)="setFiles($event,'docs','Other')" accept="application/pdf,application/zip" class="">
+                  <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+              </div>
+              <div class="col-lg-2 col-2">
+              
+            </div>
+          </td>
+      </tr>
+  </tbody>
+</table>
 
 <div >
 <p>*PAN, Passport, AADHAAR Card or the identity card issued by the Election Commission of
   India.</p>
+</div>
 </div>
 
 <div class="form-row">

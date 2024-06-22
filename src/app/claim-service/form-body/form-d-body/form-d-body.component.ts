@@ -19,7 +19,7 @@ export class FormDBodyComponent implements OnInit {
   @Input() getSelectedFilenameForUpload!:() => void;
   @Input() uploadFile!:(type:any,key?:any) => void;
   @Input() getSelectedFilenameForUploadcustom!:(index:any) => void;
-  @Input() setFiles!:(event:any, fileType:string) => void;
+  @Input() setFiles!:(event:any, fileType:string,key?:any) => void;
   @Input() saveClaimForm!:()=>void;
   @Input() onlineClaimFormPopUp!:(type:any) => void;
   @Input() onlineBankAccount!:() => void;
@@ -41,13 +41,17 @@ export class FormDBodyComponent implements OnInit {
   }
 
   millisecondsToDate(milliseconds: number): string {
-    const date = new Date(milliseconds);
-    return date.toISOString().slice(0, 10); // Assuming you want yyyy-MM-dd format
+      if(milliseconds>0){
+      const date = new Date(milliseconds);
+      return date.toISOString().slice(0, 10); // Assuming you want yyyy-MM-dd format
+    }
+    return "";
   }
   onDateInput(selectedDate: any,fieldName:string) {
     // Check if the selected date is the same as the current date in the model
     const selectedMilliseconds = new Date(selectedDate.value).getTime();
     this.claim_form[fieldName] = selectedMilliseconds;
+    this.validateKeyDates(selectedDate);
   }
 
 

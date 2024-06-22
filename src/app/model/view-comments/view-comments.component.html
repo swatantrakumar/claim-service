@@ -10,21 +10,47 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-lg-12" *ngIf="claim_form && claim_form.comment" >
+              <div class="col-lg-12 row pl-3" *ngIf="claim_form && claim_form.comment" >
+                <span><b><u>Comment</u></b></span>
+                <div class="col-lg-12">
+                <span>{{claim_form.comment}}</span>
+              </div>
+              </div>
+                <div class="col-lg-12">
                 <table class="table table-bordered table-centered mb-0">
                   <tbody>
                     <tr>
-                      <td>Comment</td>
-                      <td>{{claim_form.comment}}</td>
+                      <td>Approved Amount </td>
+                      <td>{{claim_form.approvedAmount}}</td>
+                    </tr>
+                    <tr>
+                      <td>Approved Interest </td>
+                      <td>{{claim_form.approvedInterest}}</td>
+                    </tr>
+                    <tr>
+                      <td>Approved Penalty </td>
+                      <td>{{claim_form.approvedPenalty}}</td>
+                    </tr>
+                    <tr>
+                      <td>Approved Total </td>
+                      <td><b>{{claim_form.approvedTotal}}</b></td>
                     </tr>
                   </tbody>
                 </table>
+                
+              </div>
+              <div class="col-lg-12" *ngIf="claim_form.calculationFile">
+                <span><b><u>Calculation File</u></b></span>
+                <div *ngFor="let doc of claim_form.calculationFile;let i=index">
+                  <a (click)="downloadFile(doc)" class="pointer textAlignLeft"
+                  style="overflow: hidden;background: transparent;border: none;" disabled>{{doc.rollName}}</a>
+                  
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button  type="button" class="btn btn-primary"  (click)="uploadFile()">
-                <span>Upload</span>
+                <span>upload new document</span>
             </button>
             <!-- <button type="button" class="btn btn-primary" (click)="close()">Ok</button> -->
           </div>

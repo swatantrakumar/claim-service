@@ -34,12 +34,12 @@ export class Form_cComponent implements OnInit {
   @Input() getSelectedFilenameForUpload!:() => void;
   @Input() uploadFile!:(type:any,key?:any) => void;
   @Input() getSelectedFilenameForUploadcustom!:(index:any) => void;
-  @Input() setFiles!:(event:any, fileType:string) => void;
+  @Input() setFiles!:(event:any, fileType:string,key?:any) => void;
   @Input() saveClaimForm!:()=>void;
   @Input() onlineClaimFormPopUp!:(type:any) => void;
   @Input() onlineBankAccount!:() => void;
   @Input() validateKeyDates!:(keyDate:string) => void;
-  
+
 
   formc:any='<h4 class="mt-3">FORM C </h4><h4>SUBMISSION OF CLAIM BY FINANCIAL CREDITOR</h4><p ><i>(Under Regulation 8 of the Insolvency and Bankruptcy Board of India (Insolvency Resolution Process for Corporate Persons) Regulations, 2016)</i></p>';
   formd:any='<h4 >SCHEDULE </h4><h4>FORM D</h4><p ><i>Proof Of Claim by a Workman or an Employee<br> (Under Regulation 9 of the Insolvency and Bankruptcy (Insolvency Resolution Process for Corporate Persons) Regulations, 2016)</i></p>';

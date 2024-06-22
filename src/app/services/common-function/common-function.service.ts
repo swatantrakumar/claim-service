@@ -33,6 +33,12 @@ getPayload(obj:any){
   }
   return payload;
 }
+
+  isValidAlphaNumeric(inputValue:any){
+    var pattern = /^[a-z0-9]+$/i;
+    return (pattern.test(inputValue) ? true : false);
+   
+  }  
   isValidName(inputValue:any){
     var pattern = /(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/;
     return (pattern.test(inputValue) ? true : false);
@@ -275,7 +281,9 @@ getPayload(obj:any){
       return todayDate.getFullYear();
 
   }
-
+  isHomeBuyer(claim_form:any){
+    return claim_form && claim_form.catClass && claim_form.catClass.indexOf('Home Buyers')>-1
+  }
 
   claimModelPopUp(claim_form:any,claimDetails:any,payments:any,activeTabName:any,claimModelWindow:any,claimObj:any){
     //$scope.payments_update_index = -1;
@@ -384,6 +392,7 @@ getPayload(obj:any){
     if(this.removeSpecialCharacters(claim_form.formType) ===""){
       claim_form.formType = "USER_CLAIM";
     }
+    claim_form.verifiedLocation=claim_form.place; 
     var x = claim_form.primaryClaimant;
     claim_form['userId'] = this.storageService.getUserId();
     if(claim_form.claimAmountDetails){
@@ -399,13 +408,10 @@ getPayload(obj:any){
       claim_form.claimModel='EMPLOYEE';
     }
     if(submit && submit==='SUBMIT'){
-      if(claim_form.catClass == 'HOME_BUYER'){
-        if(!claim_form || !claim_form.authorised_person){
+      if(this.isHomeBuyer(claim_form)){
+        if(!claim_form || !claim_form.authorised_person || claim_form.authorised_person.trim().length == 0){
           this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
-        }
-        if(!claim_form.formAttachments || !claim_form.formAttachments['application_form'] || claim_form.formAttachments['application_form'].length <= 0){
-            this.notificationService.notify('bg-danger',"Please take a print of this form before submitting, sign it and scan. Upload the same in point a of Supporting documents");
-            return;
+          return;
         }
       }
       claim_form.formStatus = "SUBMITTED";
@@ -423,7 +429,6 @@ getPayload(obj:any){
       type : submit
     }
     this.apiService.saveNewClaim(payload);
-
   }
   getProjectMode() {
     var mode = "c";
