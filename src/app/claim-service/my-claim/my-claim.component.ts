@@ -74,7 +74,7 @@ export class MyClaimComponent implements OnInit {
               if(val=='Invalid date') return "Pending";
               return val;
             },  lockPosition: true,filter:false},
-    {headerName: "Approved Amount", field: " ",  lockPosition: true,width: 97}
+    {headerName: "Approved Amount", field: "approvedTotal",  lockPosition: true,width: 97}
 
 	];
 	rowData:any = [];
@@ -121,6 +121,7 @@ export class MyClaimComponent implements OnInit {
     })
     this.dataShareService.saveClaimResponce.subscribe(res =>{
       this.in_progess_for_claimform_submit = false;
+      this.in_progess_for_claimform_submit =false;
       this.claim_form = res.success;
       if(res.type && res.type == "SUBMIT"){
         this.showMyClaimForms()
@@ -191,8 +192,8 @@ export class MyClaimComponent implements OnInit {
                     this.claim_form.formAttachments[this.attachment_key].push(value[i])
                 }
               }
-              this.commonFunctionService.saveClaimForm(this.claim_form);
             }
+            this.commonFunctionService.saveClaimForm(this.claim_form);
         })
       }
      // getAllFiles();
@@ -295,7 +296,7 @@ export class MyClaimComponent implements OnInit {
         this.showCinDetails=false;
         this.claimModeByBank=false;
         this.claimModeByClass=true;
-        
+
         categorySelected=true;
     }
     else if(this.formSelection=='FC' && this.selectedForm=='Commercial Buyer'){
@@ -349,7 +350,7 @@ export class MyClaimComponent implements OnInit {
           this.popUpWindow="C";
           this.showIdDetails=false;
           this.showCinDetails=true;
-          categorySelected=true;          
+          categorySelected=true;
           this.claimModeByBank=true;
           this.claimModeByClass=false;
             // this.finCreditor.ownership=100;
@@ -421,7 +422,7 @@ export class MyClaimComponent implements OnInit {
     }
     this.claim_form=this.commonFunctionService.cloneObject(this.selectRowData);
       if(this.claim_form.resubmissionRequired){
-        this.claim_form.signedForm=[];        
+        this.claim_form.signedForm=[];
       }
     this.modelService.open('SUBMITE_MODEL',object);
   };
@@ -493,7 +494,7 @@ export class MyClaimComponent implements OnInit {
   onCellClicked(event:any) {
     const selectedRows = this.gridApi.getSelectedRows();
     this.claim_form = this.commonFunctionService.cloneObject(selectedRows[0]);
-    
+
   }
    returnSelectedItem(){
     console.log("double click")
@@ -503,7 +504,14 @@ export class MyClaimComponent implements OnInit {
    }
    goNextPage(){
     let activecase = this.storageService.GetActiveCase();
+    if(this.validateKeyDates("dummy")){
       this.commonFunctionService.saveClaimForm(this.claim_form);
+      if(this.commonFunctionService.isHomeBuyer(this.claim_form)){
+        if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
+          this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
+          return;
+        }
+      }
       if(this.showForm==true){
           this.showForm=false;
           this.showDeclaration=true;
@@ -513,6 +521,7 @@ export class MyClaimComponent implements OnInit {
           this.showDeclaration=false;
           this.showVerification=true;
       }
+    }
   }
   goPreviousPge(){
     if(this.showDeclaration==true ){
@@ -535,7 +544,11 @@ export class MyClaimComponent implements OnInit {
     }else{
       if(doc){
           this.activeIndex = index;
-          this.activekey = "docList";
+          if(key && key != ''){
+            this.activekey = key;
+          }else{
+            this.activekey = "docList";
+          }
           let message = "Are you sure you want to delete "+ doc.rollName + " ? ";
           let obj ={
             msg : message
@@ -590,6 +603,17 @@ export class MyClaimComponent implements OnInit {
 
   }
   claimModelPopUp(){
+    this.claimObj={};
+    this.claimObj.amountAttribute = [{
+      type: '',
+      claimAmount: '',
+      approvedAmount: '',
+      incInVoting: false,
+      comment: ['']
+  }];
+  this.claimObj.document = [];
+  this.claimObj.unitDetails={}
+  this.claimObj.paymentDetails=[];
     this.commonFunctionService.claimModelPopUp(this.claim_form,this.claimDetails,this.payments,this.activeTabName,this.claimModelWindow,this.claimObj);
     //$scope.payments_update_index = -1;
   }
@@ -602,7 +626,7 @@ export class MyClaimComponent implements OnInit {
   fileTypes:any={}
   rxFiles:any = [];
   rxid:string='';
-  rx:any = {};
+  //rx:any = {};
   activeNode:any='';
   fileName:string='';
   attachment_key:string="";
@@ -618,12 +642,12 @@ export class MyClaimComponent implements OnInit {
         var file = files[i];
         this.rxFiles.push(file);
         var reader = new FileReader();
-        reader.onload = (e) => this.imageIsLoaded(e,keyName); 
+        reader.onload = (e) => this.imageIsLoaded(e,keyName);
         reader.readAsDataURL(file);
     }
     this.fileTypes[fileType] = this.commonFunctionService.cloneObject(this.rxFiles);
   }
-  
+
 
   imageIsLoaded= (e:any,keyName?:string) => {
     var rxFile = this.rxFiles[0];
@@ -685,21 +709,31 @@ export class MyClaimComponent implements OnInit {
     this.selectRowData = '';
   }
   validateKeyDates(keyDate:string){
- 
+
     if(this.claim_form.promotionDate && this.claim_form.joiningDate &&  new Date(this.claim_form.promotionDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
-      this.notificationService.notify('bg-danger',"Joing date should be earlier than promotion date !!!");  
+      this.notificationService.notify('bg-danger',"Joing date should be earlier than promotion date !!!");
       return false;
     }
-    if(this.claim_form.resignationDate && this.claim_form.joiningDate &&  new Date(this.claim_form.resignationDate).getTime()<=new Date(this.claim_form.joiningDate).getTime()){
-      this.notificationService.notify('bg-danger',"Joing date should be earlier than resignation date !!!");  
+    if(this.claim_form.resignationDate && this.claim_form.joiningDate && this.claim_form.resignationDate<=this.claim_form.joiningDate){
+      this.notificationService.notify('bg-danger',"Joing date should be earlier than resignation date !!!");
       return false;
     }
-    if(this.claim_form.resignationDate && this.claim_form.promotionDate && new Date(this.claim_form.promotionDate).getTime()<new Date(this.claim_form.resignationDate).getTime()){
-      this.notificationService.notify('bg-danger',"Promotion date should be earlier than resignation date !!!");  
+    if(this.claim_form.resignationDate && this.claim_form.promotionDate && this.claim_form.resignationDate < this.claim_form.promotionDate){
+      this.notificationService.notify('bg-danger',"Promotion date should be earlier than resignation date !!!");
       return false;
     }
-         
+
     return true;
     }
+
+   activateEditButton(){
+      return (this.selectRowData && (this.selectRowData.resubmissionRequired || this.selectRowData.formStatus == 'SAVED' || this.selectRowData.formStatus == 'ON_HOLD'))
+   }
+   activateSubmitButton(){
+    return (this.selectRowData && (this.selectRowData.resubmissionRequired || this.selectRowData.formStatus == 'SAVED' || this.selectRowData.formStatus == 'ON_HOLD'))
+ }
+ enableAuthorisedRep(){
+  return this.commonFunctionService.isHomeBuyer(this.claim_form);
+}
 
 }

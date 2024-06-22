@@ -79,11 +79,11 @@
                       <div class="input-group">
                           <div class="custom-file col-lg-10">
                               <input type="file" class="custom-file-input" multiple="multiple" id="inputGroupFile04"
-                              onclick="this.value = null" (change)="setFiles($event,'docs')">
+                              onclick="this.value = null" (change)="setFiles($event,'docs','docList')">
                               <label class="custom-file-label" for="inputGroupFile04">{{getSelectedFilenameForUpload()}}</label>
                           </div>
                           <div class="col-lg-2 col-2">
-                              <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button>
+                              <!-- <button type="button" (click)="uploadFile('docs','docList')" class="btn btn-primary"><i class="dripicons-upload"></i></button> -->
                           </div>
                       </div>
 
