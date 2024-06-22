@@ -121,7 +121,6 @@ export class MyClaimComponent implements OnInit {
     })
     this.dataShareService.saveClaimResponce.subscribe(res =>{
       this.in_progess_for_claimform_submit = false;
-      this.in_progess_for_claimform_submit =false;
       this.claim_form = res.success;
       if(res.type && res.type == "SUBMIT"){
         this.showMyClaimForms()
@@ -192,8 +191,8 @@ export class MyClaimComponent implements OnInit {
                     this.claim_form.formAttachments[this.attachment_key].push(value[i])
                 }
               }
+              this.commonFunctionService.saveClaimForm(this.claim_form);
             }
-            this.commonFunctionService.saveClaimForm(this.claim_form);
         })
       }
      // getAllFiles();
@@ -626,7 +625,7 @@ export class MyClaimComponent implements OnInit {
   fileTypes:any={}
   rxFiles:any = [];
   rxid:string='';
-  //rx:any = {};
+  rx:any = {};
   activeNode:any='';
   fileName:string='';
   attachment_key:string="";
