@@ -12,6 +12,7 @@ import { ModelService } from 'src/app/services/model/model.service';
 import { FileHandlerService } from 'src/app/services/file-handler/fileHandler.service';
 import { KeyValue } from '@angular/common';
 import { FileTypeCellRendrerFrameworkComponent } from '../common/file-type-cell-rendrer-framework/file-type-cell-rendrer-framework.component';
+import { ExemptedRepresentativeCompanies } from 'src/app/utils/constants';
 @Component({
   selector: 'lib-my-claim',
   templateUrl: './my-claim.component.html',
@@ -506,7 +507,8 @@ export class MyClaimComponent implements OnInit {
     if(this.validateKeyDates("dummy")){
       this.commonFunctionService.saveClaimForm(this.claim_form);
       if(this.commonFunctionService.isHomeBuyer(this.claim_form)){
-        if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
+        if((!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0) && 
+        !ExemptedRepresentativeCompanies.includes(this.claim_form.caseName)){
           this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
           return;
         }
@@ -733,7 +735,12 @@ export class MyClaimComponent implements OnInit {
     return (this.selectRowData && (this.selectRowData.resubmissionRequired || this.selectRowData.formStatus == 'SAVED' || this.selectRowData.formStatus == 'ON_HOLD'))
  }
  enableAuthorisedRep(){
-  return this.commonFunctionService.isHomeBuyer(this.claim_form);
+  let isHomeBuyer = this.commonFunctionService.isHomeBuyer(this.claim_form);
+  if (isHomeBuyer) {
+    return !ExemptedRepresentativeCompanies.includes(this.claim_form.caseName);
+  }
+
+  return false;
 }
 
 }
