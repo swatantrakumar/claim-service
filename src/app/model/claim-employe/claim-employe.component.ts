@@ -86,6 +86,7 @@ export class ClaimEmployeComponent implements OnInit {
     this.ProjectNames=this.storageService.GetActiveCase().project_names   
   }
   showModal(alert:any){
+    this.ProjectNames=this.storageService.GetActiveCase().project_names
     if(!this.claimTypes ||(typeof this.claimTypes=='object' && Object.keys(this.claimTypes).length==0)) this.claimTypes = this.getClaimTypes();
     if(alert && alert.claimModelWindow){
       this.claimModelWindow = alert.claimModelWindow;
@@ -230,6 +231,7 @@ export class ClaimEmployeComponent implements OnInit {
     this.claimEmployeModel.hide();
   }
   addClaimObj(){
+    this.claim_form.calculateInterestAmount=true;
     if(!this.claimObj || !this.claimObj.unitDetails || !this.claimObj.unitDetails.unit || !this.claimObj.unitDetails.project_names){
       this.notificationService.notify('bg-danger',"Please fill in all the details.. ");
       return

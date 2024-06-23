@@ -266,13 +266,13 @@ export class MyClaimComponent implements OnInit {
       }else{
           switch(value){
             case 'FC':
-              this.subSourceList=['Banks','NBFC','Banks(Authorised Rep)','NBFC(Authorised Rep)','Home Buyers','Home Buyers(Authorised Rep)','Commercial Buyer','Commercial Buyer(Authorised Rep)'];
+              this.subSourceList=['Banks','Home Buyers'];
               break;
             case 'OC':
               this.subSourceList=['Operational Creditor','Others'];
               break;
             case 'EC':
-              this.subSourceList=['Employee & Workmen','Employee & Workmen(Authorised Rep)'];
+              this.subSourceList=['Employee & Workmen'];
               break;
           }
       }
