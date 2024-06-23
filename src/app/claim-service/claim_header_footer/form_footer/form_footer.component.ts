@@ -37,17 +37,17 @@ export class Form_footerComponent implements OnInit {
     if (this.claim_form.catClass !== "Home Buyers" || this.claim_form.category !== "FC") {
       return false;
     }
-    if (this.claim_form?.formAttachments === null || this.claim_form?.formAttachments.length === 0) {
+    if (this.claim_form?.formAttachments === null || !this.claim_form?.formAttachments?.docList) {
       return true;
     }
     
     let hasCC = false;
     let hasPAP = false;
     for (let doc of this.claim_form?.formAttachments?.docList) {
-        if (doc["keyName"] === "CC") hasCC = true;
-        if (doc["keyName"] === "PAP") hasPAP = true;
+      if (doc["keyName"] === "CC") hasCC = true;
+      if (doc["keyName"] === "PAP") hasPAP = true;
 
-        if (hasCC && hasPAP) return false;
+      if (hasCC && hasPAP) return false;
     }
     return true;
   }

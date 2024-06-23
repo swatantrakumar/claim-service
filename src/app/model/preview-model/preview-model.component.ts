@@ -83,11 +83,67 @@ export class PreviewModelComponent implements OnInit {
     this.previewModel.hide();
   }
 
-  printData(value:any){
-    var newWin:any = window.open("");
-    newWin.document.write(this.data);
-    newWin.print();
-    newWin.close();
+  // printData(value:any){
+  //   var newWin:any = window.open("");
+  //   newWin.document.write(this.data);
+  //   newWin.print();
+  //   newWin.close();
+  // }
+
+  printData(value: any) {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  
+    const setupPrint = () => {
+      if (!iframe.contentWindow) {
+        console.error('Unable to access iframe content window');
+        alert('Printing failed due to browser restrictions.');
+        document.body.removeChild(iframe);
+        return;
+      }
+  
+      iframe.contentWindow.document.open();
+      iframe.contentWindow.document.write(`
+        <html>
+          <head>
+            <title>Print</title>
+            <style>
+              body { font-family: Arial, sans-serif; }
+              @media print {
+                body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+              }
+            </style>
+          </head>
+          <body>
+            ${this.data}
+          </body>
+        </html>
+      `);
+      iframe.contentWindow.document.close();
+  
+      setTimeout(() => {
+        try {
+          if (iframe.contentWindow) {
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+          } else {
+            throw new Error('Cannot access iframe content window');
+          }
+        } catch (e) {
+          console.error('Printing failed:', e);
+          alert('Printing is not supported on this device or browser.');
+        } finally {
+          document.body.removeChild(iframe);
+        }
+      }, 1000);
+    };
+  
+    if (iframe.contentWindow) {
+      setupPrint();
+    } else {
+      iframe.onload = setupPrint;
+    }
   }
   submitClaimForm(){
     let object = {
