@@ -20,7 +20,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
 
                       <div class="col-lg-1 p-0 col-md-1" *ngIf="headerIntrestRate" ><label>Interest Rate</label></div>
                       <div class="col-lg-1 col-md-2" *ngIf="headerIntrestRate">
-                          <input type="number" class="w-100 form-control"  (change)="calculateTotalClaimAmount()" [(ngModel)]="claim_form.interestRate">
+                          <input type="number" class="w-100 form-control" readonly (change)="calculateTotalClaimAmount()" [(ngModel)]="claim_form.interestRate">
                       </div>
 
                   </div>
