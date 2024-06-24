@@ -68,7 +68,7 @@
                   <option value=""></option>
                   <option  *ngFor="let person of get_authorised_persons()" [value]="person">{{person}}</option>
               </select>
-              <p class="text-left" style="color: red;">*mandatory</p>
+              <p *ngIf="isArMandatory()" class="text-left" style="color: red;">*mandatory</p>
           </div>
       </div>
       <div  *ngIf="!enableAuthorisedRep()" class="form-group row">

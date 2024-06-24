@@ -245,6 +245,14 @@ export class StorageService {
       return [];
     }
   }
+  isArMandatory(): boolean{
+    let activeCase = this.GetActiveCase();
+    if(activeCase && activeCase.arMandatory){
+      return activeCase.arMandatory;
+    }else{
+      return false;
+    }
+  }
   setStaticData(staticData:any){
     localStorage.setItem(this.STATIC_DATA, JSON.stringify(staticData));
   }

@@ -1,1 +1,0 @@
-export const ExemptedRepresentativeCompanies: string[] = [' Supertech Realtors Pvt Ltd'];
