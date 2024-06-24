@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/services/notify/notification.servic
 import { CommonFunctionService } from 'src/app/services/common-function/common-function.service';
 import { SlicePipe } from '@angular/common';
 import { StorageService } from 'src/app/services/storage-service/storage.service';
+import { ExemptedRepresentativeCompanies } from 'src/app/utils/constants'
 
 @Component({
   selector: 'app-claim-form-submit-model',
@@ -44,7 +45,8 @@ export class ClaimFormSubmitModelComponent implements OnInit {
       if(check && this.deleteIndex){
         this.deleteIndex = false;
           if(commonFunctionService.isHomeBuyer(this.claim_form)){
-            if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
+            if((!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0) && 
+            !ExemptedRepresentativeCompanies.includes(this.claim_form.caseName)){
               this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
               return;
             }
@@ -90,7 +92,8 @@ export class ClaimFormSubmitModelComponent implements OnInit {
   }
   finalSubmissionAlert() {
     if(this.claim_form.catClass == "Home Buyers"){
-      if(!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0){
+      if((!this.claim_form || !this.claim_form.authorised_person || this.claim_form.authorised_person.trim().length == 0) && 
+      (!ExemptedRepresentativeCompanies.includes(this.claim_form.caseName))){
           this.notificationService.notify("bg-danger","\"Please Add Authorised Representative\"");
           return;
       }
