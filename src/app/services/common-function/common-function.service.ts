@@ -4,7 +4,6 @@ import { ApiService } from '../api-service/api.service';
 import { ModelService } from '../model/model.service';
 import { NotificationService } from '../notify/notification.service';
 import { EnvService } from '../env-service/env.service';
-import { ExemptedRepresentativeCompanies } from 'src/app/utils/constants'
 @Injectable({
   providedIn: 'root'
 })
@@ -408,9 +407,8 @@ getPayload(obj:any){
       claim_form.claimModel='EMPLOYEE';
     }
     if(submit && submit==='SUBMIT'){
-      if(this.isHomeBuyer(claim_form)){
-        if((claim_form ||  claim_form.authorised_person || claim_form.authorised_person.trim().length == 0) && 
-        !ExemptedRepresentativeCompanies.includes(claim_form.caseName)){
+      if(this.isHomeBuyer(claim_form) && this.storageService.isArMandatory()){
+        if(claim_form ||  claim_form.authorised_person || claim_form.authorised_person.trim().length == 0){
           this.notificationService.notify('bg-danger',"Please Add Authorised Representative");
           return;
         }
