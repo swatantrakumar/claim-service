@@ -232,7 +232,6 @@ export class ClaimEmployeComponent implements OnInit {
   }
   addClaimObj(){
     this.claim_form.calculateInterestAmount=true;
-    console.log(this.claimObj)
     if(!this.claimObj || !this.claimObj.unitDetails || !this.claimObj.unitDetails.unit || 
       ( this.claim_form.formName === 'CA' && !this.claimObj.unitDetails.project_names)){
       this.notificationService.notify('bg-danger',"Please fill in all the details.. ");
