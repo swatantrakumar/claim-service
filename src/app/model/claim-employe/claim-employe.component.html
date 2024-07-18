@@ -39,7 +39,7 @@ aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',
                               </tr>
                       </thead>
                       <tbody>
-                             <tr *ngIf="!isClaimObjAdded">
+                             <tr *ngIf="!unitAddedForHomeBuyer()">
                                   <td></td>          
                                   <td *ngFor="let emp of empFields" >
                                     <span *ngIf="emp.type == 'text'" >

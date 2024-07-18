@@ -230,6 +230,13 @@ export class ClaimEmployeComponent implements OnInit {
     this.claimObj.paymentDetails=[{}];
     this.claimEmployeModel.hide();
   }
+  unitAddedForHomeBuyer(){
+    if( this.claim_form && this.claim_form.formName === 'CA' && this.claim_form.claimAmountDetails && this.claim_form.length>0){
+      return true;
+    }
+    return false;
+  }
+
   addClaimObj(){
     this.claim_form.calculateInterestAmount=true;
     if(!this.claimObj || !this.claimObj.unitDetails || !this.claimObj.unitDetails.unit || 

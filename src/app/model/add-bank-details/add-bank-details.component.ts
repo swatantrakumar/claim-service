@@ -106,7 +106,7 @@ export class AddBankDetailsComponent implements OnInit {
       this.notificationService.notify('bg-danger',"Please enter a valid Bank Name");
         return;
     }
-    if (!this.accountDetails.branch || !this.isValidName("branch","Branch")) {
+    if (!this.accountDetails.branch) {
         this.notificationService.notify('bg-danger',"Please enter a valid Branch Name");
             return;
     }
