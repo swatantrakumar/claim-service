@@ -19,6 +19,7 @@ export class StorageService {
   ACTIVE_CASE:string='ACTIVEA_CASE';
   ID_TOKEN_EXPIRY_TIME: string = 'ID_TOKEN_EXPIRY_TIME';
   REFRESH_TOKEN_EXPIRY_TIME:string='REFRESH_TOKEN_EXPIRY_TIME';
+  CASE_CODE='ACTIVE_CASE_CODE';
   userInfo: any;
   log: any;
   refreshTokenAge:any=2505600000 //refresh token age 29 days
@@ -214,6 +215,13 @@ export class StorageService {
     const startTime = Date.now();
     localStorage.setItem(this.REFRESH_TOKEN_EXPIRY_TIME, startTime + this.refreshTokenAge);
   }
+  setCaseCode(casecode:string){
+    localStorage.setItem(this.CASE_CODE, casecode.toLowerCase());
+  }
+  GetCaseCode(){
+    return localStorage.getItem(this.CASE_CODE);
+  }
+  
   checkIdTokenStatus(){
     let statusWithMsg={
       "status":false,

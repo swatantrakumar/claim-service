@@ -181,8 +181,8 @@ export class ClaimEmployeComponent implements OnInit {
           ]
           this.headerIntrestRate = true;
           this.staticData['unit_select'] =["Cash","Credit Card","Debit Card","Cheque","UPI","Net Banking","CRN GST Input Credit","TDS","CRN TDS","CRN Transfer of Unit Within Project","CRN Transfer of Unit from Other Project","CRN Change in Payment Plan"]
-          this.staticData['allotment_type'] = this.caseStaticData.unitAllotmentList
-          this.staticData['unit_status'] = this.caseStaticData.unitStatusList
+          this.staticData['allotment_type'] =  this.storageService.GetStaticData().unitAllotmentList
+          this.staticData['unit_status'] =  this.storageService.GetStaticData().unitStatusList
           this.staticData['project_names'] = this.ProjectNames
           break
         case 'CLAIM_MODEL_HOME_BUYER_FOR_REVIEW':

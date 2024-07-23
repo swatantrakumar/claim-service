@@ -21,14 +21,21 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    let locaion=this.document.location;
     if(this.storageService.checkIdTokenStatus().status){
+      if(locaion.hash.startsWith("#/") && !locaion.hash.startsWith("#/signin")){
+        this.storageService.setCaseCode(location.hash.replace("#/",""));
+      }
       this.awsCognitoService.redirectAccordingToModule();
       //this.router.navigate(['/claim-service']);
     }else{
-      let locaion=this.document.location;
-      console.log(locaion);
+     // let locaion=this.document.location;
+ //     console.log(locaion);
       let publicUrls = "#/new-pass";      
      if(!locaion.hash.startsWith(publicUrls)){
+        if(locaion.hash.startsWith("#/") && !locaion.hash.startsWith("#/signin")){
+          this.storageService.setCaseCode(location.hash.replace("#/",""));
+        }
         this.router.navigate(['/signin']);
      }
     }

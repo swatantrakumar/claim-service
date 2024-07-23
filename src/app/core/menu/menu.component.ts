@@ -41,12 +41,29 @@ export class MenuComponent implements OnInit {
     this.storageService.SetActiveCase(this.selectedCaseId);
     this.authDataShareService.setActiveCase(this.selectedCaseId);
     this.commounFunctionService.getClaimStaticDataForTheCase(this.selectedCaseId);
+    for(let i=0;i<this.cases.length;i++){
+      if(this.cases[i]._id===this.selectedCaseId){
+       this.storageService.setCaseCode(this.cases[i].caseNo);
+        break;
+      }
+  }
+
     //this.getClaimDataFormCaseId(this.selectedCaseId);
   }
   setCases(cases:any){
     if(cases && cases.length >0){
       this.cases = cases;
       this.selectedCaseId = this.cases[0]._id;
+      let case_code = this.storageService.GetCaseCode();
+      if(case_code && case_code!==""){
+        for(let i=0;i<cases.length;i++){
+            if(cases[i].caseNo && case_code=== cases[i].caseNo.toLowerCase()){
+              this.selectedCaseId = cases[i]._id;
+              break;
+            }
+        }
+      }
+     
       this.storageService.SetActiveCase(this.selectedCaseId);
       this.authDataShareService.setActiveCase(this.selectedCaseId);
       //this.getClaimDataFormCaseId(this.selectedCaseId);
